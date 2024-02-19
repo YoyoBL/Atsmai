@@ -13,7 +13,7 @@ const Tabs = () => {
          <Link
             href={getPathWithNewParam("entryType", "income")}
             role="tab"
-            className={cn("tab", {
+            className={cn("tab hover:bg-base-300 bg-base-100", {
                "tab-active": query === "income" || !query,
             })}
          >
@@ -22,7 +22,9 @@ const Tabs = () => {
          <Link
             href={getPathWithNewParam("entryType", "expense")}
             role="tab"
-            className={cn("tab", { "tab-active": query === "expense" })}
+            className={cn("tab hover:bg-base-300 bg-base-100", {
+               "tab-active": query === "expense",
+            })}
          >
             Expense
          </Link>

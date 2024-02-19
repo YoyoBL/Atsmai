@@ -15,7 +15,7 @@ export default async function Home({ params: { lang } }) {
                      <input
                         type="text"
                         placeholder="Amount"
-                        className="input input-bordered input-primary w-full max-w-xs"
+                        className="input input-bordered input-primary w-full"
                      />
 
                      {/* income | expense */}

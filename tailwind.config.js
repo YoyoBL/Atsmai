@@ -27,6 +27,9 @@ module.exports = {
                ...require("daisyui/src/theming/themes")["dark"],
                primary: "#0284c7",
                secondary: "#7dd3fc",
+               ".btn-primary": {
+                  color: "black",
+               },
             },
          },
          "light",

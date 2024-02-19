@@ -2,11 +2,14 @@
 
 import useQueryParams from "@/hooks/useQueryParams";
 import { formatDate, getToday, getYesterday } from "@/lib/date";
+import cn from "@/lib/tailwindMerge";
 import { useRouter } from "next/navigation";
 
 const EntryDatesPicker = () => {
    const { replace } = useRouter();
-   const { getPathWithNewParam } = useQueryParams();
+   const { getPathWithNewParam, getQueryByName } = useQueryParams();
+
+   const initialState = getQueryByName("date") || "today";
 
    function handleClick(date) {
       const updatedPath = getPathWithNewParam("date", date);
@@ -26,18 +29,25 @@ const EntryDatesPicker = () => {
                e.preventDefault();
                handleClick(getToday());
             }}
-            className="btn bg-base-100"
+            className={cn(
+               "btn btn-base-100",
+               (initialState === "today" || initialState === getToday()) &&
+                  "btn-primary"
+            )}
          >
             Today
          </button>
 
          {/* yesterday */}
          <button
-            className="btn bg-base-100"
             onClick={(e) => {
                e.preventDefault();
                handleClick(getYesterday());
             }}
+            className={cn(
+               "btn bg-base-100",
+               initialState === getYesterday() && "btn-primary bg-primary"
+            )}
          >
             Yesterday
          </button>
@@ -47,8 +57,14 @@ const EntryDatesPicker = () => {
             type="date"
             name=""
             id=""
-            className="btn bg-base-100"
             onChange={handleChange}
+            className={cn(
+               "btn bg-base-100",
+               initialState !== getToday() &&
+                  initialState !== "today" &&
+                  initialState !== getYesterday() &&
+                  "btn-primary bg-primary"
+            )}
          />
       </div>
    );
