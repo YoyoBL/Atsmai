@@ -8,5 +8,30 @@ module.exports = {
    theme: {
       extend: {},
    },
-   plugins: [],
+   plugins: [require("daisyui")],
+   daisyui: {
+      themes: [
+         {
+            light: {
+               ...require("daisyui/src/theming/themes")["light"],
+               primary: "#0284c7",
+               secondary: "#7dd3fc",
+               ".btn-secondary": {
+                  color: "black",
+               },
+               ".btn-primary": {
+                  color: "white",
+               },
+            },
+            dark: {
+               ...require("daisyui/src/theming/themes")["dark"],
+               primary: "#0284c7",
+               secondary: "#7dd3fc",
+            },
+         },
+         "light",
+         "dark",
+         "cupcake",
+      ],
+   },
 };

@@ -1,0 +1,16 @@
+{
+   "navigation": {
+      "home": "בית",
+      "about": "אודות"
+   },
+   "page": {
+      "home": {
+         "title": "ברוכים הבאים ל-NextJs i18n",
+         "description": "אילוציוּלָוּת ב-NextJs 13 אפליקציית נתב"
+      },
+      "about": {
+         "title": "אודותינו",
+         "description": "זהו דף אודות"
+      }
+   }
+}
