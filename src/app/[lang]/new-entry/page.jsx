@@ -1,10 +1,8 @@
 import NewEntryForm from "@/components/new-entry/newEntryForm";
 import { getDictionary } from "@/lib/dictionary";
-import { fetchCategories } from "@/actions";
 
 export default async function newEntryPage({ params: { lang } }) {
    const { page } = await getDictionary(lang);
-   const res = await fetchCategories();
 
    return (
       <section>

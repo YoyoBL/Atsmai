@@ -12,7 +12,6 @@ export async function AddNewEntry(entry) {
          const savedEntry = await newEntry.save();
          return { ok: true, data: savedEntry };
       }
-      console.log(values);
    } catch (error) {
       console.log(error);
    }
@@ -34,9 +33,10 @@ export async function fetchCategories() {
    try {
       await dbConnect();
       const incomeCategories = await Income.distinct("category");
-      console.log(incomeCategories);
+      return { ok: true, data: incomeCategories };
    } catch (error) {
       console.log(error);
+      return { ok: false, data: null };
    }
 }
 
