@@ -26,7 +26,7 @@ export function YupUserSchema() {
 export function YupNewEntrySchema() {
    return yup
       .object({
-         amount: yup.number().required(),
+         amount: yup.number().required().typeError("Numbers only"),
          entryType: yup.mixed().oneOf(["income", "expense"]).required(),
          date: yup.date().required(),
          category: yup.string(),
