@@ -16,8 +16,8 @@ const Categories = ({ formik = {} }) => {
    }, []);
 
    return (
-      <>
-         <label className="form-control w-full">
+      <div className="w-full">
+         <label className="form-control ">
             <div className="label">
                <span className="label-text">Category</span>
             </div>
@@ -34,27 +34,36 @@ const Categories = ({ formik = {} }) => {
             />
          </label>
 
-         <div className="card bg-base-300">
-            <div className="flex gap-2 p-2 flex-row flex-nowrap overflow-x-scroll max-w-sm">
+         <div className="card bg-base-300 mt-3 p-1">
+            <div className="flex gap-2 p-2 flex-row flex-nowrap overflow-x-auto  min-h-16">
                {isLoading ? (
                   <div>Loading..</div>
                ) : (
-                  categories.map((category) => (
-                     <input
-                        key={category}
-                        type="radio"
-                        name="category"
-                        aria-label={category}
-                        className="bg-base-100 btn btn-sm  btn-ghost font-light checked:btn-primary capitalize"
-                        value={category}
-                        onChange={formik.handleChange}
-                        defaultChecked={category === "general"}
-                     />
-                  ))
+                  categories
+                     .filter((category) => {
+                        if (
+                           formik.values.category === "general" ||
+                           !formik.values.category
+                        )
+                           return category;
+                        return category.includes(formik.values.category);
+                     })
+                     .map((category) => (
+                        <input
+                           key={category}
+                           type="radio"
+                           name="category"
+                           aria-label={category}
+                           className="bg-base-100 btn btn-sm  btn-ghost font-light checked:btn-primary capitalize"
+                           value={category}
+                           onChange={formik.handleChange}
+                           defaultChecked={category === "general"}
+                        />
+                     ))
                )}
             </div>
          </div>
-      </>
+      </div>
    );
 };
 
