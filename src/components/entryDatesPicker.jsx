@@ -1,52 +1,32 @@
 "use client";
 
-import useQueryParams from "@/hooks/useQueryParams";
 import { formatDate, getToday, getYesterday } from "@/lib/date";
 import cn from "@/lib/tailwindMerge";
-import { useRouter } from "next/navigation";
 
-const EntryDatesPicker = () => {
-   const { replace } = useRouter();
-   const { getPathWithNewParam, getQueryByName } = useQueryParams();
-
-   const initialState = getQueryByName("date") || "today";
-
-   function handleClick(date) {
-      const updatedPath = getPathWithNewParam("date", date);
-
-      replace(updatedPath);
-   }
-
-   function handleChange(e) {
-      const formattedDate = formatDate(e.target.value, "yy-MM-dd");
-      handleClick(formattedDate);
-   }
+const EntryDatesPicker = ({ handleDate = () => {}, state = "" }) => {
+   const isToday =
+      formatDate(state, "yy-MM-dd") === formatDate(getToday(), "yy-MM-dd");
+   const isYesterday =
+      formatDate(state, "yy-MM-dd") === formatDate(getYesterday(), "yy-MM-dd");
    return (
       <div className="flex gap-3">
          {/* today */}
          <button
-            onClick={(e) => {
-               e.preventDefault();
-               handleClick(getToday());
-            }}
-            className={cn(
-               "btn btn-base-100",
-               (initialState === "today" || initialState === getToday()) &&
-                  "btn-primary"
-            )}
+            type="button"
+            onClick={() => handleDate(getToday())}
+            className={cn("bg-base-100 btn btn-ghost", isToday && "bg-primary")}
+            value={getToday()}
          >
             Today
          </button>
 
          {/* yesterday */}
          <button
-            onClick={(e) => {
-               e.preventDefault();
-               handleClick(getYesterday());
-            }}
+            type="button"
+            onClick={() => handleDate(getYesterday())}
             className={cn(
-               "btn bg-base-100",
-               initialState === getYesterday() && "btn-primary bg-primary"
+               "bg-base-100 btn btn-ghost",
+               isYesterday && "btn-primary bg-primary"
             )}
          >
             Yesterday
@@ -57,13 +37,10 @@ const EntryDatesPicker = () => {
             type="date"
             name=""
             id=""
-            onChange={handleChange}
+            onChange={(e) => handleDate(e.target.value)}
             className={cn(
                "btn bg-base-100",
-               initialState !== getToday() &&
-                  initialState !== "today" &&
-                  initialState !== getYesterday() &&
-                  "btn-primary bg-primary"
+               !isToday && !isYesterday && "btn-primary bg-primary"
             )}
          />
       </div>
