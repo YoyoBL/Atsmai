@@ -24,7 +24,7 @@ export default function RootLayout({ children, params }) {
       >
          <body className={cn(inter.className, "bg-base-100 min-h-screen ")}>
             <SideBar lang={params.lang}>
-               <main className="p-5 h-screen">{children}</main>
+               <main className="sm:p-5 h-screen">{children}</main>
             </SideBar>
          </body>
       </html>
