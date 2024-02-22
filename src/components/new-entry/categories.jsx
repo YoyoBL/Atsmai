@@ -10,6 +10,7 @@ const Categories = ({ formik = {} }) => {
    useEffect(() => {
       (async () => {
          const { ok, data } = await fetchCategories();
+         if (!ok) return;
          setCategories(data);
          setIsLoading(false);
       })();
@@ -24,7 +25,7 @@ const Categories = ({ formik = {} }) => {
             <input
                {...formik.getFieldProps("category")}
                type="text"
-               placeholder="New Category"
+               placeholder="General"
                className="input input-bordered input-primary w-full"
                value={
                   formik.values.category === "general"
