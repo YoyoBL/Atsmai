@@ -33,6 +33,12 @@ export async function fetchCategories() {
    try {
       await dbConnect();
       const incomeCategories = await Income.distinct("category");
+
+      //put the general category first
+      const index = incomeCategories.indexOf("general");
+      console.log(index);
+      const removedItem = incomeCategories.splice(index, 1);
+      incomeCategories.unshift(removedItem[0]);
       return { ok: true, data: incomeCategories };
    } catch (error) {
       console.log(error);
