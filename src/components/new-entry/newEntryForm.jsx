@@ -1,7 +1,7 @@
 "use client";
 
 import { AddNewEntry } from "@/actions";
-import EntryDatesPicker from "@/components/entryDatesPicker";
+import EntryDatesPicker from "@/components/new-entry/entryDatesPicker";
 import { getToday } from "@/lib/date";
 import cn from "@/lib/tailwindMerge";
 
@@ -29,7 +29,7 @@ const NewEntryForm = () => {
 
    return (
       <form onSubmit={formik.handleSubmit}>
-         <div className="flex flex-col gap-4 w-96">
+         <div className="flex flex-col gap-4">
             {/* income | expense */}
             <div className="flex gap-3">
                <input
