@@ -14,7 +14,7 @@ const MonthsPicker = () => {
    } = useMonthPicker();
 
    return (
-      <div className="card  bg-base-100 px-3">
+      <div className="card  bg-base-100 px-3 shadow">
          <div className="p-2 flex flex-row justify-between items-center">
             <Link
                href={routeToPreviousMonth}

@@ -26,7 +26,7 @@ export default async function Home({ params: { lang }, searchParams }) {
                   <div className="grid grid-cols-2 text-center text-lg">
                      <Link
                         href=""
-                        className="p-2 bg-primary rounded-t-xl text-base-300"
+                        className="p-2 bg-primary rounded-t-xl text-white"
                      >
                         Incomes
                      </Link>
@@ -36,7 +36,7 @@ export default async function Home({ params: { lang }, searchParams }) {
                      </Link>
                   </div>
                   <div className="bg-primary rounded-xl rounded-tl-none rtl:rounded-tl-xl rtl:rounded-tr-none h-36 flex flex-col justify-center items-center gap-3 shadow">
-                     <div className="text-5xl font-light">5000$</div>
+                     <div className="text-5xl font-light text-white">5000$</div>
                      <div className="flex w-full justify-evenly">
                         <div className="card bg-base-100 bg-opacity-70 w-28">
                            <div className="p-2 text-xs text-center">
@@ -59,12 +59,12 @@ export default async function Home({ params: { lang }, searchParams }) {
 
                {/* Entries */}
                <div className="card p-2 pb-0 bg-base-300 overflow-hidden ">
-                  <div className="space-y-2 overflow-auto">
+                  <div className="space-y-2 overflow-auto pb-2">
                      {entries.map((entry) => (
                         <EntryCard entry={entry} key={entry?._id} />
                      ))}
                   </div>
-                  <div className="absolute bottom-0 left-0  w-full h-16 bg-gradient-to-t from-black opacity-30"></div>
+                  <div className="absolute bottom-0 left-0  w-full h-5 bg-gradient-to-t from-black opacity-10"></div>
                </div>
             </div>
          </div>
