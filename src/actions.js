@@ -3,6 +3,8 @@
 import { cookies } from "next/headers";
 import Income from "./models/income.model";
 import dbConnect from "./lib/mongoDbConnect";
+import { getEndOfMonth, getStartOfMonth } from "./lib/dates";
+import { parse } from "date-fns";
 
 export async function AddNewEntry(entry) {
    try {
@@ -14,6 +16,22 @@ export async function AddNewEntry(entry) {
       }
    } catch (error) {
       console.log(error);
+   }
+}
+
+export async function fetchEntries(entriesType, monthString) {
+   let month = undefined;
+   if (monthString) {
+      month = parse(monthString, "MM-yy", new Date());
+   }
+   const fromDate = getStartOfMonth(month);
+   const toDate = getEndOfMonth(month);
+   try {
+      if (entriesType === "incomes") return fetchIncomes(fromDate, toDate);
+      if (entriesType === "expenses") return "Not defined yet";
+      return "Error: Wrong entriesType, use only -  incomes | expenses";
+   } catch (error) {
+      return error;
    }
 }
 

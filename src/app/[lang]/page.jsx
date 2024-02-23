@@ -1,9 +1,20 @@
+import { fetchEntries } from "@/actions";
+import EntryCard from "@/components/entries/entryCard";
+import MonthsPicker from "@/components/entries/monthsPicker";
 import { getDictionary } from "@/lib/dictionary";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default async function Home({ params: { lang } }) {
+export default async function Home({ params: { lang }, searchParams }) {
    const { page } = await getDictionary(lang);
+
+   const entriesType = searchParams.entriesType;
+   if (!entriesType) redirect(`/${lang}/?entriesType=incomes`);
+
+   const month = searchParams?.month;
+
+   const entries = await fetchEntries(entriesType, month);
+
    return (
       <section className="h-full">
          <div className="card bg-base-200 card-compact w-96 max-h-full">
@@ -44,97 +55,14 @@ export default async function Home({ params: { lang } }) {
                </div>
 
                {/* Dates dort */}
-               <div className="card bg-base-100  px-3">
-                  <div className="card-body flex-row rtl:flex-row-reverse justify-between items-center">
-                     <Link
-                        href={""}
-                        className="btn btn-ghost btn-circle btn-xs"
-                     >
-                        <ChevronLeftIcon />
-                     </Link>
-                     <div>January - February</div>
-                     <Link
-                        href={""}
-                        className="btn btn-ghost btn-circle btn-xs"
-                     >
-                        <ChevronRightIcon />
-                     </Link>
-                  </div>
-               </div>
+               <MonthsPicker />
 
                {/* Entries */}
                <div className="card p-2 pb-0 bg-base-300 overflow-hidden ">
                   <div className="space-y-2 overflow-auto">
-                     <div className="card bg-base-200 px-3">
-                        <div className="p-3 flex flex-row justify-between items-center">
-                           <div className="text-base">250</div>
-                           <div className="text-gray-500">Employees</div>
-                           <div className="text-gray-600 text-xs">15-01</div>
-                        </div>
-                     </div>
-                     <div className="card bg-base-200 px-3">
-                        <div className="p-3 flex flex-row justify-between items-center">
-                           <div className="text-base">250</div>
-                           <div className="text-gray-500">Employees</div>
-                           <div className="text-gray-600 text-xs">15-01</div>
-                        </div>
-                     </div>
-                     <div className="card bg-base-200 px-3">
-                        <div className="p-3 flex flex-row justify-between items-center">
-                           <div className="text-base">250</div>
-                           <div className="text-gray-500">Employees</div>
-                           <div className="text-gray-600 text-xs">15-01</div>
-                        </div>
-                     </div>
-                     <div className="card bg-base-200 px-3">
-                        <div className="p-3 flex flex-row justify-between items-center">
-                           <div className="text-base">250</div>
-                           <div className="text-gray-500">Employees</div>
-                           <div className="text-gray-600 text-xs">15-01</div>
-                        </div>
-                     </div>
-                     <div className="card bg-base-200 px-3">
-                        <div className="p-3 flex flex-row justify-between items-center">
-                           <div className="text-base">250</div>
-                           <div className="text-gray-500">Employees</div>
-                           <div className="text-gray-600 text-xs">15-01</div>
-                        </div>
-                     </div>
-                     <div className="card bg-base-200 px-3">
-                        <div className="p-3 flex flex-row justify-between items-center">
-                           <div className="text-base">250</div>
-                           <div className="text-gray-500">Employees</div>
-                           <div className="text-gray-600 text-xs">15-01</div>
-                        </div>
-                     </div>
-                     <div className="card bg-base-200 px-3">
-                        <div className="p-3 flex flex-row justify-between items-center">
-                           <div className="text-base">250</div>
-                           <div className="text-gray-500">Employees</div>
-                           <div className="text-gray-600 text-xs">15-01</div>
-                        </div>
-                     </div>
-                     <div className="card bg-base-200 px-3">
-                        <div className="p-3 flex flex-row justify-between items-center">
-                           <div className="text-base">250</div>
-                           <div className="text-gray-500">Employees</div>
-                           <div className="text-gray-600 text-xs">15-01</div>
-                        </div>
-                     </div>
-                     <div className="card bg-base-200 px-3">
-                        <div className="p-3 flex flex-row justify-between items-center">
-                           <div className="text-base">250</div>
-                           <div className="text-gray-500">Employees</div>
-                           <div className="text-gray-600 text-xs">15-01</div>
-                        </div>
-                     </div>
-                     <div className="card bg-base-200 px-3">
-                        <div className="p-3 flex flex-row justify-between items-center">
-                           <div className="text-base">250</div>
-                           <div className="text-gray-500">Employees</div>
-                           <div className="text-gray-600 text-xs">15-01</div>
-                        </div>
-                     </div>
+                     {entries.map((entry) => (
+                        <EntryCard entry={entry} key={entry?._id} />
+                     ))}
                   </div>
                   <div className="absolute bottom-0 left-0  w-full h-16 bg-gradient-to-t from-black opacity-30"></div>
                </div>
