@@ -2,7 +2,7 @@
 
 import { AddNewEntry } from "@/actions";
 import EntryDatesPicker from "@/components/new-entry/entryDatesPicker";
-import { getToday } from "@/lib/date";
+import { getToday } from "@/lib/dates";
 import cn from "@/lib/tailwindMerge";
 
 import { YupNewEntrySchema } from "@/lib/yupSchemas";

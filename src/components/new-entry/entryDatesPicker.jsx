@@ -1,6 +1,6 @@
 "use client";
 
-import { formatDate, getToday, getYesterday } from "@/lib/date";
+import { formatDate, getToday, getYesterday } from "@/lib/dates";
 import cn from "@/lib/tailwindMerge";
 
 const EntryDatesPicker = ({ handleDate = () => {}, state = "" }) => {
