@@ -22,6 +22,7 @@ const useQueryParams = () => {
    }
 
    return {
+      searchParams,
       getFullPath,
       getPathWithNewParam,
       getQueryByName,
