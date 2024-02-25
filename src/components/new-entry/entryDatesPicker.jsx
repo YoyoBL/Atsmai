@@ -9,7 +9,7 @@ const EntryDatesPicker = ({ handleDate = () => {}, state = "" }) => {
    const isYesterday =
       formatDate(state, "yy-MM-dd") === formatDate(getYesterday(), "yy-MM-dd");
    return (
-      <div className="flex gap-3">
+      <div className="flex gap-1">
          {/* today */}
          <button
             type="button"
@@ -26,7 +26,7 @@ const EntryDatesPicker = ({ handleDate = () => {}, state = "" }) => {
             onClick={() => handleDate(getYesterday())}
             className={cn(
                "bg-base-100 btn btn-ghost",
-               isYesterday && "btn-primary bg-primary"
+               isYesterday && " bg-primary"
             )}
          >
             Yesterday
@@ -35,12 +35,11 @@ const EntryDatesPicker = ({ handleDate = () => {}, state = "" }) => {
          {/* custom date */}
          <input
             type="date"
-            name=""
-            id=""
+            value={formatDate(state, "yyyy-MM-dd")}
             onChange={(e) => handleDate(e.target.value)}
             className={cn(
                "btn bg-base-100",
-               !isToday && !isYesterday && "btn-primary bg-primary"
+               !isToday && !isYesterday && " bg-primary"
             )}
          />
       </div>
