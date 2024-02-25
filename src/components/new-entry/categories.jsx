@@ -2,19 +2,21 @@
 
 import { fetchCategories } from "@/actions";
 import { useEffect, useState } from "react";
+import RadioBtn from "../common/radioBtn";
 
-const Categories = ({ formik = {} }) => {
+const Categories = ({ formik = {}, color = "primary" }) => {
    const [categories, setCategories] = useState([]);
    const [isLoading, setIsLoading] = useState(true);
 
    useEffect(() => {
       (async () => {
-         const { ok, data } = await fetchCategories();
+         const categoriesType = color === "primary" ? "incomes" : "expenses";
+         const { ok, data } = await fetchCategories(categoriesType);
          if (!ok) return;
          setCategories(data);
          setIsLoading(false);
       })();
-   }, []);
+   }, [formik.values?.entryType]);
 
    return (
       <div className="w-full">
@@ -26,7 +28,7 @@ const Categories = ({ formik = {} }) => {
                {...formik.getFieldProps("category")}
                type="text"
                placeholder="General"
-               className="input input-bordered input-primary w-full"
+               className={`input input-bordered input-${color} w-full`}
                value={
                   formik.values.category === "general"
                      ? ""
@@ -50,14 +52,13 @@ const Categories = ({ formik = {} }) => {
                         return category.includes(formik.values.category);
                      })
                      .map((category) => (
-                        <input
+                        <RadioBtn
                            key={category}
-                           type="radio"
+                           form={formik}
                            name="category"
                            aria-label={category}
-                           className="bg-base-100 btn btn-sm  btn-ghost font-light checked:btn-primary capitalize"
                            value={category}
-                           onChange={formik.handleChange}
+                           color={color}
                            defaultChecked={category === "general"}
                         />
                      ))

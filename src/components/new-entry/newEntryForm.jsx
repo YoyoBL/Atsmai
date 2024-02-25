@@ -8,6 +8,7 @@ import cn from "@/lib/tailwindMerge";
 import { YupNewEntrySchema } from "@/lib/yupSchemas";
 import { useFormik } from "formik";
 import Categories from "./categories";
+import RadioBtn from "../common/radioBtn";
 
 const NewEntryForm = () => {
    const formik = useFormik({
@@ -21,33 +22,38 @@ const NewEntryForm = () => {
       },
       onSubmit: async (values) => {
          const parsedValues = await YupNewEntrySchema().validate(values);
-         const res = await AddNewEntry(values);
+         const res = await AddNewEntry(parsedValues);
          console.log(res);
       },
       validationSchema: YupNewEntrySchema(),
    });
 
+   const color = formik.values.entryType === "income" ? "primary" : "secondary";
+   const loadTwColors = {
+      primary: "bg-primary input-primary",
+      secondary: "bg-secondary input-secondary",
+   };
+
    return (
       <form onSubmit={formik.handleSubmit}>
          <div className="flex flex-col gap-4">
             {/* income | expense */}
+
             <div className="flex gap-3">
-               <input
-                  type="radio"
-                  name="entryType"
-                  aria-label="Income"
-                  className="bg-base-100 btn btn-ghost grow checked:btn-primary"
-                  value="income"
-                  onChange={formik.handleChange}
+               <RadioBtn
+                  form={formik}
+                  color={"primary"}
+                  name={"entryType"}
+                  value={"income"}
+                  className="flex-1"
                   defaultChecked
                />
-               <input
-                  type="radio"
-                  name="entryType"
-                  aria-label="Expense"
-                  className="bg-base-100 btn btn-ghost grow checked:btn-primary"
-                  value="expense"
-                  onChange={formik.handleChange}
+               <RadioBtn
+                  form={formik}
+                  color={"secondary"}
+                  name={"entryType"}
+                  value={"expense"}
+                  className="flex-1"
                />
             </div>
 
@@ -56,7 +62,7 @@ const NewEntryForm = () => {
                {...formik.getFieldProps("amount")}
                type="text"
                placeholder="Amount*"
-               className={cn("input input-bordered input-primary w-full", {
+               className={cn(`input input-bordered w-full input-${color}`, {
                   "input-error placeholder:text-error":
                      formik.touched.amount && formik.errors.amount,
                })}
@@ -71,14 +77,15 @@ const NewEntryForm = () => {
             <EntryDatesPicker
                handleDate={(date) => formik.setFieldValue("date", date)}
                state={formik.values.date}
+               color={color}
             />
 
             {/* category */}
 
-            <Categories formik={formik} />
+            <Categories formik={formik} color={color} />
 
             <button
-               className="btn btn-primary text-lg"
+               className={`btn btn-${color} text-lg`}
                type="submit"
                disabled={!formik.values.amount || !formik.isValid}
             >

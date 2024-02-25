@@ -3,7 +3,11 @@
 import { formatDate, getToday, getYesterday } from "@/lib/dates";
 import cn from "@/lib/tailwindMerge";
 
-const EntryDatesPicker = ({ handleDate = () => {}, state = "" }) => {
+const EntryDatesPicker = ({
+   handleDate = () => {},
+   state = "",
+   color = "primary",
+}) => {
    const isToday =
       formatDate(state, "yy-MM-dd") === formatDate(getToday(), "yy-MM-dd");
    const isYesterday =
@@ -14,7 +18,10 @@ const EntryDatesPicker = ({ handleDate = () => {}, state = "" }) => {
          <button
             type="button"
             onClick={() => handleDate(getToday())}
-            className={cn("bg-base-100 btn btn-ghost", isToday && "bg-primary")}
+            className={cn(
+               "btn",
+               isToday ? `btn-${color} text-white` : "btn-ghost bg-base-100"
+            )}
             value={getToday()}
          >
             Today
@@ -25,8 +32,8 @@ const EntryDatesPicker = ({ handleDate = () => {}, state = "" }) => {
             type="button"
             onClick={() => handleDate(getYesterday())}
             className={cn(
-               "bg-base-100 btn btn-ghost",
-               isYesterday && " bg-primary"
+               "btn",
+               isYesterday ? `btn-${color} text-white` : "btn-ghost bg-base-100"
             )}
          >
             Yesterday
@@ -38,8 +45,10 @@ const EntryDatesPicker = ({ handleDate = () => {}, state = "" }) => {
             value={formatDate(state, "yyyy-MM-dd")}
             onChange={(e) => handleDate(e.target.value)}
             className={cn(
-               "btn bg-base-100",
-               !isToday && !isYesterday && " bg-primary"
+               "btn",
+               !isToday && !isYesterday
+                  ? `btn-${color} text-white`
+                  : "btn-ghost bg-base-100"
             )}
          />
       </div>

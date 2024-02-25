@@ -1,7 +1,8 @@
 "use server";
 
-import { cookies } from "next/headers";
 import Income from "./models/income.model";
+import Expense from "./models/expense.model";
+import { cookies } from "next/headers";
 import dbConnect from "./lib/mongoDbConnect";
 import { getEndOfMonth, getStartOfMonth } from "./lib/dates";
 import { parse } from "date-fns";
@@ -47,17 +48,25 @@ export async function fetchIncomes(startDate, endDate) {
    }
 }
 
-export async function fetchCategories() {
+export async function fetchCategories(type = "incomes") {
+   let categories = [];
    try {
       await dbConnect();
-      const incomeCategories = await Income.distinct("category");
+      if (type === "incomes") {
+         categories = await Income.distinct("category");
+      } else {
+         categories = await Expense.distinct("category");
+      }
 
       //put the general category first
-      const index = incomeCategories.indexOf("general");
-      console.log(index);
-      const removedItem = incomeCategories.splice(index, 1);
-      incomeCategories.unshift(removedItem[0]);
-      return { ok: true, data: incomeCategories };
+      const index = categories.indexOf("general");
+      if (index !== -1) {
+         const removedItem = categories.splice(index, 1);
+         categories.unshift(removedItem[0]);
+      } else {
+         categories.unshift("general");
+      }
+      return { ok: true, data: categories };
    } catch (error) {
       console.log(error);
       return { ok: false, data: null };
