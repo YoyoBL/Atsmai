@@ -7,7 +7,7 @@ const incomeSchema = new mongoose.Schema({
    category: { type: String, default: "general" },
    notes: { type: String },
    date: { type: Date, default: Date.now },
-   // createdAt: { type: Date, default: Date.now },
+   createdAt: { type: Date, default: Date.now },
 });
 
 const Income = mongoose.models.Income || mongoose.model("Income", incomeSchema);

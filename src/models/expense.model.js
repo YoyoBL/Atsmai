@@ -3,7 +3,8 @@ import mongoose, { Schema } from "mongoose";
 const expenseSchema = new Schema({
    // user: { type: Schema.Types.ObjectId, ref: "User", required: true },
    amount: { type: Number, required: true },
-   description: { type: String },
+   category: { type: String, default: "general" },
+   notes: { type: String },
    date: { type: Date, default: Date.now },
    createdAt: { type: Date, default: Date.now },
 });
