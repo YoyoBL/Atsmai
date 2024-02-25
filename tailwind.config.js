@@ -15,21 +15,12 @@ module.exports = {
             light: {
                ...require("daisyui/src/theming/themes")["light"],
                primary: "#077ADB",
-               secondary: "#7dd3fc",
-               ".btn-secondary": {
-                  color: "black",
-               },
-               ".btn-primary": {
-                  color: "white",
-               },
+               secondary: "#DB8A06",
             },
             dark: {
                ...require("daisyui/src/theming/themes")["dark"],
                primary: "#077ADB",
-               secondary: "#7dd3fc",
-               ".btn-primary": {
-                  color: "black",
-               },
+               secondary: "#DB8A06",
             },
          },
       ],
