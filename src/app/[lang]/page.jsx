@@ -36,7 +36,13 @@ export default async function Home({ params: { lang }, searchParams }) {
                      </Link>
                   </div>
                   <div className="bg-primary rounded-xl rounded-tl-none rtl:rounded-tl-xl rtl:rounded-tr-none h-36 flex flex-col justify-center items-center gap-3 shadow">
-                     <div className="text-5xl font-light text-white">5000$</div>
+                     <div className="text-5xl font-light text-white">
+                        {entries.reduce(
+                           (accumulator, currentValue) =>
+                              accumulator + currentValue.amount,
+                           0
+                        )}
+                     </div>
                      <div className="flex w-full justify-evenly">
                         <div className="card bg-base-100 bg-opacity-70 w-28">
                            <div className="p-2 text-xs text-center">
