@@ -8,13 +8,17 @@ import { getEndOfMonth, getStartOfMonth } from "./lib/dates";
 import { parse } from "date-fns";
 
 export async function AddNewEntry(entry) {
+   let savedEntry = {};
    try {
       await dbConnect();
       if (entry.entryType === "income") {
          const newEntry = new Income(entry);
-         const savedEntry = await newEntry.save();
-         return { ok: true, data: savedEntry };
+         savedEntry = await newEntry.save();
+      } else {
+         const newEntry = new Expense(entry);
+         savedEntry = await newEntry.save();
       }
+      return { ok: true, data: savedEntry };
    } catch (error) {
       console.log(error);
    }
