@@ -1,8 +1,8 @@
 import { fetchEntries } from "@/actions";
 import EntryCard from "@/components/entries/entryCard";
 import MonthsPicker from "@/components/entries/monthsPicker";
+import TotalAmount from "@/components/entries/totalAmount";
 import { getDictionary } from "@/lib/dictionary";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function Home({ params: { lang }, searchParams }) {
@@ -11,9 +11,9 @@ export default async function Home({ params: { lang }, searchParams }) {
    const entriesType = searchParams.entriesType;
    if (!entriesType) redirect(`/${lang}/?entriesType=incomes`);
 
-   const month = searchParams?.month;
+   const date = searchParams?.month;
 
-   const entries = await fetchEntries(entriesType, month);
+   const entries = await fetchEntries(entriesType, date);
 
    return (
       <section className="h-full">
@@ -22,43 +22,7 @@ export default async function Home({ params: { lang }, searchParams }) {
                <div className="card-title">Entries</div>
 
                {/* Top */}
-               <div className="">
-                  <div className="grid grid-cols-2 text-center text-lg">
-                     <Link
-                        href=""
-                        className="p-2 bg-primary rounded-t-xl text-white"
-                     >
-                        Incomes
-                     </Link>
-
-                     <Link href="" className="p-2 ">
-                        Expenses
-                     </Link>
-                  </div>
-                  <div className="bg-primary rounded-xl rounded-tl-none rtl:rounded-tl-xl rtl:rounded-tr-none h-36 flex flex-col justify-center items-center gap-3 shadow">
-                     <div className="text-5xl font-light text-white">
-                        {entries.reduce(
-                           (accumulator, currentValue) =>
-                              accumulator + currentValue.amount,
-                           0
-                        )}
-                     </div>
-                     <div className="flex w-full justify-evenly">
-                        <div className="card bg-base-100 bg-opacity-70 w-28">
-                           <div className="p-2 text-xs text-center">
-                              <div>VAT</div>
-                              <div>325</div>
-                           </div>
-                        </div>
-                        <div className="card bg-base-100 bg-opacity-70 w-28">
-                           <div className="p-2 text-xs text-center">
-                              <div>TAX</div>
-                              <div>150</div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+               <TotalAmount entries={entries} date={date} />
 
                {/* Dates dort */}
                <MonthsPicker />
