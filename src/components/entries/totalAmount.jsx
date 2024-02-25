@@ -1,6 +1,12 @@
 import Link from "next/link";
+import TaxCard from "./taxCard";
 
 const TotalAmount = ({ entries = [], date = "" }) => {
+   const totalAmount = entries.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.amount,
+      0
+   );
+
    return (
       <div className="">
          <div className="grid grid-cols-2 text-center text-lg">
@@ -13,28 +19,22 @@ const TotalAmount = ({ entries = [], date = "" }) => {
             </Link>
          </div>
          <div className="bg-primary rounded-xl rounded-tl-none rtl:rounded-tl-xl rtl:rounded-tr-none h-36 flex flex-col justify-center items-center gap-3 shadow">
-            <div className="text-5xl font-light text-white">
-               {entries.reduce(
-                  (accumulator, currentValue) =>
-                     accumulator + currentValue.amount,
-                  0
-               )}
-            </div>
+            <div className="text-5xl font-light text-white">{totalAmount}</div>
 
             <div className="flex w-full justify-evenly">
-               <div className="card bg-base-100 bg-opacity-70 w-28">
-                  <div className="p-2 text-xs text-center">
-                     <div>VAT</div>
-                     <div></div>
-                  </div>
-               </div>
+               <TaxCard
+                  date={date}
+                  entries={entries}
+                  taxPercent={0.17}
+                  taxName="VAT"
+               />
 
-               <div className="card bg-base-100 bg-opacity-70 w-28">
-                  <div className="p-2 text-xs text-center">
-                     <div>TAX</div>
-                     <div>150</div>
-                  </div>
-               </div>
+               <TaxCard
+                  date={date}
+                  entries={entries}
+                  taxPercent={0.05}
+                  taxName="TAX"
+               />
             </div>
          </div>
       </div>
