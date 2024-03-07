@@ -10,8 +10,6 @@ const TotalAmount = async ({ entries = [], date = "", entriesType = "" }) => {
       0
    );
 
-   console.log(entriesType);
-
    return (
       <div
          // theme based on entry type
@@ -25,10 +23,10 @@ const TotalAmount = async ({ entries = [], date = "", entriesType = "" }) => {
                : "lightExpenses"
          }
       >
-         <div className="grid grid-cols-2 text-center text-lg">
+         <div className="grid grid-cols-2 bg-base-200 text-center text-lg">
             <Link
                href="/en?entriesType=incomes"
-               className={cn("p-2 bg-base-200", {
+               className={cn("p-2", {
                   "bg-primary rounded-t-xl text-white":
                      entriesType === "incomes",
                })}
@@ -38,7 +36,7 @@ const TotalAmount = async ({ entries = [], date = "", entriesType = "" }) => {
 
             <Link
                href="/en?entriesType=expenses"
-               className={cn("p-2 bg-base-200", {
+               className={cn("p-2", {
                   "bg-primary rounded-t-xl text-white":
                      entriesType === "expenses",
                })}
