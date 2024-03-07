@@ -39,7 +39,7 @@ export async function fetchEntries(entriesType, monthString) {
    const toDate = getEndOfMonth(month);
    try {
       if (entriesType === "incomes") return fetchIncomes(fromDate, toDate);
-      if (entriesType === "expenses") return "Not defined yet";
+      if (entriesType === "expenses") return fetchExpenses(fromDate, toDate);
       return "Error: Wrong entriesType, use only -  incomes | expenses";
    } catch (error) {
       return error;
@@ -53,6 +53,18 @@ export async function fetchIncomes(startDate, endDate) {
          date: { $gte: startDate, $lte: endDate },
       }).sort({ date: -1 });
       return incomes;
+   } catch (error) {
+      console.log(error);
+   }
+}
+
+export async function fetchExpenses(startDate, endDate) {
+   try {
+      await dbConnect();
+      const expenses = await Expense.find({
+         date: { $gte: startDate, $lte: endDate },
+      }).sort({ date: -1 });
+      return expenses;
    } catch (error) {
       console.log(error);
    }
