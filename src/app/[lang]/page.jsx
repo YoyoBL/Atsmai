@@ -22,7 +22,11 @@ export default async function Home({ params: { lang }, searchParams }) {
                <div className="card-title">Entries</div>
 
                {/* Top */}
-               <TotalAmount entries={entries} date={date} />
+               <TotalAmount
+                  entries={entries}
+                  date={date}
+                  entriesType={entriesType}
+               />
 
                {/* Dates dort */}
                <MonthsPicker />

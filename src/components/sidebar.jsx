@@ -6,7 +6,6 @@ import { getTheme } from "@/actions";
 
 export default async function SideBar({ children, lang }) {
    const theme = (await getTheme()) || "dark";
-   console.log("Layout", theme);
    return (
       <div className="drawer lg:drawer-open">
          <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
