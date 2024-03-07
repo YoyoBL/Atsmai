@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import dbConnect from "./lib/mongoDbConnect";
 import { getEndOfMonth, getStartOfMonth } from "./lib/dates";
 import { parse } from "date-fns";
+import { COOKIE_THEME_KEY } from "./constants";
 
 function serialize(obj) {
    return JSON.parse(JSON.stringify(obj));
@@ -97,6 +98,12 @@ export async function fetchCategories(type = "incomes") {
 
 export async function switchThemeOnCookie(theme) {
    const cookiesStore = cookies();
-   const cookie = cookiesStore.set(COOKIE_THEME_KEY, theme);
+   cookiesStore.set(COOKIE_THEME_KEY, theme);
    return { status: "ok" };
+}
+
+export async function getTheme() {
+   const cookiesStore = cookies();
+   const theme = cookiesStore.get(COOKIE_THEME_KEY);
+   return theme;
 }

@@ -3,6 +3,7 @@ import "./globals.css";
 import { i18n } from "@/i18n.config";
 import SideBar from "@/components/sidebar";
 import cn from "@/lib/tailwindMerge";
+import { getTheme } from "@/actions";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,15 +16,17 @@ export async function generateStaticParams() {
    return i18n.locales.map((locale) => ({ lang: locale }));
 }
 
-export default function RootLayout({ children, params }) {
+export default async function RootLayout({ children, params }) {
+   const theme = (await getTheme()) || "dark";
+
    return (
       <html
          dir={params.lang === "he" ? "rtl" : "ltr"}
          lang={params.lang}
-         data-theme="dark"
+         data-theme={theme}
       >
          <body className={cn(inter.className, "bg-base-100 min-h-screen ")}>
-            <SideBar lang={params.lang}>
+            <SideBar lang={params.lang} sessionTheme={theme}>
                <main className="sm:p-5 h-screen">{children}</main>
             </SideBar>
          </body>
