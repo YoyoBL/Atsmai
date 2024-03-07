@@ -2,8 +2,11 @@ import Link from "next/link";
 import LocaleSwitcher from "./localeSwitcher";
 import ThemeSwitcher from "./themeSwitcher";
 import AddNewEntryBtn from "./new-entry/newEntryBtn";
+import { getTheme } from "@/actions";
 
-export default function SideBar({ children, lang }) {
+export default async function SideBar({ children, lang }) {
+   const theme = (await getTheme()) || "dark";
+   console.log("Layout", theme);
    return (
       <div className="drawer lg:drawer-open">
          <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -29,7 +32,7 @@ export default function SideBar({ children, lang }) {
                {/* <Header lang={params.lang} /> */}
                <div className="flex justify-between">
                   <LocaleSwitcher />
-                  <ThemeSwitcher />
+                  <ThemeSwitcher sessionTheme={theme} />
                </div>
 
                <li>

@@ -1,19 +1,33 @@
 "use client";
 
-const ThemeSwitcher = () => {
+import { switchThemeOnCookie } from "@/actions";
+import { useState } from "react";
+
+const ThemeSwitcher = ({ sessionTheme }) => {
+   const [theme, setTheme] = useState(sessionTheme);
+
+   async function handleThemeChange() {
+      const newTheme = theme === "dark" ? "light" : "dark";
+      const htmlTag = document.querySelector("html");
+      htmlTag.dataset.theme.replace(theme, newTheme);
+      setTheme(newTheme);
+      try {
+         const res = await switchThemeOnCookie(newTheme);
+         console.log(res);
+      } catch (error) {
+         console.log(error);
+      }
+   }
+
    return (
       <label className="swap swap-rotate">
          {/* this hidden checkbox controls the state */}
          <input
             type="checkbox"
-            className="theme-controller"
             value="light"
-            onChange={(e) =>
-               (document.querySelector("html").dataset.theme =
-                  document.querySelector("html").dataset.theme === "dark"
-                     ? "light"
-                     : "dark")
-            }
+            className="theme-controller"
+            onChange={handleThemeChange}
+            defaultChecked={sessionTheme === "light"}
          />
 
          {/* sun icon */}
