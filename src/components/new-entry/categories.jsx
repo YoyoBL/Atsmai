@@ -60,6 +60,7 @@ const Categories = ({ formik = {}, color = "primary" }) => {
                            value={category}
                            color={color}
                            defaultChecked={category === "general"}
+                           className="btn-sm bg-base-200 font-light"
                         />
                      ))
                )}

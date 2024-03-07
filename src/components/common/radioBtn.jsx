@@ -8,14 +8,13 @@ const RadioBtn = ({
    className = "",
    ...rest
 }) => {
-   const colors = {
-      primary: "bg-primary",
-      secondary: "bg-secondary",
-   };
    return (
       <label
          className={cn(
-            `capitalize btn btn-ghost has-[:checked]:bg-${color} has-[:checked]:text-white`,
+            `capitalize btn btn-ghost has-[:checked]:text-white`,
+            color === "primary"
+               ? "has-[:checked]:bg-primary"
+               : "has-[:checked]:bg-secondary",
             className
          )}
          htmlFor={`${value}Radio`}

@@ -7,6 +7,10 @@ import dbConnect from "./lib/mongoDbConnect";
 import { getEndOfMonth, getStartOfMonth } from "./lib/dates";
 import { parse } from "date-fns";
 
+function serialize(obj) {
+   return JSON.parse(JSON.stringify(obj));
+}
+
 export async function AddNewEntry(entry) {
    let savedEntry = {};
    try {
@@ -18,6 +22,8 @@ export async function AddNewEntry(entry) {
          const newEntry = new Expense(entry);
          savedEntry = await newEntry.save();
       }
+      savedEntry = serialize(savedEntry);
+
       return { ok: true, data: savedEntry };
    } catch (error) {
       console.log(error);

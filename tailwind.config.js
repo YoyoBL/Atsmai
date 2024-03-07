@@ -15,12 +15,12 @@ module.exports = {
             light: {
                ...require("daisyui/src/theming/themes")["light"],
                primary: "#077ADB",
-               secondary: "#DB8A06",
+               secondary: "#D27518",
             },
             dark: {
                ...require("daisyui/src/theming/themes")["dark"],
                primary: "#077ADB",
-               secondary: "#DB8A06",
+               secondary: "#D27518",
             },
          },
       ],

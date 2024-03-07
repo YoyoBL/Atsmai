@@ -30,8 +30,8 @@ const NewEntryForm = () => {
 
    const color = formik.values.entryType === "income" ? "primary" : "secondary";
    const loadTwColors = {
-      primary: "bg-primary input-primary",
-      secondary: "bg-secondary input-secondary",
+      primary: "bg-primary input-primary btn-primary",
+      secondary: "bg-secondary input-secondary btn-secondary",
    };
 
    return (
