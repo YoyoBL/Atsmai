@@ -105,5 +105,5 @@ export async function switchThemeOnCookie(theme) {
 export async function getTheme() {
    const cookiesStore = cookies();
    const theme = cookiesStore.get(COOKIE_THEME_KEY);
-   return theme.value;
+   return theme?.value;
 }
