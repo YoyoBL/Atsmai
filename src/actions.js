@@ -96,6 +96,33 @@ export async function fetchCategories(type = "incomes") {
    }
 }
 
+export async function fetchThreeLast({ category, entryType }) {
+   try {
+      await dbConnect();
+      if (entryType === "income") {
+         const lastThreeIncomes = await Income.find({
+            category: category,
+         })
+            .limit(3)
+            .sort({ date: -1 });
+         return serialize(lastThreeIncomes);
+      }
+      if (entryType === "expense") {
+         const lastThreeIncomes = await Expense.find({
+            category: category,
+         })
+            .limit(3)
+            .sort({ date: -1 });
+         return serialize(lastThreeIncomes);
+      }
+      return "entryType not specified";
+   } catch (error) {
+      console.log(error);
+   }
+}
+
+// Theme_________________________________________________________________
+
 export async function switchThemeOnCookie(theme) {
    const cookiesStore = cookies();
    cookiesStore.set(COOKIE_THEME_KEY, theme);
