@@ -23,7 +23,6 @@ const NewEntryForm = () => {
       onSubmit: async (values) => {
          const parsedValues = await YupNewEntrySchema().validate(values);
          const res = await AddNewEntry(parsedValues);
-         console.log(res);
       },
       validationSchema: YupNewEntrySchema(),
    });

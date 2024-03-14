@@ -13,7 +13,6 @@ const ThemeSwitcher = ({ sessionTheme }) => {
       setTheme(newTheme);
       try {
          const res = await switchThemeOnCookie(newTheme);
-         console.log(res);
       } catch (error) {
          console.log(error);
       }
