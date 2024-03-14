@@ -53,7 +53,7 @@ export async function fetchIncomes(startDate, endDate) {
       const incomes = await Income.find({
          date: { $gte: startDate, $lte: endDate },
       }).sort({ date: -1 });
-      return incomes;
+      return serialize(incomes);
    } catch (error) {
       console.log(error);
    }
@@ -65,7 +65,7 @@ export async function fetchExpenses(startDate, endDate) {
       const expenses = await Expense.find({
          date: { $gte: startDate, $lte: endDate },
       }).sort({ date: -1 });
-      return expenses;
+      return serialize(expenses);
    } catch (error) {
       console.log(error);
    }
