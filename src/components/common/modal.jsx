@@ -10,17 +10,7 @@ const Modal = ({ children }) => {
    return (
       isOpen && (
          <dialog id="my_modal_3" className="modal modal-open">
-            <div className="modal-box">
-               <form method="dialog">
-                  <button
-                     onClick={router.back}
-                     className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                  >
-                     ✕
-                  </button>
-               </form>
-               {children}
-            </div>
+            <div className="modal-box">{children}</div>
             {/* close modal on outside click */}
             <span onClick={router.back} className="modal-backdrop"></span>
          </dialog>
