@@ -7,6 +7,7 @@ import dbConnect from "./lib/mongoDbConnect";
 import { getEndOfMonth, getStartOfMonth } from "./lib/dates";
 import { parse } from "date-fns";
 import { COOKIE_THEME_KEY } from "./constants";
+import { revalidatePath } from "next/cache";
 
 function serialize(obj) {
    return JSON.parse(JSON.stringify(obj));
@@ -28,6 +29,19 @@ export async function AddNewEntry(entry) {
       return { ok: true, data: savedEntry };
    } catch (error) {
       console.log(error);
+   }
+}
+
+export async function fetchEntryById(id, entryType) {
+   try {
+      await dbConnect();
+      let data;
+      if (entryType === "income") data = await Income.findById(id);
+      if (entryType === "expense") data = await Expense.findById(id);
+      return { ok: true, data: serialize(data) };
+   } catch (error) {
+      console.log(error);
+      return { ok: false, data: serialize(error) };
    }
 }
 
@@ -120,6 +134,66 @@ export async function fetchThreeLast(entry) {
       return "entryType not specified";
    } catch (error) {
       console.log(error);
+   }
+}
+
+export async function editEntry(entry, updatedEntry) {
+   if (!entry || !updatedEntry) return "No entry/updatedEntry Provided";
+   const { id, entryType } = entry;
+   let data;
+   try {
+      await dbConnect();
+      if (entryType === "income") {
+         // in case the user changes the entry form income to expense
+         if (entryType !== updatedEntry.entryType) {
+            const deleteEntry = Income.findByIdAndDelete(id);
+            const newEntry = Expense.create(updatedEntry);
+            data = await Promise.allSettled([deleteEntry, newEntry]);
+         } else {
+            data = await Income.findByIdAndUpdate(id, updatedEntry, {
+               new: true,
+            });
+         }
+         return { ok: true, data: serialize(data) };
+      }
+      if (entryType === "expense") {
+         // in case the user changes the entry form expense to income
+         if (entryType !== updatedEntry.entryType) {
+            const deleteEntry = Expense.findByIdAndDelete(id);
+            const newEntry = Income.create(updatedEntry);
+            data = await Promise.allSettled([deleteEntry, newEntry]);
+         } else {
+            data = await Expense.findByIdAndUpdate(id, updatedEntry, {
+               new: true,
+            });
+         }
+         revalidatePath("/");
+
+         return { ok: true, data: serialize(data) };
+      }
+   } catch (error) {
+      console.log(error);
+      return { ok: false, data: error };
+   }
+}
+
+export async function deleteEntry(entry) {
+   if (!entry) return "No entry Provided";
+   const { _id: id, entryType } = entry;
+   let deletedEntry;
+   try {
+      await dbConnect();
+      if (entryType === "income") {
+         deletedEntry = await Income.findByIdAndDelete(id);
+      }
+      if (entryType === "expense") {
+         deletedEntry = await Expense.findByIdAndDelete(id);
+      }
+      revalidatePath("/");
+      return { ok: true, data: serialize(deletedEntry) };
+   } catch (error) {
+      console.log(error);
+      return { ok: false, data: error };
    }
 }
 

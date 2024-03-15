@@ -18,9 +18,10 @@ export default async function Home({ params: { lang }, searchParams }) {
    const entries = await fetchEntries(entriesType, date);
 
    function getExpandedEntry() {
-      if (!searchParams?.modal) return null;
+      if (!searchParams?.modal) return;
       const id = searchParams.modal;
       const entry = entries.find((entry) => entry._id === id);
+      if (!entry) return;
       entry.entryType =
          searchParams.entriesType === "incomes" ? "income" : "expense";
       return entry;
@@ -52,9 +53,11 @@ export default async function Home({ params: { lang }, searchParams }) {
                   <div className="absolute bottom-0 left-0  w-full h-5 bg-gradient-to-t from-black opacity-10"></div>
                </div>
                {/* Modal */}
-               <Modal>
-                  <ExpandedEntry entry={getExpandedEntry()} />
-               </Modal>
+               {
+                  <Modal>
+                     <ExpandedEntry entry={getExpandedEntry()} />
+                  </Modal>
+               }
             </div>
          </div>
       </section>

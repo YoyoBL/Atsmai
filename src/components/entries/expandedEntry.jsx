@@ -1,6 +1,6 @@
 "use client";
 
-import { fetchThreeLast } from "@/actions";
+import { deleteEntry, fetchThreeLast } from "@/actions";
 import { formatDate } from "@/lib/dates";
 import { Bar } from "@/lib/imports";
 import {
@@ -8,10 +8,16 @@ import {
    PresentationChartBarIcon,
    TrashIcon,
 } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const ExpandedEntry = ({ entry }) => {
    if (!entry?._id) return null;
+
+   const router = useRouter();
+   const { lang } = useParams();
+
    const [showLast3, setShowLast3] = useState(false);
    const [data, setData] = useState({
       labels: [""],
@@ -22,6 +28,13 @@ const ExpandedEntry = ({ entry }) => {
       if (!showLast3) return;
       fetchLast3();
    }, [showLast3]);
+
+   async function handleEdit() {
+      const res = await deleteEntry(entry);
+      if (!res.ok) return console.log("Error", res.data);
+
+      router.back();
+   }
 
    async function fetchLast3() {
       const entries = await fetchThreeLast(entry);
@@ -72,10 +85,16 @@ const ExpandedEntry = ({ entry }) => {
             </div>
          )}
          <div className="flex justify-center gap-5">
-            <button className="btn btn-md btn-circle btn-outline btn-neutral">
+            <Link
+               href={`/${lang}/new-entry?edit=${entry._id}&entryType=${entry.entryType}`}
+               className="btn btn-md btn-circle btn-outline btn-neutral"
+            >
                <PencilIcon className="h-6 w-6" />
-            </button>
-            <button className="btn btn-md btn-circle btn-outline btn-neutral">
+            </Link>
+            <button
+               onClick={handleEdit}
+               className="btn btn-md btn-circle btn-outline btn-neutral"
+            >
                <TrashIcon className="h-6 w-6" />
             </button>
          </div>

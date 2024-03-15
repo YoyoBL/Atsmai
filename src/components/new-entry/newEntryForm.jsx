@@ -1,6 +1,6 @@
 "use client";
 
-import { AddNewEntry } from "@/actions";
+import { AddNewEntry, editEntry, fetchEntryById } from "@/actions";
 import EntryDatesPicker from "@/components/new-entry/entryDatesPicker";
 import { getToday } from "@/lib/dates";
 import cn from "@/lib/tailwindMerge";
@@ -9,8 +9,32 @@ import { YupNewEntrySchema } from "@/lib/yupSchemas";
 import { useFormik } from "formik";
 import Categories from "./categories";
 import RadioBtn from "../common/radioBtn";
+import useQueryParams from "@/hooks/useQueryParams";
+import { useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
 
 const NewEntryForm = () => {
+   const router = useRouter();
+   const { lang } = useParams();
+
+   const { getQueryByName } = useQueryParams();
+   const isEdit = getQueryByName("edit");
+
+   useEffect(() => {
+      if (!isEdit) return;
+      getEntry();
+   }, []);
+
+   async function getEntry() {
+      const id = getQueryByName("edit");
+      const entrytype = getQueryByName("entryType");
+      const res = await fetchEntryById(id, entrytype);
+      if (!res.ok) return;
+      const entry = res.data;
+      entry.entryType = entrytype;
+      formik.setValues(entry);
+   }
+
    const formik = useFormik({
       validateOnMount: true,
 
@@ -21,8 +45,25 @@ const NewEntryForm = () => {
          category: "general",
       },
       onSubmit: async (values) => {
-         const parsedValues = await YupNewEntrySchema().validate(values);
-         const res = await AddNewEntry(parsedValues);
+         try {
+            const parsedValues = await YupNewEntrySchema().validate(values);
+            if (!isEdit) {
+               const res = await AddNewEntry(parsedValues);
+            }
+            if (isEdit) {
+               const oldEntryData = {
+                  id: getQueryByName("edit"),
+                  entryType: getQueryByName("entryType"),
+               };
+               const res = await editEntry(oldEntryData, parsedValues);
+               if (!res.ok) return "Server Error";
+
+               router.back();
+               router.refresh();
+            }
+         } catch (error) {
+            console.log(error);
+         }
       },
       validationSchema: YupNewEntrySchema(),
    });
