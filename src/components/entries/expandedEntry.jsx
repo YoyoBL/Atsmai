@@ -1,12 +1,31 @@
+"use client";
+
 import { fetchThreeLast } from "@/actions";
 import { formatDate } from "@/lib/dates";
 import { Bar } from "@/lib/imports";
+import {
+   PencilIcon,
+   PresentationChartBarIcon,
+   TrashIcon,
+} from "@heroicons/react/24/outline";
+import { useEffect, useState } from "react";
 
-const ExpandedEntry = async ({ entry }) => {
-   if (!entry) return null;
-   const entries = await fetchThreeLast(entry);
-   function generateData() {
-      return {
+const ExpandedEntry = ({ entry }) => {
+   if (!entry?._id) return null;
+   const [showLast3, setShowLast3] = useState(false);
+   const [data, setData] = useState({
+      labels: [""],
+      datasets: [""],
+   });
+
+   useEffect(() => {
+      if (!showLast3) return;
+      fetchLast3();
+   }, [showLast3]);
+
+   async function fetchLast3() {
+      const entries = await fetchThreeLast(entry);
+      setData({
          labels: entries.map((entry) => formatDate(entry.date, "dd/MM")),
          datasets: [
             {
@@ -15,15 +34,14 @@ const ExpandedEntry = async ({ entry }) => {
                maxBarThickness: 20,
             },
          ],
-      };
+      });
    }
 
-   if (!entry?._id) return;
    const { amount, category } = entry;
    const date = formatDate(entry.date, "dd/MM");
    return (
-      <div className="">
-         <div className="bg-primary text-white flex flex-wrap justify-around items-center font-light p-4 rounded-t-xl">
+      <div className="space-y-2">
+         <div className="bg-primary text-white flex flex-wrap justify-around items-center font-light p-4 rounded-xl">
             <div> {category}</div>
             <div className="text-3xl ">{amount}</div>
             <div> {date}</div>
@@ -32,14 +50,34 @@ const ExpandedEntry = async ({ entry }) => {
             </div>
             <div className="">Some Notes</div>
          </div>
-         <div className="flex justify-evenly p-3 text-white font-light"></div>
 
          {/* Collapse */}
-         <div className="card">
-            <div className="card-body">
-               <div className="divider text-lg">Last 3</div>
-               <Bar data={generateData()} />
+
+         {!showLast3 && (
+            <button
+               onClick={() => setShowLast3(true)}
+               className="btn btn-neutral btn-block"
+            >
+               Last 3
+               <PresentationChartBarIcon className="h-5 w-5" />
+            </button>
+         )}
+         {showLast3 && (
+            <div className="card">
+               <div className="card-body">
+                  <div className="divider text-lg">Last 3</div>
+
+                  <Bar data={data} />
+               </div>
             </div>
+         )}
+         <div className="flex justify-center gap-5">
+            <button className="btn btn-md btn-circle btn-outline btn-neutral">
+               <PencilIcon className="h-6 w-6" />
+            </button>
+            <button className="btn btn-md btn-circle btn-outline btn-neutral">
+               <TrashIcon className="h-6 w-6" />
+            </button>
          </div>
       </div>
    );
