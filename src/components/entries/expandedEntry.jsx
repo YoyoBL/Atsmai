@@ -3,17 +3,20 @@ import { formatDate } from "@/lib/dates";
 import { Bar } from "@/lib/imports";
 
 const ExpandedEntry = async ({ entry }) => {
+   if (!entry) return null;
    const entries = await fetchThreeLast(entry);
-   const data = {
-      labels: entries.map((entry) => formatDate(entry.date, "dd/MM")),
-      datasets: [
-         {
-            label: "Amount",
-            data: entries.map((entry) => entry.amount),
-            maxBarThickness: 20,
-         },
-      ],
-   };
+   function generateData() {
+      return {
+         labels: entries.map((entry) => formatDate(entry.date, "dd/MM")),
+         datasets: [
+            {
+               label: "Amount",
+               data: entries.map((entry) => entry.amount),
+               maxBarThickness: 20,
+            },
+         ],
+      };
+   }
 
    if (!entry?._id) return;
    const { amount, category } = entry;
@@ -35,7 +38,7 @@ const ExpandedEntry = async ({ entry }) => {
          <div className="card">
             <div className="card-body">
                <div className="divider text-lg">Last 3</div>
-               <Bar data={data} />
+               <Bar data={generateData()} />
             </div>
          </div>
       </div>

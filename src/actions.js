@@ -96,7 +96,9 @@ export async function fetchCategories(type = "incomes") {
    }
 }
 
-export async function fetchThreeLast({ category, entryType }) {
+export async function fetchThreeLast(entry) {
+   if (!entry) return "No entry provided";
+   const { category, entryType } = entry;
    try {
       await dbConnect();
       if (entryType === "income") {
