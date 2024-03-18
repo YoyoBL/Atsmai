@@ -1,9 +1,5 @@
-import {
-   EllipsisVerticalIcon,
-   PencilIcon,
-   PlusCircleIcon,
-   PlusIcon,
-} from "@heroicons/react/24/outline";
+import NewRecurringExpenseBtn from "@/components/recurring-expenses/newRecurringExpenseBtn";
+import { EllipsisVerticalIcon, PencilIcon } from "@heroicons/react/24/outline";
 
 const RecurringExpensesPage = () => {
    return (
@@ -11,9 +7,7 @@ const RecurringExpensesPage = () => {
          <h1 className="text-lg m-4 mb-5">Recurring Expenses</h1>
 
          <div className="flex flex-wrap sm:justify-normal justify-center items-center gap-3">
-            <button className="btn btn-outline btn-circle p-4 size-20">
-               <PlusIcon />
-            </button>
+            <NewRecurringExpenseBtn />
 
             <div className="card bg-base-200">
                <div className="card-body p-2">
