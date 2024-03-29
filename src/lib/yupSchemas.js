@@ -26,10 +26,25 @@ export function YupUserSchema() {
 export function YupNewEntrySchema() {
    return yup
       .object({
-         amount: yup.number().required().typeError("Numbers only"),
+         amount: yup.number().min(1).required().typeError("Numbers only"),
          entryType: yup.mixed().oneOf(["income", "expense"]).required(),
          date: yup.date().required(),
          category: yup.string(),
+      })
+      .required();
+}
+
+export function YupNewRecurringSchema() {
+   return yup
+      .object({
+         title: yup.string().min(2).required("Required field."),
+         amount: yup
+            .number()
+            .min(1)
+            .required("Required field.")
+            .typeError("Numbers only"),
+         startDate: yup.date().required("Required field."),
+         category: yup.string("Required field."),
       })
       .required();
 }

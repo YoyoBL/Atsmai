@@ -38,3 +38,7 @@ async function dbConnect() {
 }
 
 export default dbConnect;
+
+export function serialize(obj) {
+   return JSON.parse(JSON.stringify(obj));
+}
