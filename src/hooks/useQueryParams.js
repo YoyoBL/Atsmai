@@ -14,7 +14,7 @@ const useQueryParams = () => {
       const params = new URLSearchParams(searchParams);
       params.set(key, value);
 
-      return `${path}/?${params.toString()}`;
+      return `${path}?${params.toString()}`;
    }
 
    function getQueryByName(key) {

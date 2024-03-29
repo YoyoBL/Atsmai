@@ -1,11 +1,27 @@
 "use client";
 
-import { addNewRecurringExpense } from "@/actions/recurringExpense.action";
+import {
+   addNewRecurringExpense,
+   editRecurringExpense,
+   fetchRecurringExpenseById,
+} from "@/actions/recurringExpense.action";
+import useQueryParams from "@/hooks/useQueryParams";
+import { formatDate } from "@/lib/dates";
 import { YupNewRecurringSchema } from "@/lib/yupSchemas";
 import { useFormik } from "formik";
 import { useParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const NewRecurringExpense = () => {
+   const { getQueryByName } = useQueryParams();
+   const isEdit = getQueryByName("modal") !== "show";
+
+   useEffect(() => {
+      if (!isEdit) return;
+      const id = getQueryByName("modal");
+      fetchRecurringExpense(id);
+   }, []);
+
    const inputFields = [
       { key: "title", title: "Title", inputType: "text", defaultValue: "" },
       { key: "amount", title: "Amount", inputType: "text", defaultValue: "" },
@@ -44,7 +60,13 @@ const NewRecurringExpense = () => {
       onSubmit: async (values) => {
          try {
             const parsedValues = await YupNewRecurringSchema().validate(values);
-            const res = await addNewRecurringExpense(parsedValues);
+            let res;
+            if (!isEdit) {
+               res = await addNewRecurringExpense(parsedValues);
+            } else if (isEdit) {
+               const id = getQueryByName("modal");
+               res = await editRecurringExpense(parsedValues, id);
+            }
             if (!res.ok) return console.log(res.data);
             router.replace(`/${params.lang}/recurring-expenses`);
          } catch (error) {
@@ -53,6 +75,21 @@ const NewRecurringExpense = () => {
       },
       validationSchema: YupNewRecurringSchema(),
    });
+
+   async function fetchRecurringExpense(id) {
+      try {
+         const res = await fetchRecurringExpenseById(id);
+
+         if (!res.ok) return console.log(res.data);
+         const recurringExpense = {
+            ...res.data,
+            startDate: formatDate(res.data.startDate, "yyyy-MM-dd"),
+         };
+         form.setValues(recurringExpense);
+      } catch (error) {
+         console.log(error);
+      }
+   }
 
    return (
       <section>

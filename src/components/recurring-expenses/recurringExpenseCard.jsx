@@ -1,8 +1,10 @@
 import { formatDate } from "@/lib/dates";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import EditBtn from "./editRecurringBtn";
 
 const RecurringExpenseCard = ({ recurringExpense }) => {
-   const { title, amount, category, startDate } = recurringExpense;
+   const { title, amount, category, startDate, _id } = recurringExpense;
    const recurringDate = formatDate(startDate, "dd");
    return (
       <div className="card bg-base-200 min-w-28">
@@ -21,9 +23,7 @@ const RecurringExpenseCard = ({ recurringExpense }) => {
                      className="dropdown-content z-[1] menu p-5 shadow bg-base-200 rounded-box space-y-2"
                   >
                      <li>
-                        <button className="btn btn-outline btn-neutral btn-sm">
-                           Edit
-                        </button>
+                        <EditBtn id={_id} />
                      </li>
                      <li>
                         <button className="btn btn-outline btn-neutral btn-sm">
