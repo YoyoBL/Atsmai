@@ -70,3 +70,17 @@ export async function editRecurringExpense(updatedValues, id) {
       return { ok: false, data: error.message };
    }
 }
+
+export async function deleteRecurringExpense(id) {
+   try {
+      await dbConnect();
+      const deleted = await RecurringExpense.findByIdAndDelete(id);
+      const data = serialize(deleted);
+      revalidatePath("/[lang]/recurring-expenses", "page");
+
+      return { ok: true, data };
+   } catch (error) {
+      console.log(error);
+      return { ok: false, data: error.message };
+   }
+}

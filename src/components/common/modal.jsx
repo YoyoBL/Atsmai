@@ -9,7 +9,7 @@ const Modal = ({ children }) => {
    const isOpen = getQueryByName("modal");
    return (
       isOpen && (
-         <dialog id="my_modal_3" className="modal modal-open">
+         <dialog className="modal modal-open">
             <div className="modal-box">{children}</div>
             {/* close modal on outside click */}
             <span onClick={router.back} className="modal-backdrop"></span>

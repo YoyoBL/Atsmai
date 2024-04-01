@@ -1,9 +1,9 @@
 import { getRecurringExpenses } from "@/actions/recurringExpense.action";
+import ConfirmModal from "@/components/common/confirmModal";
 import NewRecurringExpenseBtn from "@/components/recurring-expenses/newRecurringExpenseBtn";
 import RecurringExpenseCard from "@/components/recurring-expenses/recurringExpenseCard";
-import { EllipsisVerticalIcon, PencilIcon } from "@heroicons/react/24/outline";
 
-const RecurringExpensesPage = async () => {
+const RecurringExpensesPage = async ({ params: { lang } }) => {
    const res = await getRecurringExpenses();
    if (!res.ok) throw new Error(res.data);
    const recurringExpenses = res.data;
@@ -21,6 +21,7 @@ const RecurringExpensesPage = async () => {
                />
             ))}
          </div>
+         <ConfirmModal />
       </section>
    );
 };

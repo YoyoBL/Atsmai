@@ -2,6 +2,7 @@ import { formatDate } from "@/lib/dates";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import EditBtn from "./editRecurringBtn";
+import DeleteRecurring from "./deleteRecurring";
 
 const RecurringExpenseCard = ({ recurringExpense }) => {
    const { title, amount, category, startDate, _id } = recurringExpense;
@@ -26,9 +27,7 @@ const RecurringExpenseCard = ({ recurringExpense }) => {
                         <EditBtn id={_id} />
                      </li>
                      <li>
-                        <button className="btn btn-outline btn-neutral btn-sm">
-                           Delete
-                        </button>
+                        <DeleteRecurring id={_id} />
                      </li>
                   </ul>
                </div>
