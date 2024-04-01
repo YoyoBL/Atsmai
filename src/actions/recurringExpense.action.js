@@ -20,7 +20,10 @@ export async function getRecurringExpenses() {
 export async function addNewRecurringExpense(formValues) {
    try {
       await dbConnect();
-      const nextOccurrence = addMonths(formValues.startDate, 1);
+      const isFuture = formValues.startDate > new Date();
+      const nextOccurrence = isFuture
+         ? formValues.startDate
+         : addMonths(formValues.startDate, 1);
       const newDocument = new RecurringExpense({
          ...formValues,
          nextOccurrence,
