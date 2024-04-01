@@ -8,7 +8,9 @@ import { revalidatePath } from "next/cache";
 export async function getRecurringExpenses() {
    try {
       await dbConnect();
-      const recurringExpenses = await RecurringExpense.find({});
+      const recurringExpenses = await RecurringExpense.find({}).sort({
+         nextOccurrence: 1,
+      });
       const data = serialize(recurringExpenses);
       return { ok: true, data };
    } catch (error) {

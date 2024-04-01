@@ -6,6 +6,9 @@ import TotalAmount from "@/components/entries/totalAmount";
 import { getDictionary } from "@/lib/dictionary";
 import { redirect } from "next/navigation";
 import ExpandedEntry from "@/components/entries/expandedEntry";
+import { getRecurringExpenses } from "@/actions/recurringExpense.action";
+import FutureExpenses from "@/components/entries/futureExpenses";
+import { isAfter, parse, startOfMonth } from "date-fns";
 
 export default async function Home({ params: { lang }, searchParams }) {
    const { page } = await getDictionary(lang);
@@ -13,12 +16,20 @@ export default async function Home({ params: { lang }, searchParams }) {
    const entriesType = searchParams.entriesType;
    if (!entriesType) redirect(`/${lang}/?entriesType=incomes`);
 
+   const isExpensesPage = entriesType === "expenses";
+   let recurringExpenses = [];
    const date = searchParams?.month;
 
+   if (isExpensesPage) {
+      const res = await getRecurringExpenses();
+      if (!res.ok) return console.log(res.data);
+      recurringExpenses = res.data;
+   }
    const entries = await fetchEntries(entriesType, date);
 
    function getExpandedEntry() {
       if (!searchParams?.modal) return;
+
       const id = searchParams.modal;
       const entry = entries.find((entry) => entry._id === id);
       if (!entry) return;
@@ -26,6 +37,14 @@ export default async function Home({ params: { lang }, searchParams }) {
          searchParams.entriesType === "incomes" ? "income" : "expense";
       return entry;
    }
+
+   const isPast = isAfter(
+      startOfMonth(new Date()),
+      parse(date, "MM-yy", new Date())
+   );
+
+   const showFutureExpenses =
+      isExpensesPage && !!recurringExpenses.length && !isPast;
 
    return (
       <section className="h-full">
@@ -46,11 +65,16 @@ export default async function Home({ params: { lang }, searchParams }) {
                {/* Entries */}
                <div className="card p-2 pb-0 bg-base-300 overflow-hidden ">
                   <div className="space-y-2 overflow-auto pb-2">
+                     {showFutureExpenses && (
+                        <FutureExpenses recurring={recurringExpenses} />
+                     )}
                      {entries.map((entry) => (
-                        <EntryCard entry={entry} key={entry?._id} />
+                        <>
+                           <EntryCard entry={entry} key={entry?._id} />
+                        </>
                      ))}
                   </div>
-                  <div className="absolute bottom-0 left-0  w-full h-5 bg-gradient-to-t from-black opacity-10"></div>
+                  <div className="absolute bottom-0 left-0  w-full h-5 bg-gradient-to-t from-black opacity-10 pointer-events-none"></div>
                </div>
                {/* Modal */}
                {
