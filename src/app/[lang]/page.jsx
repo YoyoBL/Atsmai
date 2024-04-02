@@ -8,23 +8,45 @@ import { redirect } from "next/navigation";
 import ExpandedEntry from "@/components/entries/expandedEntry";
 import { getRecurringExpenses } from "@/actions/recurringExpense.action";
 import FutureExpenses from "@/components/entries/futureExpenses";
-import { isAfter, parse, startOfMonth } from "date-fns";
+import {
+   addDays,
+   format,
+   isAfter,
+   isBefore,
+   isSameMonth,
+   parse,
+   startOfMonth,
+} from "date-fns";
 
 export default async function Home({ params: { lang }, searchParams }) {
    const { page } = await getDictionary(lang);
 
    const entriesType = searchParams.entriesType;
    if (!entriesType) redirect(`/${lang}/?entriesType=incomes`);
+   const date = searchParams?.month;
+   if (!date)
+      redirect(
+         `/${lang}/?entriesType=${entriesType}&month=${format(
+            new Date(),
+            "MM-yy"
+         )}`
+      );
 
    const isExpensesPage = entriesType === "expenses";
    let recurringExpenses = [];
-   const date = searchParams?.month;
+   const parsedDate = parse(date, "MM-yy", new Date());
 
-   if (isExpensesPage) {
+   const isPast = isAfter(startOfMonth(new Date()), parsedDate);
+   if (isExpensesPage && !isPast) {
       const res = await getRecurringExpenses();
       if (!res.ok) return console.log(res.data);
-      recurringExpenses = res.data;
+      const filterByDate = (v) => {
+         const recurringDate = new Date(v.nextOccurrence);
+         return isSameMonth(recurringDate, parsedDate);
+      };
+      recurringExpenses = res.data.filter(filterByDate);
    }
+
    const entries = await fetchEntries(entriesType, date);
 
    function getExpandedEntry() {
@@ -37,11 +59,6 @@ export default async function Home({ params: { lang }, searchParams }) {
          searchParams.entriesType === "incomes" ? "income" : "expense";
       return entry;
    }
-
-   const isPast = isAfter(
-      startOfMonth(new Date()),
-      parse(date, "MM-yy", new Date())
-   );
 
    const showFutureExpenses =
       isExpensesPage && !!recurringExpenses.length && !isPast;

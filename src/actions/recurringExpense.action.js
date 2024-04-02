@@ -1,22 +1,74 @@
 "use server";
 
 import dbConnect, { serialize } from "@/lib/mongoDbConnect";
+import Expense from "@/models/expense.model";
+import LastRecurringCheck from "@/models/lastRecurringCheck.model";
 import RecurringExpense from "@/models/recurringExpense.model";
-import { addMonths } from "date-fns";
+import { addDays, addMonths, isAfter, startOfToday } from "date-fns";
 import { revalidatePath } from "next/cache";
 
 export async function getRecurringExpenses() {
    try {
       await dbConnect();
-      const recurringExpenses = await RecurringExpense.find({}).sort({
+      const recurringExpensesPromise = RecurringExpense.find({}).sort({
          nextOccurrence: 1,
       });
+      const lastCheckPromise = LastRecurringCheck.find({});
+      const results = await Promise.allSettled([
+         recurringExpensesPromise,
+         lastCheckPromise,
+      ]);
+      const recurringExpenses = results[0]?.value;
+
+      //check if needs to auto add recurring expenses
+      const lastCheck = results[1]?.value[0]?.lastCheck;
+      const isChecked = addDays(lastCheck, 1) > startOfToday();
+      if (!isChecked) autoAdd(recurringExpenses);
+
       const data = serialize(recurringExpenses);
       return { ok: true, data };
    } catch (error) {
       console.log(error);
       return { ok: false, data: error.message };
    }
+}
+
+export async function autoAdd(recurring) {
+   const promises = [];
+
+   const currentDate = new Date();
+   recurring.forEach((v) => {
+      if (isAfter(currentDate, v.nextOccurrence)) {
+         const newExpense = {
+            amount: v.amount,
+            category: v.category,
+            date: v.nextOccurrence,
+         };
+         const ExpensePromise = Expense.create(newExpense);
+         const updatedNextOccurrence = addMonths(v.nextOccurrence, 1);
+         const recurringUpdate = RecurringExpense.findByIdAndUpdate(v._id, {
+            nextOccurrence: updatedNextOccurrence,
+         });
+         promises.push(ExpensePromise, recurringUpdate);
+      }
+   });
+   const lastCheck = updateLastCheck();
+   if (!promises.length) return;
+   const results = await Promise.allSettled([...promises, lastCheck]);
+   console.log(results);
+   revalidatePath("/[lang]/", "page");
+   return results;
+}
+
+async function updateLastCheck() {
+   const { _id } = LastRecurringCheck.find({});
+   //if no last check create
+   if (!_id) return LastRecurringCheck.create({ lastCheck: startOfToday() });
+
+   //if exists update
+   return LastRecurringCheck.findByIdAndUpdate(_id, {
+      lastCheck: startOfToday(),
+   });
 }
 
 export async function addNewRecurringExpense(formValues) {
