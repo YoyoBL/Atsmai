@@ -48,3 +48,21 @@ export function YupNewRecurringSchema() {
       })
       .required();
 }
+
+export function YupRegisterSchema() {
+   return yup
+      .object({
+         firstName: yup.string().min(2).required("Required field."),
+         lastName: yup.string().min(2).required("Required field."),
+         email: yup.string().email().min(2).required("Required field."),
+         password: yup
+            .string()
+            .matches(
+               /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/
+            )
+            .required("Required field."),
+         country: yup.string().min(2).required("Required field."),
+         city: yup.string().min(2).required("Required field."),
+      })
+      .required();
+}
