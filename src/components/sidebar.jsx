@@ -35,6 +35,12 @@ export default async function SideBar({ children, lang }) {
                {/* Sidebar content here */}
                {/* <Header lang={params.lang} /> */}
                <div className="flex justify-between">
+                  <Link href="/api/auth/signin" className="btn btn-primary">
+                     Sign In
+                  </Link>
+                  <Link href="/api/auth/signout" className="btn btn-primary">
+                     Sign Out
+                  </Link>
                   <LocaleSwitcher />
                   <ThemeSwitcher sessionTheme={theme} />
                </div>

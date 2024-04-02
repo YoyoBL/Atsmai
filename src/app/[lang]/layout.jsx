@@ -4,6 +4,7 @@ import { i18n } from "@/i18n.config";
 import SideBar from "@/components/sidebar";
 import cn from "@/lib/tailwindMerge";
 import { getTheme } from "@/actions";
+import { getServerSession } from "next-auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,6 +19,8 @@ export async function generateStaticParams() {
 
 export default async function RootLayout({ children, params }) {
    const theme = (await getTheme()) || "dark";
+   const session = await getServerSession();
+   if (!session) return <div>"You need to log in"</div>;
 
    return (
       <html
