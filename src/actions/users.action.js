@@ -10,15 +10,17 @@ export async function addNewUser(values) {
    try {
       await dbConnect();
       // check if user exists
-      const exists = await User.findOne({ email: values.email });
+      const email = values.toLowerCase();
+      const exists = await User.findOne({ email });
 
       if (exists) throw new Error("Email already registered.");
       const hashedPassword = await bcrypt.hash(values.password, 12);
       const newUser = await User.create({
          ...values,
+         email,
          password: hashedPassword,
       });
-      const { firstName, lastName, email, _id } = newUser;
+      const { firstName, lastName, _id } = newUser;
       return {
          ok: true,
          data: { firstName, lastName, email, _id: _id.toString() },
