@@ -1,11 +1,17 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import "server-only";
 
-const userSchema = new mongoose.Schema({
-   fullName: { type: String, required: true },
-   email: { type: String },
-   password: { type: String, default: "Aa123456@", required: false },
+const userSchema = new Schema({
+   firstName: { type: String, minLength: 2, required: true },
+   lastName: { type: String, minLength: 2, required: true },
+   email: { type: String, required: true },
+   password: {
+      type: String,
+      required: true,
+   },
    role: { type: String, default: "user", required: false },
-   address: { type: String, required: false },
+   country: { type: String, required: true },
+   city: { type: String, minLength: 2, required: true },
    image: {
       type: String,
       default:
@@ -15,5 +21,6 @@ const userSchema = new mongoose.Schema({
    createdAt: { type: Date, default: Date.now },
 });
 
-export const User =
+const User =
    mongoose.models.User || mongoose.model("User", userSchema, "users");
+export default User;

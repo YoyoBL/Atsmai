@@ -1,6 +1,8 @@
+import "server-only";
+
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = "mongodb://127.0.0.1/atsmai";
 
 if (!MONGODB_URI) {
    throw new Error(
