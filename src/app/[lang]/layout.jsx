@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { i18n } from "@/i18n.config";
-import SideBar from "@/components/sidebar";
+import SideBar from "@/components/navs/sidebar";
 import cn from "@/lib/tailwindMerge";
 import { getTheme } from "@/actions";
 import { getServerSession } from "next-auth";

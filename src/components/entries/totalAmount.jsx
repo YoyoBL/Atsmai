@@ -23,10 +23,10 @@ const TotalAmount = async ({ entries = [], date = "", entriesType = "" }) => {
                : "lightExpenses"
          }
       >
-         <div className="grid grid-cols-2 bg-base-200 text-center text-lg">
+         <div className="grid grid-cols-2 relative  bg-base-200 text-center text-lg">
             <Link
                href="/en?entriesType=incomes"
-               className={cn("p-2", {
+               className={cn("p-2 ", {
                   "bg-primary rounded-t-xl text-white":
                      entriesType === "incomes",
                })}
@@ -46,7 +46,7 @@ const TotalAmount = async ({ entries = [], date = "", entriesType = "" }) => {
          </div>
          <div
             className={cn(
-               "bg-primary rounded-xl h-36 flex flex-col justify-center items-center gap-3 shadow",
+               "bg-primary rounded-xl h-36 flex flex-col justify-center items-center gap-3",
                {
                   "rounded-tl-none rtl:rounded-tl-xl rtl:rounded-tr-none":
                      entriesType === "incomes",

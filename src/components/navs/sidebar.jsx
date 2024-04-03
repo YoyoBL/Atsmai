@@ -1,29 +1,27 @@
 import Link from "next/link";
-import LocaleSwitcher from "./localeSwitcher";
-import ThemeSwitcher from "./themeSwitcher";
-import AddNewEntryBtn from "./new-entry/newEntryBtn";
+import LocaleSwitcher from "../localeSwitcher";
+import ThemeSwitcher from "../themeSwitcher";
+import AddNewEntryBtn from "../new-entry/newEntryBtn";
 import { getTheme } from "@/actions";
 import {
    ArrowPathIcon,
    ArrowsUpDownIcon,
    BriefcaseIcon,
 } from "@heroicons/react/24/outline";
+import Navbar from "./navbar";
+import BottomNavbar from "./bottomNavbar";
 
 export default async function SideBar({ children, lang }) {
    const theme = (await getTheme()) || "dark";
    return (
-      <div className="drawer lg:drawer-open">
+      <div className="drawer md:drawer-open">
          <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
          <div className="relative drawer-content flex flex-col items-center justify-center">
             {/* Page content here */}
+            <Navbar />
             {children}
             <AddNewEntryBtn />
-            <label
-               htmlFor="my-drawer-2"
-               className="btn btn-primary drawer-button lg:hidden"
-            >
-               Open drawer
-            </label>
+            <BottomNavbar />
          </div>
          <div className="drawer-side">
             <label
