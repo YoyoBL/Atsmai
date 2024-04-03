@@ -86,9 +86,7 @@ export default async function Home({ params: { lang }, searchParams }) {
                         <FutureExpenses recurring={recurringExpenses} />
                      )}
                      {entries.map((entry) => (
-                        <>
-                           <EntryCard entry={entry} key={entry?._id} />
-                        </>
+                        <EntryCard entry={entry} key={entry?._id} />
                      ))}
                   </div>
                   <div className="absolute bottom-0 left-0  w-full h-5 bg-gradient-to-t from-black opacity-10 pointer-events-none"></div>
