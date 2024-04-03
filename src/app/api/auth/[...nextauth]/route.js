@@ -1,8 +1,11 @@
 import { signIn } from "@/actions/users.action";
-import NextAuth from "next-auth";
+import NextAuth, { getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const handler = NextAuth({
+const authOptions = {
+   session: {
+      strategy: "jwt", // Use JWT for session management
+   },
    providers: [
       CredentialsProvider({
          // The name to display on the sign in form (e.g. "Sign in with...")
@@ -38,12 +41,23 @@ const handler = NextAuth({
    callbacks: {
       async jwt({ user, account, profile, token }) {
          if (account) {
+            token.id = user._id;
             token.role = user.role;
             token.name = [user.firstName, user.lastName].join(" ");
          }
          return token;
       },
+      async session({ session, token, user }) {
+         session.user.id = token.id;
+         return session;
+      },
    },
-});
+};
+
+const handler = NextAuth(authOptions);
+
+export function getServerAuthSession(...args) {
+   return getServerSession(...args, authOptions);
+}
 
 export { handler as GET, handler as POST };

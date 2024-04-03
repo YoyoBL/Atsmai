@@ -47,20 +47,23 @@ const NewEntryForm = () => {
       onSubmit: async (values) => {
          try {
             const parsedValues = await YupNewEntrySchema().validate(values);
+
+            let res;
             if (!isEdit) {
-               const res = await AddNewEntry(parsedValues);
+               res = await AddNewEntry(parsedValues);
             }
             if (isEdit) {
                const oldEntryData = {
                   id: getQueryByName("edit"),
                   entryType: getQueryByName("entryType"),
                };
-               const res = await editEntry(oldEntryData, parsedValues);
-               if (!res.ok) return "Server Error";
-
-               router.back();
-               router.refresh();
+               res = await editEntry(oldEntryData, parsedValues);
             }
+            console.log(res);
+            if (!res.ok) return res.data;
+
+            router.back();
+            router.refresh();
          } catch (error) {
             console.log(error);
          }

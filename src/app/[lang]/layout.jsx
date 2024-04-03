@@ -5,6 +5,7 @@ import SideBar from "@/components/navs/sidebar";
 import cn from "@/lib/tailwindMerge";
 import { getTheme } from "@/actions";
 import { getServerSession } from "next-auth";
+import { Providers } from "@/contexts/providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,7 @@ export async function generateStaticParams() {
 
 export default async function RootLayout({ children, params }) {
    const theme = (await getTheme()) || "dark";
+   const session = getServerSession();
 
    return (
       <html
@@ -27,9 +29,11 @@ export default async function RootLayout({ children, params }) {
          data-theme={theme}
       >
          <body className={cn(inter.className, "bg-base-100 min-h-screen ")}>
-            <SideBar lang={params.lang} sessionTheme={theme}>
-               <main className="sm:p-5 h-screen">{children}</main>
-            </SideBar>
+            <Providers session={session}>
+               <SideBar lang={params.lang} sessionTheme={theme}>
+                  <main className="sm:p-5 h-screen">{children}</main>
+               </SideBar>
+            </Providers>
          </body>
       </html>
    );

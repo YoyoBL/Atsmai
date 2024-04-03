@@ -2,7 +2,11 @@ import mongoose from "mongoose";
 import { User } from "./user.model";
 
 const incomeSchema = new mongoose.Schema({
-   // user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+   userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+   },
    amount: { type: Number, required: true },
    category: { type: String, default: "general" },
    notes: { type: String },

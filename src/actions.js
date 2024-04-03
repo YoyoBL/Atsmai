@@ -8,27 +8,38 @@ import { getEndOfMonth, getStartOfMonth } from "./lib/dates";
 import { parse } from "date-fns";
 import { COOKIE_THEME_KEY } from "./constants";
 import { revalidatePath } from "next/cache";
+import { getServerAuthSession } from "./app/api/auth/[...nextauth]/route";
 
 function serialize(obj) {
    return JSON.parse(JSON.stringify(obj));
 }
 
+async function getUserId() {
+   const user = await getServerAuthSession();
+   if (!user) throw new Error("Authenticated users only.");
+   return user.user.id;
+}
+
 export async function AddNewEntry(entry) {
-   let savedEntry = {};
+   const userId = await getUserId();
+   let savedEntry;
+   let newEntry;
    try {
       await dbConnect();
       if (entry.entryType === "income") {
-         const newEntry = new Income(entry);
+         newEntry = new Income({ ...entry, userId });
          savedEntry = await newEntry.save();
       } else {
-         const newEntry = new Expense(entry);
+         newEntry = new Expense({ ...entry, userId });
          savedEntry = await newEntry.save();
       }
+      console.log(savedEntry);
       savedEntry = serialize(savedEntry);
 
       return { ok: true, data: savedEntry };
    } catch (error) {
       console.log(error);
+      return { ok: false, data: error.message };
    }
 }
 
@@ -64,7 +75,10 @@ export async function fetchEntries(entriesType, monthString) {
 export async function fetchIncomes(startDate, endDate) {
    try {
       await dbConnect();
+      const userId = await getUserId();
+
       const incomes = await Income.find({
+         userId,
          date: { $gte: startDate, $lte: endDate },
       }).sort({ date: -1 });
       return serialize(incomes);
@@ -76,7 +90,10 @@ export async function fetchIncomes(startDate, endDate) {
 export async function fetchExpenses(startDate, endDate) {
    try {
       await dbConnect();
+      const userId = await getUserId();
+
       const expenses = await Expense.find({
+         userId,
          date: { $gte: startDate, $lte: endDate },
       }).sort({ date: -1 });
       return serialize(expenses);

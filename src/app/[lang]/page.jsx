@@ -47,7 +47,7 @@ export default async function Home({ params: { lang }, searchParams }) {
       recurringExpenses = res.data.filter(filterByDate);
    }
 
-   const entries = await fetchEntries(entriesType, date);
+   const entries = (await fetchEntries(entriesType, date)) || [];
 
    function getExpandedEntry() {
       if (!searchParams?.modal) return;

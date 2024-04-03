@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 const expenseSchema = new Schema({
-   // user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+   userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
    amount: { type: Number, required: true },
    category: { type: String, default: "general" },
    notes: { type: String },
