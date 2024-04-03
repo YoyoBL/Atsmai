@@ -19,8 +19,6 @@ export async function generateStaticParams() {
 
 export default async function RootLayout({ children, params }) {
    const theme = (await getTheme()) || "dark";
-   const session = await getServerSession();
-   if (!session) return <div>"You need to log in"</div>;
 
    return (
       <html

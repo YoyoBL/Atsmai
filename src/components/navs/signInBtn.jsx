@@ -7,7 +7,7 @@ const SignInBtn = () => {
    const { lang } = useParams();
    return (
       <button
-         onClick={signIn(undefined, { callbackUrl: `/${lang}/` })}
+         onClick={() => signIn(undefined, { callbackUrl: `/${lang}/` })}
          className="btn btn-primary"
       >
          Sign In

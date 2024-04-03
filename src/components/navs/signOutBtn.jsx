@@ -3,16 +3,16 @@
 import { signIn, signOut } from "next-auth/react";
 import { useParams } from "next/navigation";
 
-const SignOut = () => {
+const SignOutBtn = () => {
    const { lang } = useParams();
    return (
       <button
-         onClick={signOut({ callbackUrl: `/${lang}/` })}
-         className="btn btn-primary"
+         onClick={() => signOut({ callbackUrl: `/${lang}/` })}
+         className="btn btn-neutral hover:btn-primary"
       >
-         Sign In
+         Sign out
       </button>
    );
 };
 
-export default SignOut;
+export default SignOutBtn;
