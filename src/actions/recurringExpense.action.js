@@ -55,7 +55,6 @@ export async function autoAdd(recurring) {
    const lastCheck = updateLastCheck();
    if (!promises.length) return;
    const results = await Promise.allSettled([...promises, lastCheck]);
-   console.log(results);
    revalidatePath("/[lang]/", "page");
    return results;
 }

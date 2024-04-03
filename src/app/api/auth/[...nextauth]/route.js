@@ -41,7 +41,6 @@ const handler = NextAuth({
             token.role = user.role;
             token.name = [user.firstName, user.lastName].join(" ");
          }
-         console.log("token:", token);
          return token;
       },
    },

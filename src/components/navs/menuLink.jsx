@@ -9,7 +9,6 @@ const MenuLink = ({ link }) => {
    const { lang } = useParams();
    const currentPath = path.split("/")[2] || "";
    const isCurrentPath = currentPath === link.href;
-   console.log(isCurrentPath);
    return (
       <li>
          <Link
