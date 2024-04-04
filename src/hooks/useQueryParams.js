@@ -21,11 +21,18 @@ const useQueryParams = () => {
       return searchParams.get(key);
    }
 
+   function deleteAndReturnPath(key) {
+      const params = new URLSearchParams(searchParams);
+      params.delete(key);
+      return `${path}/?${params.toString()}`;
+   }
+
    return {
       searchParams,
       getFullPath,
       getPathWithNewParam,
       getQueryByName,
+      deleteAndReturnPath,
    };
 };
 

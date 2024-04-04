@@ -1,5 +1,5 @@
-import { searchEntries } from "@/actions/entries.actions";
-import Search from "@/components/search/search";
+import SearchForm from "@/components/search/searchForm";
+import SearchResults from "@/components/search/searchResults";
 
 import { redirect } from "next/navigation";
 
@@ -11,7 +11,11 @@ const SearchPage = ({ params: { lang }, searchParams }) => {
    return (
       <section className="h-full">
          <div className="card bg-base-200 card-compact w-96 max-h-full">
-            <Search />
+            <div className="card-body gap-3">
+               <div className="card-title">Search Entries</div>
+               <SearchForm />
+               <SearchResults searchParams={searchParams} />
+            </div>
          </div>
       </section>
    );

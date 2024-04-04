@@ -119,7 +119,7 @@ export async function fetchThreeLast(entry) {
    const { category, entryType } = entry;
    try {
       await dbConnect();
-      if (entryType === "income") {
+      if (entryType.startsWith("income")) {
          const lastThreeIncomes = await Income.find({
             category: category,
          })
@@ -127,7 +127,7 @@ export async function fetchThreeLast(entry) {
             .sort({ date: -1 });
          return serialize(lastThreeIncomes);
       }
-      if (entryType === "expense") {
+      if (entryType.startsWith("expense")) {
          const lastThreeIncomes = await Expense.find({
             category: category,
          })
@@ -224,6 +224,6 @@ export async function searchEntries(entryType, searchValue) {
       return { ok: true, data };
    } catch (error) {
       console.log(error);
-      return { ok: true, data: error.message };
+      return { ok: false, data: error.message };
    }
 }

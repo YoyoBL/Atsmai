@@ -1,6 +1,7 @@
 "use client";
 
 import { deleteEntry, fetchThreeLast } from "@/actions/entries.actions";
+import useQueryParams from "@/hooks/useQueryParams";
 import { formatDate } from "@/lib/dates";
 import { Bar } from "@/lib/imports";
 import {
@@ -15,6 +16,7 @@ import { useEffect, useState } from "react";
 const ExpandedEntry = ({ entry }) => {
    const router = useRouter();
    const { lang } = useParams();
+   const { getQueryByName } = useQueryParams();
 
    const [showLast3, setShowLast3] = useState(false);
    const [data, setData] = useState({
@@ -38,8 +40,9 @@ const ExpandedEntry = ({ entry }) => {
 
    async function fetchLast3() {
       const entries = await fetchThreeLast(entry);
-      if (!entries) return setData([]);
-      console.log("here");
+
+      if (!entries.length) return;
+
       setData({
          labels: entries.map((entry) => formatDate(entry.date, "dd/MM")),
          datasets: [
@@ -81,7 +84,7 @@ const ExpandedEntry = ({ entry }) => {
             <div className="card">
                <div className="card-body">
                   <div className="divider text-lg">Last 3</div>
-                  {data.length ? (
+                  {data.labels.length ? (
                      <Bar data={data} />
                   ) : (
                      <div className="text-center">No data Found.</div>
