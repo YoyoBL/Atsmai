@@ -16,7 +16,7 @@ export async function getRecurringExpenses() {
       const recurringExpensesPromise = RecurringExpense.find({ userId }).sort({
          nextOccurrence: 1,
       });
-      const lastCheckPromise = LastRecurringCheck.find({});
+      const lastCheckPromise = LastRecurringCheck.find({ userId });
       const results = await Promise.allSettled([
          recurringExpensesPromise,
          lastCheckPromise,
@@ -57,17 +57,18 @@ export async function autoAdd(recurring) {
          promises.push(ExpensePromise, recurringUpdate);
       }
    });
-   const lastCheck = updateLastCheck();
+   const lastCheck = updateLastCheck(userId);
    if (!promises.length) return;
    const results = await Promise.allSettled([...promises, lastCheck]);
    revalidatePath("/[lang]/", "page");
    return results;
 }
 
-async function updateLastCheck() {
-   const { _id } = LastRecurringCheck.find({});
+async function updateLastCheck(userId) {
+   const { _id } = LastRecurringCheck.find({ userId });
    //if no last check create
-   if (!_id) return LastRecurringCheck.create({ lastCheck: startOfToday() });
+   if (!_id)
+      return LastRecurringCheck.create({ lastCheck: startOfToday(), userId });
 
    //if exists update
    return LastRecurringCheck.findByIdAndUpdate(_id, {
