@@ -1,6 +1,7 @@
 "use server";
 
 import dbConnect, { serialize } from "@/lib/mongoDbConnect";
+import { getUserId } from "@/lib/userTools";
 import Expense from "@/models/expense.model";
 import LastRecurringCheck from "@/models/lastRecurringCheck.model";
 import RecurringExpense from "@/models/recurringExpense.model";
@@ -10,7 +11,9 @@ import { revalidatePath } from "next/cache";
 export async function getRecurringExpenses() {
    try {
       await dbConnect();
-      const recurringExpensesPromise = RecurringExpense.find({}).sort({
+      const userId = await getUserId();
+
+      const recurringExpensesPromise = RecurringExpense.find({ userId }).sort({
          nextOccurrence: 1,
       });
       const lastCheckPromise = LastRecurringCheck.find({});
@@ -34,6 +37,7 @@ export async function getRecurringExpenses() {
 }
 
 export async function autoAdd(recurring) {
+   const userId = await getUserId();
    const promises = [];
 
    const currentDate = new Date();
@@ -43,6 +47,7 @@ export async function autoAdd(recurring) {
             amount: v.amount,
             category: v.category,
             date: v.nextOccurrence,
+            userId,
          };
          const ExpensePromise = Expense.create(newExpense);
          const updatedNextOccurrence = addMonths(v.nextOccurrence, 1);
@@ -73,6 +78,8 @@ async function updateLastCheck() {
 export async function addNewRecurringExpense(formValues) {
    try {
       await dbConnect();
+      const userId = await getUserId();
+
       const isFuture = formValues.startDate > new Date();
       const nextOccurrence = isFuture
          ? formValues.startDate
@@ -80,6 +87,7 @@ export async function addNewRecurringExpense(formValues) {
       const newDocument = new RecurringExpense({
          ...formValues,
          nextOccurrence,
+         userId,
       });
       await newDocument.save();
       const serializedDocument = serialize(newDocument);

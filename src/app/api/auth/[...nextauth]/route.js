@@ -56,7 +56,7 @@ const authOptions = {
 
 const handler = NextAuth(authOptions);
 
-export function getServerAuthSession(...args) {
+export function auth(...args) {
    return getServerSession(...args, authOptions);
 }
 

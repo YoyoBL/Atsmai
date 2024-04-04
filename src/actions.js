@@ -8,16 +8,10 @@ import { getEndOfMonth, getStartOfMonth } from "./lib/dates";
 import { parse } from "date-fns";
 import { COOKIE_THEME_KEY } from "./constants";
 import { revalidatePath } from "next/cache";
-import { getServerAuthSession } from "./app/api/auth/[...nextauth]/route";
+import { getUserId } from "./lib/userTools";
 
 function serialize(obj) {
    return JSON.parse(JSON.stringify(obj));
-}
-
-async function getUserId() {
-   const user = await getServerAuthSession();
-   if (!user) throw new Error("Authenticated users only.");
-   return user.user.id;
 }
 
 export async function AddNewEntry(entry) {
@@ -33,7 +27,6 @@ export async function AddNewEntry(entry) {
          newEntry = new Expense({ ...entry, userId });
          savedEntry = await newEntry.save();
       }
-      console.log(savedEntry);
       savedEntry = serialize(savedEntry);
 
       return { ok: true, data: savedEntry };
