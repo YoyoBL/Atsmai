@@ -58,7 +58,7 @@ export function YupRegisterSchema() {
          password: yup
             .string()
             .matches(
-               /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/
+               /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
             )
             .required("Required field."),
          country: yup.string().min(2).required("Required field."),
