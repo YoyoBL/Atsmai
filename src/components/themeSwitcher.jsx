@@ -12,7 +12,7 @@ const ThemeSwitcher = ({ sessionTheme }) => {
       htmlTag.dataset.theme.replace(theme, newTheme);
       setTheme(newTheme);
       try {
-         const res = await switchThemeOnCookie(newTheme);
+         await switchThemeOnCookie(newTheme);
       } catch (error) {
          console.log(error);
       }

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import useMonthPicker from "@/hooks/useMonthPicker";
 
-const MonthsPicker = () => {
+const MonthsPicker = ({ months }) => {
    const {
       currentMonthString,
       currentYearString,
@@ -24,7 +24,7 @@ const MonthsPicker = () => {
                <ChevronRightIcon className="ltr:hidden" />
             </Link>
             <div className="text-center">
-               <div className="text-lg">{currentMonthString}</div>
+               <div className="text-lg">{months[currentMonthString]}</div>
                {yearString !== currentYearString && (
                   <div className="text-xs opacity-30">{yearString}</div>
                )}

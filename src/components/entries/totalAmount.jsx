@@ -2,8 +2,16 @@ import Link from "next/link";
 import TaxCard from "./taxCard";
 import cn from "@/lib/tailwindMerge";
 import { getTheme } from "@/actions/theme.actions";
+import { getDictionary } from "@/lib/dictionary";
 
-const TotalAmount = async ({ entries = [], date = "", entriesType = "" }) => {
+const TotalAmount = async ({
+   entries = [],
+   date = "",
+   entriesType = "",
+   lang = "he",
+}) => {
+   const { entriesPage } = await getDictionary(lang);
+
    const theme = (await getTheme()) || "dark";
    const totalAmount = entries.reduce(
       (accumulator, currentValue) => accumulator + currentValue.amount,
@@ -31,7 +39,7 @@ const TotalAmount = async ({ entries = [], date = "", entriesType = "" }) => {
                      entriesType === "incomes",
                })}
             >
-               Incomes
+               {entriesPage.incomesTab}
             </Link>
 
             <Link
@@ -41,7 +49,7 @@ const TotalAmount = async ({ entries = [], date = "", entriesType = "" }) => {
                      entriesType === "expenses",
                })}
             >
-               Expenses
+               {entriesPage.expensesTab}
             </Link>
          </div>
          <div

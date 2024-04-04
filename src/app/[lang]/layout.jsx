@@ -19,8 +19,9 @@ export async function generateStaticParams() {
 }
 
 export default async function RootLayout({ children, params }) {
-   const theme = (await getTheme()) || "dark";
    const session = getServerSession();
+
+   const theme = (await getTheme()) || "dark";
 
    return (
       <html

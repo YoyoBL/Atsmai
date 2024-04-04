@@ -12,5 +12,24 @@
          "title": "אודותינו",
          "description": "זהו דף אודות"
       }
+   },
+   "entriesPage": {
+      "header": "רשומות",
+      "incomesTab": "הכנסות",
+      "expensesTab": "הוצאות"
+   },
+   "months": {
+      "January": "ינואר",
+      "February": "פברואר",
+      "March": "מרץ",
+      "April": "אפריל",
+      "May": "מאי",
+      "June": "יוני",
+      "July": "יולי",
+      "August": "אוגוסט",
+      "September": "ספטמבר",
+      "October": "אוקטובר",
+      "November": "נובמבר",
+      "December": "דצמבר"
    }
 }

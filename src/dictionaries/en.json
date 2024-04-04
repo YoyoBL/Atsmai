@@ -12,5 +12,24 @@
          "title": "About Us",
          "description": "This is the about page"
       }
+   },
+   "entriesPage": {
+      "header": "Entries",
+      "incomesTab": "Incomes",
+      "expensesTab": "Expenses"
+   },
+   "months": {
+      "January": "January",
+      "February": "February",
+      "March": "March",
+      "April": "April",
+      "May": "May",
+      "June": "June",
+      "July": "July",
+      "August": "August",
+      "September": "September",
+      "October": "October",
+      "November": "November",
+      "December": "December"
    }
 }

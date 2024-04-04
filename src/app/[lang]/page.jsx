@@ -19,7 +19,7 @@ import {
 } from "date-fns";
 
 export default async function Home({ params: { lang }, searchParams }) {
-   const { entriesPage } = await getDictionary(lang);
+   const { entriesPage, months } = await getDictionary(lang);
 
    const entriesType = searchParams.entriesType;
    if (!entriesType) redirect(`/${lang}/?entriesType=incomes`);
@@ -74,10 +74,11 @@ export default async function Home({ params: { lang }, searchParams }) {
                   entries={entries}
                   date={date}
                   entriesType={entriesType}
+                  lang={lang}
                />
 
                {/* Dates dort */}
-               <MonthsPicker />
+               <MonthsPicker months={months} />
 
                {/* Entries */}
                <div className="card p-2 pb-0 bg-base-300 overflow-hidden ">
