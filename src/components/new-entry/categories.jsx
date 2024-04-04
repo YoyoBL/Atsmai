@@ -16,7 +16,7 @@ const Categories = ({ formik = {}, color = "primary" }) => {
          setCategories(data);
          setIsLoading(false);
       })();
-   }, [formik.values?.entryType]);
+   }, [formik.values?.entryType, color]);
 
    return (
       <div className="w-full">

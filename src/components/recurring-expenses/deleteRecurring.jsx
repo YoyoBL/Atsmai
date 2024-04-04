@@ -25,7 +25,7 @@ const DeleteRecurring = ({ id }) => {
             }
          })();
       }
-   }, [confirmed]);
+   }, [confirmed, lang, router]);
 
    return (
       <>

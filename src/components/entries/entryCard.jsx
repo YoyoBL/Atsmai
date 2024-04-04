@@ -5,9 +5,9 @@ import { formatDate } from "@/lib/dates";
 import Link from "next/link";
 
 const EntryCard = ({ entry = {} }) => {
-   if (!entry?._id) return;
-
    const { getPathWithNewParam } = useQueryParams();
+
+   if (!entry?._id) return;
    const { amount, category } = entry;
    const date = formatDate(entry.date, "dd/MM");
    return (

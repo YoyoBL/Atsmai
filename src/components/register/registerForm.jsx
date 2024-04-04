@@ -7,7 +7,6 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useParams } from "next/navigation";
-import { USER_HOME_PAGE } from "@/constants";
 
 const RegisterForm = () => {
    const [serverError, setServerError] = useState(null);
@@ -28,7 +27,7 @@ const RegisterForm = () => {
          const res = await addNewUser(parsedValues);
          if (!res.ok) return setServerError(res.data);
          //Add confirmation toast
-         signIn(undefined, { callbackUrl: `/${lang}/${USER_HOME_PAGE}}` });
+         signIn(undefined, { callbackUrl: `/${lang}/` });
       },
       validationSchema: YupRegisterSchema(),
    });

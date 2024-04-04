@@ -19,7 +19,7 @@ import {
 } from "date-fns";
 
 export default async function Home({ params: { lang }, searchParams }) {
-   const { page } = await getDictionary(lang);
+   const { entriesPage } = await getDictionary(lang);
 
    const entriesType = searchParams.entriesType;
    if (!entriesType) redirect(`/${lang}/?entriesType=incomes`);
@@ -67,7 +67,7 @@ export default async function Home({ params: { lang }, searchParams }) {
       <section className="h-full">
          <div className="card bg-base-200 card-compact w-96 max-h-full">
             <div className="card-body overflow-hidden">
-               <div className="card-title">Entries</div>
+               <div className="card-title">{entriesPage.header}</div>
 
                {/* Top */}
                <TotalAmount

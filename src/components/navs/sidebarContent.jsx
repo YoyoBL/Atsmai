@@ -52,7 +52,7 @@ const SidebarContent = async ({ lang }) => {
                <li>
                   <div className="avatar">
                      <div className="h-20 rounded-full">
-                        <img src={avatar} />
+                        <img src={avatar} alt="Profile image" />
                      </div>
                   </div>
                </li>

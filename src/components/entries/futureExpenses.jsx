@@ -5,9 +5,9 @@ import { useState } from "react";
 import FutureExpenseCard from "./futureExpenseCard";
 
 const FutureExpenses = ({ recurring = [] }) => {
-   if (!recurring.length) return;
-
    const [flip, setFlip] = useState(false);
+
+   if (!recurring.length) return;
 
    function handleFlip() {
       setFlip((flip) => !flip);

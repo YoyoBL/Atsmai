@@ -27,7 +27,7 @@ const NewEntryForm = () => {
    useEffect(() => {
       if (!isEdit) return;
       getEntry();
-   }, []);
+   }, [isEdit]);
 
    async function getEntry() {
       const id = getQueryByName("edit");

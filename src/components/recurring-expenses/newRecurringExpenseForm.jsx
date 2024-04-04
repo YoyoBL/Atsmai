@@ -20,7 +20,7 @@ const NewRecurringExpense = () => {
       if (!isEdit) return;
       const id = getQueryByName("modal");
       fetchRecurringExpense(id);
-   }, []);
+   }, [isEdit]);
 
    const inputFields = [
       { key: "title", title: "Title", inputType: "text", defaultValue: "" },

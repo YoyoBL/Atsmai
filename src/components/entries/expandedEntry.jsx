@@ -13,8 +13,6 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const ExpandedEntry = ({ entry }) => {
-   if (!entry?._id) return null;
-
    const router = useRouter();
    const { lang } = useParams();
 
@@ -28,6 +26,8 @@ const ExpandedEntry = ({ entry }) => {
       if (!showLast3) return;
       fetchLast3();
    }, [showLast3]);
+
+   if (!entry?._id) return null;
 
    async function handleEdit() {
       const res = await deleteEntry(entry);
