@@ -15,7 +15,7 @@ const MenuLink = ({ link }) => {
             href={`/${lang}/${link.href}`}
             className={cn(
                "flex gap-3 p-3 hover:bg-base-300 rounded-xl",
-               isCurrentPath && "bg-base-100 text-black dark:text-white"
+               isCurrentPath && "bg-base-100 font-bold"
             )}
          >
             {link.icon}

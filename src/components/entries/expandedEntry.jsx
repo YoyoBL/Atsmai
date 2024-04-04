@@ -38,6 +38,8 @@ const ExpandedEntry = ({ entry }) => {
 
    async function fetchLast3() {
       const entries = await fetchThreeLast(entry);
+      if (!entries) return setData([]);
+      console.log("here");
       setData({
          labels: entries.map((entry) => formatDate(entry.date, "dd/MM")),
          datasets: [
@@ -58,10 +60,10 @@ const ExpandedEntry = ({ entry }) => {
             <div> {category}</div>
             <div className="text-3xl ">{amount}</div>
             <div> {date}</div>
-            <div className="divider w-full text-xs text-base-content">
+            {/* <div className="divider w-full text-xs text-base-content">
                Notes
             </div>
-            <div className="">Some Notes</div>
+            <div className="">Some Notes</div> */}
          </div>
 
          {/* Collapse */}
@@ -79,8 +81,11 @@ const ExpandedEntry = ({ entry }) => {
             <div className="card">
                <div className="card-body">
                   <div className="divider text-lg">Last 3</div>
-
-                  <Bar data={data} />
+                  {data.length ? (
+                     <Bar data={data} />
+                  ) : (
+                     <div className="text-center">No data Found.</div>
+                  )}
                </div>
             </div>
          )}

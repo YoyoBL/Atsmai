@@ -2,6 +2,7 @@ import {
    ArrowPathIcon,
    ArrowsUpDownIcon,
    BriefcaseIcon,
+   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import { getServerSession } from "next-auth";
 import SignOutBtn from "./signOutBtn";
@@ -27,6 +28,11 @@ const SidebarContent = async ({ lang }) => {
          title: "Recurring expenses",
          href: "recurring-expenses",
          icon: <ArrowPathIcon className="h-5 w-5" />,
+      },
+      {
+         title: "Search Entries",
+         href: "search",
+         icon: <MagnifyingGlassIcon className="h-5 w-5" />,
       },
       {
          title: "Projects",

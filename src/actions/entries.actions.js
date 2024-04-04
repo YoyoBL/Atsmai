@@ -2,11 +2,9 @@
 
 import Income from "../models/income.model";
 import Expense from "../models/expense.model";
-import { cookies } from "next/headers";
 import dbConnect, { serialize } from "../lib/mongoDbConnect";
 import { getEndOfMonth, getStartOfMonth } from "../lib/dates";
 import { parse } from "date-fns";
-import { COOKIE_THEME_KEY } from "../constants";
 import { revalidatePath } from "next/cache";
 import { getUserId } from "../lib/userTools";
 
@@ -200,5 +198,32 @@ export async function deleteEntry(entry) {
    } catch (error) {
       console.log(error);
       return { ok: false, data: error };
+   }
+}
+
+export async function searchEntries(entryType, searchValue) {
+   const searchByType = {
+      incomes: async (id) =>
+         await Income.find({
+            userId: id,
+            category: { $regex: searchValue, $options: "i" },
+         }),
+      expenses: async (id) =>
+         await Expense.find({
+            userId: id,
+            category: { $regex: searchValue, $options: "i" },
+         }),
+   };
+
+   try {
+      await dbConnect();
+      const userId = await getUserId();
+      const res = await searchByType[entryType](userId);
+      if (!res.length) return { ok: true, data: ["Nothing Found"] };
+      const data = serialize(res);
+      return { ok: true, data };
+   } catch (error) {
+      console.log(error);
+      return { ok: true, data: error.message };
    }
 }
