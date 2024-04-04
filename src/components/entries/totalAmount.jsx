@@ -1,7 +1,7 @@
 import Link from "next/link";
 import TaxCard from "./taxCard";
-import { getTheme } from "@/actions";
 import cn from "@/lib/tailwindMerge";
+import { getTheme } from "@/actions/theme.actions";
 
 const TotalAmount = async ({ entries = [], date = "", entriesType = "" }) => {
    const theme = (await getTheme()) || "dark";

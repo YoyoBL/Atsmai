@@ -1,5 +1,4 @@
 import AddNewEntryBtn from "../new-entry/newEntryBtn";
-import { getTheme } from "@/actions";
 
 import Navbar from "./navbar";
 import BottomNavbar from "./bottomNavbar";

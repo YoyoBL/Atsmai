@@ -1,4 +1,4 @@
-import { signIn } from "@/actions/users.action";
+import { signIn } from "@/actions/users.actions";
 import NextAuth, { getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 

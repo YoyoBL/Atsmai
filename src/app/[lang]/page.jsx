@@ -1,4 +1,4 @@
-import { fetchEntries } from "@/actions";
+import { fetchEntries } from "@/actions/entries.actions";
 import EntryCard from "@/components/entries/entryCard";
 import Modal from "@/components/common/modal";
 import MonthsPicker from "@/components/entries/monthsPicker";
@@ -6,7 +6,7 @@ import TotalAmount from "@/components/entries/totalAmount";
 import { getDictionary } from "@/lib/dictionary";
 import { redirect } from "next/navigation";
 import ExpandedEntry from "@/components/entries/expandedEntry";
-import { getRecurringExpenses } from "@/actions/recurringExpense.action";
+import { getRecurringExpenses } from "@/actions/recurringExpense.actions";
 import FutureExpenses from "@/components/entries/futureExpenses";
 import {
    addDays,

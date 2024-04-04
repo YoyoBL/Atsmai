@@ -3,9 +3,9 @@ import "./globals.css";
 import { i18n } from "@/i18n.config";
 import SideBar from "@/components/navs/sidebar";
 import cn from "@/lib/tailwindMerge";
-import { getTheme } from "@/actions";
 import { getServerSession } from "next-auth";
 import { Providers } from "@/contexts/providers";
+import { getTheme } from "@/actions/theme.actions";
 
 const inter = Inter({ subsets: ["latin"] });
 

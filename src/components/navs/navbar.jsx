@@ -1,7 +1,7 @@
-import { getTheme } from "@/actions";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import LocaleSwitcher from "../localeSwitcher";
 import ThemeSwitcher from "../themeSwitcher";
+import { getTheme } from "@/actions/theme.actions";
 
 const Navbar = async () => {
    const theme = (await getTheme()) || "dark";

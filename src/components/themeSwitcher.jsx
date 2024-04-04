@@ -1,6 +1,6 @@
 "use client";
 
-import { switchThemeOnCookie } from "@/actions";
+import { switchThemeOnCookie } from "@/actions/theme.actions";
 import { useState } from "react";
 
 const ThemeSwitcher = ({ sessionTheme }) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteRecurringExpense } from "@/actions/recurringExpense.action";
+import { deleteRecurringExpense } from "@/actions/recurringExpense.actions";
 import useQueryParams from "@/hooks/useQueryParams";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";

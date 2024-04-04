@@ -1,6 +1,10 @@
 "use client";
 
-import { AddNewEntry, editEntry, fetchEntryById } from "@/actions";
+import {
+   AddNewEntry,
+   editEntry,
+   fetchEntryById,
+} from "@/actions/entries.actions";
 import EntryDatesPicker from "@/components/new-entry/entryDatesPicker";
 import { getToday } from "@/lib/dates";
 import cn from "@/lib/tailwindMerge";

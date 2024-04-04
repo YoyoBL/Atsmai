@@ -1,4 +1,4 @@
-import { getRecurringExpenses } from "@/actions/recurringExpense.action";
+import { getRecurringExpenses } from "@/actions/recurringExpense.actions";
 import ConfirmModal from "@/components/common/confirmModal";
 import NewRecurringExpenseBtn from "@/components/recurring-expenses/newRecurringExpenseBtn";
 import RecurringExpenseCard from "@/components/recurring-expenses/recurringExpenseCard";

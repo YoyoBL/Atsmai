@@ -1,18 +1,14 @@
 "use server";
 
-import Income from "./models/income.model";
-import Expense from "./models/expense.model";
+import Income from "../models/income.model";
+import Expense from "../models/expense.model";
 import { cookies } from "next/headers";
-import dbConnect from "./lib/mongoDbConnect";
-import { getEndOfMonth, getStartOfMonth } from "./lib/dates";
+import dbConnect, { serialize } from "../lib/mongoDbConnect";
+import { getEndOfMonth, getStartOfMonth } from "../lib/dates";
 import { parse } from "date-fns";
-import { COOKIE_THEME_KEY } from "./constants";
+import { COOKIE_THEME_KEY } from "../constants";
 import { revalidatePath } from "next/cache";
-import { getUserId } from "./lib/userTools";
-
-function serialize(obj) {
-   return JSON.parse(JSON.stringify(obj));
-}
+import { getUserId } from "../lib/userTools";
 
 export async function AddNewEntry(entry) {
    const userId = await getUserId();
@@ -205,18 +201,4 @@ export async function deleteEntry(entry) {
       console.log(error);
       return { ok: false, data: error };
    }
-}
-
-// Theme_________________________________________________________________
-
-export async function switchThemeOnCookie(theme) {
-   const cookiesStore = cookies();
-   cookiesStore.set(COOKIE_THEME_KEY, theme);
-   return { status: "ok" };
-}
-
-export async function getTheme() {
-   const cookiesStore = cookies();
-   const theme = cookiesStore.get(COOKIE_THEME_KEY);
-   return theme?.value;
 }

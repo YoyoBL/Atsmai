@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteEntry, fetchThreeLast } from "@/actions";
+import { deleteEntry, fetchThreeLast } from "@/actions/entries.actions";
 import { formatDate } from "@/lib/dates";
 import { Bar } from "@/lib/imports";
 import {

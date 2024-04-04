@@ -4,7 +4,7 @@ import {
    addNewRecurringExpense,
    editRecurringExpense,
    fetchRecurringExpenseById,
-} from "@/actions/recurringExpense.action";
+} from "@/actions/recurringExpense.actions";
 import useQueryParams from "@/hooks/useQueryParams";
 import { formatDate } from "@/lib/dates";
 import { YupNewRecurringSchema } from "@/lib/yupSchemas";

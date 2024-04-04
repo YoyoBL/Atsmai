@@ -1,6 +1,6 @@
 "use client";
 
-import { addNewUser } from "@/actions/users.action";
+import { addNewUser } from "@/actions/users.actions";
 import { YupRegisterSchema } from "@/lib/yupSchemas";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { useFormik } from "formik";

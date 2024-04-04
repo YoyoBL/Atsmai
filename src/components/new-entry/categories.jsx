@@ -1,6 +1,6 @@
 "use client";
 
-import { fetchCategories } from "@/actions";
+import { fetchCategories } from "@/actions/entries.actions";
 import { useEffect, useState } from "react";
 import RadioBtn from "../common/radioBtn";
 
