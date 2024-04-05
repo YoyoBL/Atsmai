@@ -9,6 +9,8 @@ export function getToday() {
 }
 
 export function formatDate(date, template) {
+   if (!date) return "Invalid Date";
+   if (!(date instanceof Date)) date = new Date(date);
    const formatted = format(date, template);
    return formatted;
 }

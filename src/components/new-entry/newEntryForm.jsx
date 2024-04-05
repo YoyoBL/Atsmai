@@ -6,7 +6,7 @@ import {
    fetchEntryById,
 } from "@/actions/entries.actions";
 import EntryDatesPicker from "@/components/new-entry/entryDatesPicker";
-import { getToday } from "@/lib/dates";
+import { getToday, formatDate } from "@/lib/dates";
 import cn from "@/lib/tailwindMerge";
 
 import { YupNewEntrySchema } from "@/lib/yupSchemas";
@@ -22,6 +22,7 @@ const NewEntryForm = () => {
    const { lang } = useParams();
 
    const { getQueryByName } = useQueryParams();
+
    const isEdit = getQueryByName("edit");
 
    useEffect(() => {
@@ -55,6 +56,13 @@ const NewEntryForm = () => {
             let res;
             if (!isEdit) {
                res = await AddNewEntry(parsedValues);
+               if (!res.ok) return res.data;
+
+               const entriesType =
+                  values.entryType === "income" ? "incomes" : "expenses";
+               const month = formatDate(values.date, "MM-yy");
+               const path = `/${lang}/?entriesType=${entriesType}&month=${month}`;
+               router.replace(path);
             }
             if (isEdit) {
                const oldEntryData = {
@@ -62,12 +70,9 @@ const NewEntryForm = () => {
                   entryType: getQueryByName("entryType"),
                };
                res = await editEntry(oldEntryData, parsedValues);
+               if (!res.ok) return res.data;
+               router.back();
             }
-            console.log(res);
-            if (!res.ok) return res.data;
-
-            router.back();
-            router.refresh();
          } catch (error) {
             console.log(error);
          }
@@ -76,10 +81,6 @@ const NewEntryForm = () => {
    });
 
    const color = formik.values.entryType === "income" ? "primary" : "secondary";
-   const loadTwColors = {
-      primary: "bg-primary input-primary btn-primary",
-      secondary: "bg-secondary input-secondary btn-secondary",
-   };
 
    return (
       <form onSubmit={formik.handleSubmit}>
