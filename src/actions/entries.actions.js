@@ -187,12 +187,13 @@ export async function deleteEntry(entry) {
    let deletedEntry;
    try {
       await dbConnect();
-      if (entryType === "income") {
+      if (entryType.startsWith("income")) {
          deletedEntry = await Income.findByIdAndDelete(id);
       }
-      if (entryType === "expense") {
+      if (entryType.startsWith("expense")) {
          deletedEntry = await Expense.findByIdAndDelete(id);
       }
+      if (!deleteEntry.length) throw new Error("Entry to delete not found.");
       revalidatePath("/");
       return { ok: true, data: serialize(deletedEntry) };
    } catch (error) {

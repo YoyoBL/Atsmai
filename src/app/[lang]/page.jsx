@@ -17,6 +17,7 @@ import {
    parse,
    startOfMonth,
 } from "date-fns";
+import ConfirmModal from "@/components/common/confirmModal";
 
 export default async function Home({ params: { lang }, searchParams }) {
    const { entriesPage, months } = await getDictionary(lang);
@@ -93,11 +94,12 @@ export default async function Home({ params: { lang }, searchParams }) {
                   <div className="absolute bottom-0 left-0  w-full h-5 bg-gradient-to-t from-black opacity-10 pointer-events-none"></div>
                </div>
                {/* Modal */}
-               {
-                  <Modal>
-                     <ExpandedEntry entry={getExpandedEntry()} />
-                  </Modal>
-               }
+
+               <Modal>
+                  <ExpandedEntry entry={getExpandedEntry()} />
+               </Modal>
+
+               <ConfirmModal confirmBtn="Delete" message="Delete this entry?" />
             </div>
          </div>
       </section>

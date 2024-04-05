@@ -16,7 +16,11 @@ import { useEffect, useState } from "react";
 const ExpandedEntry = ({ entry }) => {
    const router = useRouter();
    const { lang } = useParams();
-   const { getQueryByName } = useQueryParams();
+   const { getPathWithNewParam, getQueryByName } = useQueryParams();
+
+   const confirmed = getQueryByName("confirm");
+   const entryType = getQueryByName("entriesType");
+   const month = getQueryByName("month");
 
    const [showLast3, setShowLast3] = useState(false);
    const [data, setData] = useState({
@@ -29,13 +33,33 @@ const ExpandedEntry = ({ entry }) => {
       fetchLast3();
    }, [showLast3]);
 
+   useEffect(() => {
+      if (!confirmed) return;
+      if (confirmed.startsWith("confirmed")) {
+         (async () => {
+            try {
+               entry.entryType = entryType;
+               console.log(entry);
+               const res = await deleteEntry(entry);
+               if (!res.ok) return console.log(res.data);
+               const redirectPath = `/${lang}/?entriesType=${entryType}&month=${month}`;
+               router.replace(redirectPath);
+            } catch (error) {
+               console.log(error.message);
+            }
+         })();
+      }
+   }, [confirmed, lang, router]);
+
    if (!entry?._id) return null;
 
-   async function handleEdit() {
-      const res = await deleteEntry(entry);
-      if (!res.ok) return console.log("Error", res.data);
+   async function handleDelete() {
+      const confirmPath = getPathWithNewParam("confirm", entry._id);
+      router.push(confirmPath);
+      // const res = await deleteEntry(entry);
+      // if (!res.ok) return console.log("Error", res.data);
 
-      router.back();
+      // router.back();
    }
 
    async function fetchLast3() {
@@ -100,7 +124,7 @@ const ExpandedEntry = ({ entry }) => {
                <PencilIcon className="h-6 w-6" />
             </Link>
             <button
-               onClick={handleEdit}
+               onClick={handleDelete}
                className="btn btn-md btn-circle btn-outline btn-neutral"
             >
                <TrashIcon className="h-6 w-6" />
