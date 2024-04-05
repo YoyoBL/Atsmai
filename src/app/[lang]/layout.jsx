@@ -32,7 +32,7 @@ export default async function RootLayout({ children, params }) {
          <body className={cn(inter.className, "bg-base-100 min-h-screen ")}>
             <Providers session={session}>
                <SideBar lang={params.lang} sessionTheme={theme}>
-                  <main className="sm:p-5 h-screen">{children}</main>
+                  <main className="sm:p-5 h-screen w-full">{children}</main>
                </SideBar>
             </Providers>
          </body>
