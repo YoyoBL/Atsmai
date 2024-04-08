@@ -117,10 +117,12 @@ export async function fetchCategories(type = "incomes") {
 export async function fetchThreeLast(entry) {
    if (!entry) return "No entry provided";
    const { category, entryType } = entry;
+   const userId = await getUserId();
    try {
       await dbConnect();
       if (entryType.startsWith("income")) {
          const lastThreeIncomes = await Income.find({
+            userId,
             category: category,
          })
             .limit(3)
@@ -129,6 +131,7 @@ export async function fetchThreeLast(entry) {
       }
       if (entryType.startsWith("expense")) {
          const lastThreeIncomes = await Expense.find({
+            userId,
             category: category,
          })
             .limit(3)
