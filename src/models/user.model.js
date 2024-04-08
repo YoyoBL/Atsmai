@@ -2,9 +2,9 @@ import mongoose, { Schema } from "mongoose";
 import "server-only";
 
 const userSchema = new Schema({
-   firstName: { type: String, minLength: 2, unique: true, required: true },
+   firstName: { type: String, minLength: 2, required: true },
    lastName: { type: String, minLength: 2, required: true },
-   email: { type: String, required: true },
+   email: { type: String, required: true, unique: true },
    password: {
       type: String,
       required: true,
