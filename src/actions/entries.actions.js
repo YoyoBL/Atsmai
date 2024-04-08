@@ -22,7 +22,7 @@ export async function AddNewEntry(entry) {
          savedEntry = await newEntry.save();
       }
       savedEntry = serialize(savedEntry);
-
+      revalidatePath("/[lang]/", "page");
       return { ok: true, data: savedEntry };
    } catch (error) {
       console.log(error);
@@ -171,7 +171,7 @@ export async function editEntry(entry, updatedEntry) {
                new: true,
             });
          }
-         revalidatePath("/");
+         revalidatePath("/[lang]/", "page");
 
          return { ok: true, data: serialize(data) };
       }
@@ -194,7 +194,7 @@ export async function deleteEntry(entry) {
          deletedEntry = await Expense.findByIdAndDelete(id);
       }
       if (!deleteEntry.length) throw new Error("Entry to delete not found.");
-      revalidatePath("/");
+      revalidatePath("/[lang]/", "page");
       return { ok: true, data: serialize(deletedEntry) };
    } catch (error) {
       console.log(error);
