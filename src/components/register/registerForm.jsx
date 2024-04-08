@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useParams } from "next/navigation";
+import toast from "react-hot-toast";
 
 const RegisterForm = () => {
    const [serverError, setServerError] = useState(null);
@@ -26,7 +27,7 @@ const RegisterForm = () => {
          const parsedValues = await YupRegisterSchema().validate(values);
          const res = await addNewUser(parsedValues);
          if (!res.ok) return setServerError(res.data);
-         //Add confirmation toast
+         toast.success("Account created, Please sign in");
          signIn(undefined, { callbackUrl: `/${lang}/` });
       },
       validationSchema: YupRegisterSchema(),

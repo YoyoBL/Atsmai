@@ -16,11 +16,11 @@ const RecurringExpensesPage = async ({
          e.title.toLowerCase().startsWith(search.toLowerCase())
       );
    return (
-      <section className="w-full overflow-auto p-3">
-         <h1 className="text-lg m-4 mb-5">Recurring Expenses</h1>
+      <section className="w-full flex flex-col items-center overflow-auto p-3">
+         <h1 className="text-3xl m-4 mb-5">Recurring Expenses</h1>
          <SearchRecurring />
 
-         <div className="flex flex-wrap sm:justify-normal justify-center items-center gap-3">
+         <div className="flex flex-wrap items-center gap-3">
             <NewRecurringExpenseBtn />
 
             {recurringExpenses.map((recurringExpense) => (

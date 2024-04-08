@@ -1,5 +1,6 @@
 "use client";
 
+import toast from "react-hot-toast";
 import {
    AddNewEntry,
    editEntry,
@@ -62,6 +63,7 @@ const NewEntryForm = () => {
                   values.entryType === "income" ? "incomes" : "expenses";
                const month = formatDate(values.date, "MM-yy");
                const path = `/${lang}/?entriesType=${entriesType}&month=${month}`;
+               toast.success("Entry Created");
                router.replace(path);
             }
             if (isEdit) {
@@ -70,7 +72,11 @@ const NewEntryForm = () => {
                   entryType: getQueryByName("entryType"),
                };
                res = await editEntry(oldEntryData, parsedValues);
-               if (!res.ok) return res.data;
+               res.ok = false;
+               res.data = "Server error";
+               if (!res.ok) return toast.error(`Server error`);
+               toast.success("Entry Edited");
+
                router.back();
             }
          } catch (error) {

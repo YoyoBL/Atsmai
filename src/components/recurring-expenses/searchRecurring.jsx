@@ -28,7 +28,7 @@ const SearchRecurring = () => {
    }
 
    return (
-      <form onSubmit={handleSearch} className="flex gap-2">
+      <form onSubmit={handleSearch} className="flex gap-2 max-w-sm">
          <label className="mb-3 input input-bordered flex flex-1 justify-between items-center gap-2">
             <input
                type="text"

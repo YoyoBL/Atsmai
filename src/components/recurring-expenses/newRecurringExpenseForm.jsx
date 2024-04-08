@@ -1,5 +1,7 @@
 "use client";
 
+import toast from "react-hot-toast";
+
 import {
    addNewRecurringExpense,
    editRecurringExpense,
@@ -67,7 +69,8 @@ const NewRecurringExpense = () => {
                const id = getQueryByName("modal");
                res = await editRecurringExpense(parsedValues, id);
             }
-            if (!res.ok) return console.log(res.data);
+            if (!res.ok) return toast.error("Server error, Try again later");
+            toast.success("Success");
             router.replace(`/${params.lang}/recurring-expenses`);
          } catch (error) {
             console.log(error);
