@@ -161,6 +161,7 @@ export async function editEntry(entry, updatedEntry) {
                new: true,
             });
          }
+         revalidatePath("/[lang]/", "page");
          return { ok: true, data: serialize(data) };
       }
       if (entryType === "expense") {
