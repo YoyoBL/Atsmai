@@ -1,6 +1,6 @@
 const Profile = () => {
    return (
-      <section className="min-h-full p-3 grid place-items-center">
+      <section className="min-h-full p-3 grid place-items-center overflow-auto">
          <div className="card bg-base-200 w-full ">
             <div className="card-body justify-center text-center">
                <div className="card-title justify-center">Username</div>

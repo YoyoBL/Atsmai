@@ -7,7 +7,7 @@ export default async function newEntryPage({ params: { lang } }) {
 
    return (
       <section>
-         <div className="card bg-base-200 card-compact w-96">
+         <div className="card bg-base-200 card-compact w-96 overflow-auto">
             <div className="card-body">
                <div className="card-title">
                   <BackBtn />

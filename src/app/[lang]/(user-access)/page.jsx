@@ -65,8 +65,8 @@ export default async function EntriesPage({ params: { lang }, searchParams }) {
       isExpensesPage && !!recurringExpenses.length && !isPast;
 
    return (
-      <section className="h-full">
-         <div className="card bg-base-200 card-compact md:w-96 max-h-full">
+      <section className="h-full w-full flex justify-center">
+         <div className="card bg-base-200 card-compact md:w-96 max-h-full w-full">
             <div className="card-body overflow-hidden">
                <div className="card-title">{entriesPage.header}</div>
 

@@ -8,8 +8,8 @@ const RecurringExpensesPage = async ({ params: { lang } }) => {
    if (!res.ok) throw new Error(res.data);
    const recurringExpenses = res.data;
    return (
-      <section>
-         <h1 className="text-lg m-4 mb-5">Recurring Expenses</h1>
+      <section className="overflow-auto">
+         {/* <h1 className="text-lg m-4 mb-5">Recurring Expenses</h1>
 
          <div className="flex flex-wrap sm:justify-normal justify-center items-center gap-3">
             <NewRecurringExpenseBtn />
@@ -21,7 +21,7 @@ const RecurringExpensesPage = async ({ params: { lang } }) => {
                />
             ))}
          </div>
-         <ConfirmModal />
+         <ConfirmModal /> */}
       </section>
    );
 };

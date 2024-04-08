@@ -3,7 +3,7 @@ import SignInBtn from "@/components/navs/signInBtn";
 
 const About = () => {
    return (
-      <section className="grid justify-items-center w-full h-full">
+      <section className="grid justify-items-center w-full overflow-auto">
          <div className="card bg-base-200">
             <div className="card-body">
                <h1 className="card-title text-3xl justify-center">About</h1>
@@ -32,7 +32,13 @@ const About = () => {
                      </h2>
                      <ul style={{ listStyleType: "initial" }}>
                         <h3 className="text-lg">Key features</h3>
-                        <li>Add incomes and expenses</li>
+                        <li>Light and Dark themes</li>
+
+                        <li>Hebrew and english language support</li>
+
+                        <li>
+                           Add incomes and expenses with the cross page + button
+                        </li>
                         <li>
                            A list of all of youre entries, sorted by month, with
                            the total of each month conveniently displayed on top

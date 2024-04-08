@@ -15,7 +15,6 @@ const SearchResults = async ({
    const res = await searchEntries(entryType, searchValue);
    if (!res.ok) serverError = res.data;
    const searchResults = res.data;
-   console.log("hello", searchResults);
 
    function getExpandedEntry() {
       const entryId = searchParams?.modal;
@@ -34,7 +33,7 @@ const SearchResults = async ({
       </div>
    ) : (
       <>
-         <div className="space-y-2 bg-base-300 rounded-xl p-3">
+         <div className="overflow-auto space-y-2 bg-base-300 rounded-xl p-3">
             {searchResults[0] === "Nothing Found" ? (
                <div>{searchResults}</div>
             ) : (
