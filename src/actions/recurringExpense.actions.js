@@ -9,9 +9,9 @@ import { addDays, addMonths, isAfter, startOfToday } from "date-fns";
 import { revalidatePath } from "next/cache";
 
 export async function getRecurringExpenses() {
+   const userId = await getUserId();
    try {
       await dbConnect();
-      const userId = await getUserId();
 
       const recurringExpensesPromise = RecurringExpense.find({ userId }).sort({
          nextOccurrence: 1,

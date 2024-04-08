@@ -5,11 +5,11 @@ import RecurringExpenseCard from "@/components/recurring-expenses/recurringExpen
 
 const RecurringExpensesPage = async ({ params: { lang } }) => {
    const res = await getRecurringExpenses();
-   if (!res.ok) throw new Error(res.data);
+   if (!res.ok) return <div>Server error, please try again later</div>;
    const recurringExpenses = res.data;
    return (
       <section className="overflow-auto">
-         {/* <h1 className="text-lg m-4 mb-5">Recurring Expenses</h1>
+         <h1 className="text-lg m-4 mb-5">Recurring Expenses</h1>
 
          <div className="flex flex-wrap sm:justify-normal justify-center items-center gap-3">
             <NewRecurringExpenseBtn />
@@ -21,7 +21,7 @@ const RecurringExpensesPage = async ({ params: { lang } }) => {
                />
             ))}
          </div>
-         <ConfirmModal /> */}
+         <ConfirmModal />
       </section>
    );
 };

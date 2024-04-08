@@ -14,7 +14,7 @@ const About = () => {
                      </h2>
                      Atsmai is an income and expenses manager. Atsmai is
                      intended for the small businesses to give you control over
-                     you're cash traffic. No more second guessing, know exactly
+                     youre cash traffic. No more second guessing, know exactly
                      what to expect and where do you stand.
                   </li>
                   <li>
