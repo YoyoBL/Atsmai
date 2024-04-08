@@ -10,7 +10,7 @@ export async function addNewUser(values) {
    try {
       await dbConnect();
       // check if user exists
-      const email = values.toLowerCase();
+      const email = values.email.toLowerCase();
       const exists = await User.findOne({ email });
 
       if (exists) throw new Error("Email already registered.");
@@ -34,7 +34,6 @@ export async function addNewUser(values) {
 export async function signIn(credentials) {
    try {
       await dbConnect();
-
       const user = await User.findOne({
          email: credentials.email.toLowerCase(),
       });
