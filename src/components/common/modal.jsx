@@ -10,7 +10,7 @@ const Modal = ({ children }) => {
    return (
       isOpen && (
          <dialog className="modal modal-open">
-            <div className="modal-box max-w-72">{children}</div>
+            <div className="modal-box">{children}</div>
             {/* close modal on outside click */}
             <span onClick={router.back} className="modal-backdrop"></span>
          </dialog>

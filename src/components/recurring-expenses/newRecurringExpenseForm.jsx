@@ -92,7 +92,7 @@ const NewRecurringExpense = () => {
    }
 
    return (
-      <section>
+      <section className="max-w-72 mx-auto">
          <form onSubmit={form.handleSubmit} className="space-y-3">
             {inputFields.map((field) => (
                <label key={field.title} className="form-control w-full">

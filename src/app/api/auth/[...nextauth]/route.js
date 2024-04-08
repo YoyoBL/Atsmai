@@ -19,7 +19,11 @@ const authOptions = {
                label: "Email",
                type: "email",
             },
-            password: { label: "Password", type: "password" },
+            password: {
+               label: "Password",
+               type: "password",
+               autoComplete: "current-password",
+            },
          },
          async authorize(credentials, req) {
             // Add logic here to look up the user from the credentials supplied

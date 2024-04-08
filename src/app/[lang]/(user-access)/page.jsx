@@ -66,7 +66,7 @@ export default async function EntriesPage({ params: { lang }, searchParams }) {
 
    return (
       <section className="h-full w-full flex justify-center">
-         <div className="card bg-base-200 card-compact md:w-96 max-h-full w-full">
+         <div className="card bg-base-200 card-compact md:w-96 w-full h-fit max-h-full">
             <div className="card-body overflow-hidden">
                <div className="card-title">{entriesPage.header}</div>
 
