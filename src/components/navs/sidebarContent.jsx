@@ -3,6 +3,9 @@ import {
    ArrowsUpDownIcon,
    BriefcaseIcon,
    MagnifyingGlassIcon,
+   InformationCircleIcon,
+   EnvelopeIcon,
+   HomeIcon,
 } from "@heroicons/react/24/outline";
 import { getServerSession } from "next-auth";
 import SignOutBtn from "./signOutBtn";
@@ -18,7 +21,7 @@ const SidebarContent = async ({ lang }) => {
       user?.image ||
       "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png";
 
-   const links = [
+   const protectedLinks = [
       {
          title: "Entries",
          href: "",
@@ -34,10 +37,38 @@ const SidebarContent = async ({ lang }) => {
          href: "search",
          icon: <MagnifyingGlassIcon className="h-5 w-5" />,
       },
+      // {
+      //    title: "Projects",
+      //    href: "/",
+      //    icon: <BriefcaseIcon className="h-5 w-5" />,
+      // },
       {
-         title: "Projects",
-         href: "/",
-         icon: <BriefcaseIcon className="h-5 w-5" />,
+         title: "About",
+         href: "/about",
+         icon: <InformationCircleIcon className="h-5 w-5" />,
+      },
+      {
+         title: "Contact",
+         href: "/contact",
+         icon: <EnvelopeIcon className="h-5 w-5" />,
+      },
+   ];
+
+   const publicLinks = [
+      {
+         title: "Welcome",
+         href: "/welcome",
+         icon: <HomeIcon className="h-5 w-5" />,
+      },
+      {
+         title: "About",
+         href: "/about",
+         icon: <InformationCircleIcon className="h-5 w-5" />,
+      },
+      {
+         title: "Contact",
+         href: "/contact",
+         icon: <EnvelopeIcon className="h-5 w-5" />,
       },
    ];
 
@@ -45,11 +76,14 @@ const SidebarContent = async ({ lang }) => {
       <div className="flex flex-col gap-3 p-4 w-80 min-h-full bg-base-200 text-base-content">
          {/* Sidebar content here */}
          {/* <Header lang={params.lang} /> */}
-
          <ul>
-            {links.map((link) => (
-               <MenuLink key={link.title} link={link} />
-            ))}
+            {session
+               ? protectedLinks.map((link) => (
+                    <MenuLink key={link.title} link={link} />
+                 ))
+               : publicLinks.map((link) => (
+                    <MenuLink key={link.title} link={link} />
+                 ))}
          </ul>
          <ul className="mt-auto space-y-3 grid place-items-center ">
             <div className="divider w-full"></div>
