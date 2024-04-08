@@ -1,6 +1,6 @@
 const BottomNavbar = () => {
    return (
-      <div className="btm-nav sticky md:hidden">
+      <div className="btm-nav sticky bottom-0 md:hidden">
          <button>
             <svg
                xmlns="http://www.w3.org/2000/svg"

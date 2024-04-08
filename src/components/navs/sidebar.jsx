@@ -6,7 +6,7 @@ import SidebarContent from "./sidebarContent";
 
 export default async function SideBar({ children, lang }) {
    return (
-      <div className="drawer md:drawer-open">
+      <div className="drawer md:drawer-open min-h-screen">
          <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
          <div className="relative drawer-content flex flex-col items-center justify-center">
             {/* Page content here */}

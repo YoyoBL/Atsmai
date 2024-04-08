@@ -19,7 +19,7 @@ import {
 } from "date-fns";
 import ConfirmModal from "@/components/common/confirmModal";
 
-export default async function Home({ params: { lang }, searchParams }) {
+export default async function EntriesPage({ params: { lang }, searchParams }) {
    const { entriesPage, months } = await getDictionary(lang);
 
    const entriesType = searchParams.entriesType;
@@ -66,7 +66,7 @@ export default async function Home({ params: { lang }, searchParams }) {
 
    return (
       <section className="h-full">
-         <div className="card bg-base-200 card-compact w-96 max-h-full">
+         <div className="card bg-base-200 card-compact md:w-96 max-h-full">
             <div className="card-body overflow-hidden">
                <div className="card-title">{entriesPage.header}</div>
 
