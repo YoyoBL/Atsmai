@@ -12,6 +12,59 @@ import SignOutBtn from "./signOutBtn";
 import SignInBtn from "./signInBtn";
 import RegisterBtn from "./registerBtn";
 import MenuLink from "./menuLink";
+import { format } from "date-fns";
+
+const currentDate = format(new Date(), "MM-yy");
+const protectedLinks = [
+   {
+      title: "Entries",
+      href: `?entryType=incomes&month=${currentDate}`,
+      icon: <ArrowsUpDownIcon className="h-5 w-5" />,
+   },
+   {
+      title: "Recurring expenses",
+      href: "recurring-expenses",
+      icon: <ArrowPathIcon className="h-5 w-5" />,
+   },
+   {
+      title: "Search Entries",
+      href: "search?entriesType=entries",
+      icon: <MagnifyingGlassIcon className="h-5 w-5" />,
+   },
+   // {
+   //    title: "Projects",
+   //    href: "/",
+   //    icon: <BriefcaseIcon className="h-5 w-5" />,
+   // },
+   {
+      title: "About",
+      href: "/about",
+      icon: <InformationCircleIcon className="h-5 w-5" />,
+   },
+   {
+      title: "Contact",
+      href: "/contact",
+      icon: <EnvelopeIcon className="h-5 w-5" />,
+   },
+];
+
+const publicLinks = [
+   {
+      title: "Welcome",
+      href: "/welcome",
+      icon: <HomeIcon className="h-5 w-5" />,
+   },
+   {
+      title: "About",
+      href: "/about",
+      icon: <InformationCircleIcon className="h-5 w-5" />,
+   },
+   {
+      title: "Contact",
+      href: "/contact",
+      icon: <EnvelopeIcon className="h-5 w-5" />,
+   },
+];
 
 const SidebarContent = async ({ lang }) => {
    const session = await getServerSession();
@@ -20,57 +73,6 @@ const SidebarContent = async ({ lang }) => {
    const avatar =
       user?.image ||
       "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png";
-
-   const protectedLinks = [
-      {
-         title: "Entries",
-         href: "",
-         icon: <ArrowsUpDownIcon className="h-5 w-5" />,
-      },
-      {
-         title: "Recurring expenses",
-         href: "recurring-expenses",
-         icon: <ArrowPathIcon className="h-5 w-5" />,
-      },
-      {
-         title: "Search Entries",
-         href: "search",
-         icon: <MagnifyingGlassIcon className="h-5 w-5" />,
-      },
-      // {
-      //    title: "Projects",
-      //    href: "/",
-      //    icon: <BriefcaseIcon className="h-5 w-5" />,
-      // },
-      {
-         title: "About",
-         href: "/about",
-         icon: <InformationCircleIcon className="h-5 w-5" />,
-      },
-      {
-         title: "Contact",
-         href: "/contact",
-         icon: <EnvelopeIcon className="h-5 w-5" />,
-      },
-   ];
-
-   const publicLinks = [
-      {
-         title: "Welcome",
-         href: "/welcome",
-         icon: <HomeIcon className="h-5 w-5" />,
-      },
-      {
-         title: "About",
-         href: "/about",
-         icon: <InformationCircleIcon className="h-5 w-5" />,
-      },
-      {
-         title: "Contact",
-         href: "/contact",
-         icon: <EnvelopeIcon className="h-5 w-5" />,
-      },
-   ];
 
    return (
       <div className="flex flex-col gap-3 p-4 w-80 min-h-full bg-base-200 text-base-content">
