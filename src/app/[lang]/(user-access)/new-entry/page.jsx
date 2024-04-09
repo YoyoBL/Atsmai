@@ -3,7 +3,8 @@ import NewEntryForm from "@/components/new-entry/newEntryForm";
 import { getDictionary } from "@/lib/dictionary";
 
 export default async function newEntryPage({ params: { lang } }) {
-   const { page } = await getDictionary(lang);
+   const { newEntry, common } = await getDictionary(lang);
+   const text = { ...common, ...newEntry };
 
    return (
       <section>
@@ -11,9 +12,9 @@ export default async function newEntryPage({ params: { lang } }) {
             <div className="card-body">
                <div className="card-title">
                   <BackBtn />
-                  New Entry
+                  {newEntry.title}
                </div>
-               <NewEntryForm />
+               <NewEntryForm text={text} />
             </div>
          </div>
       </section>

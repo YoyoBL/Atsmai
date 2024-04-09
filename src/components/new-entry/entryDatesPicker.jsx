@@ -5,13 +5,18 @@ import cn from "@/lib/tailwindMerge";
 
 const EntryDatesPicker = ({
    handleDate = () => {},
-   state = "",
-   color = "primary",
+   form = "",
+   color = "",
+   text = {},
 }) => {
+   const colorCondition = form.entryType === "income";
+   const selectedDate = form.date;
    const isToday =
-      formatDate(state, "yy-MM-dd") === formatDate(getToday(), "yy-MM-dd");
+      formatDate(selectedDate, "yy-MM-dd") ===
+      formatDate(getToday(), "yy-MM-dd");
    const isYesterday =
-      formatDate(state, "yy-MM-dd") === formatDate(getYesterday(), "yy-MM-dd");
+      formatDate(selectedDate, "yy-MM-dd") ===
+      formatDate(getYesterday(), "yy-MM-dd");
    return (
       <div className="flex gap-1">
          {/* today */}
@@ -20,11 +25,15 @@ const EntryDatesPicker = ({
             onClick={() => handleDate(getToday())}
             className={cn(
                "btn",
-               isToday ? `btn-${color} text-white` : "btn-ghost bg-base-100"
+               isToday
+                  ? `${
+                       colorCondition ? "btn-primary" : "btn-secondary"
+                    } text-white`
+                  : "btn-ghost bg-base-100"
             )}
             value={getToday()}
          >
-            Today
+            {text.today}
          </button>
 
          {/* yesterday */}
@@ -33,16 +42,20 @@ const EntryDatesPicker = ({
             onClick={() => handleDate(getYesterday())}
             className={cn(
                "btn",
-               isYesterday ? `btn-${color} text-white` : "btn-ghost bg-base-100"
+               isYesterday
+                  ? `${
+                       colorCondition ? "btn-primary" : "btn-secondary"
+                    } text-white`
+                  : "btn-ghost bg-base-100"
             )}
          >
-            Yesterday
+            {text.yesterday}
          </button>
 
          {/* custom date */}
          <input
             type="date"
-            value={formatDate(state, "yyyy-MM-dd")}
+            value={formatDate(selectedDate, "yyyy-MM-dd")}
             onChange={(e) => handleDate(e.target.value)}
             className={cn(
                "btn",

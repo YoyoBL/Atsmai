@@ -4,7 +4,7 @@ import { fetchCategories } from "@/actions/entries.actions";
 import { useEffect, useState } from "react";
 import RadioBtn from "../common/radioBtn";
 
-const Categories = ({ formik = {}, color = "primary" }) => {
+const Categories = ({ form = {}, color = "primary", text = {} }) => {
    const [categories, setCategories] = useState([]);
    const [isLoading, setIsLoading] = useState(true);
 
@@ -16,23 +16,21 @@ const Categories = ({ formik = {}, color = "primary" }) => {
          setCategories(data);
          setIsLoading(false);
       })();
-   }, [formik.values?.entryType, color]);
+   }, [form.values?.entryType, color]);
 
    return (
       <div className="w-full">
          <label className="form-control ">
             <div className="label">
-               <span className="label-text">Category</span>
+               <span className="label-text">{text.category}</span>
             </div>
             <input
-               {...formik.getFieldProps("category")}
+               {...form.getFieldProps("category")}
                type="text"
-               placeholder="General"
+               placeholder={text.defaultCategory}
                className={`input input-bordered input-${color} w-full`}
                value={
-                  formik.values.category === "general"
-                     ? ""
-                     : formik.values.category
+                  form.values.category === "general" ? "" : form.values.category
                }
             />
          </label>
@@ -45,18 +43,19 @@ const Categories = ({ formik = {}, color = "primary" }) => {
                   categories
                      .filter((category) => {
                         if (
-                           formik.values.category === "general" ||
-                           !formik.values.category
+                           form.values.category === "general" ||
+                           !form.values.category
                         )
                            return category;
-                        return category.includes(formik.values.category);
+                        return category.includes(form.values.category);
                      })
                      .map((category) => (
                         <RadioBtn
                            key={category}
-                           form={formik}
+                           form={form}
                            name="category"
                            aria-label={category}
+                           label={category}
                            value={category}
                            color={color}
                            defaultChecked={category === "general"}

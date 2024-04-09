@@ -1,12 +1,16 @@
 import ContactForm from "@/components/contact/contactForm";
+import { getDictionary } from "@/lib/dictionary";
 
-const Contact = () => {
+const Contact = async ({ params: { lang } }) => {
+   const { contact } = await getDictionary(lang);
    return (
       <section className="grid place-items-center w-full h-full overflow-auto">
          <div className="card bg-base-200">
             <div className="card-body">
-               <div className="card-title text-3xl justify-center">Contact</div>
-               <ContactForm />
+               <div className="card-title text-3xl justify-center">
+                  {contact.title}
+               </div>
+               <ContactForm text={contact} />
             </div>
          </div>
       </section>

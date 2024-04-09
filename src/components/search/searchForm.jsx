@@ -20,8 +20,8 @@ const SearchForm = () => {
    async function handleSubmit(e) {
       e.preventDefault();
       if (searchValue.length <= 1) return;
-
-      const updatedPath = getPathWithNewParam("searchValue", searchValue);
+      const search = searchValue === "כללי" ? "general" : searchValue;
+      const updatedPath = getPathWithNewParam("searchValue", search);
       router.push(updatedPath);
    }
    function handleReset() {

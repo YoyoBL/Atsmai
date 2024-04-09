@@ -9,7 +9,7 @@ import { signIn } from "next-auth/react";
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
 
-const RegisterForm = () => {
+const RegisterForm = ({ text }) => {
    const [serverError, setServerError] = useState(null);
    const { lang } = useParams();
 
@@ -47,7 +47,7 @@ const RegisterForm = () => {
                <input
                   {...formik.getFieldProps("firstName")}
                   type="text"
-                  placeholder="First Name*"
+                  placeholder={text.firstName + "*"}
                   className="input input-bordered focus:input-primary w-full"
                />
                {displayError("firstName") && (
@@ -61,7 +61,7 @@ const RegisterForm = () => {
                <input
                   {...formik.getFieldProps("lastName")}
                   type="text"
-                  placeholder="Last Name*"
+                  placeholder={text.lastName + "*"}
                   className="input input-bordered focus:input-primary w-full"
                />
                {displayError("lastName") && (
@@ -74,7 +74,7 @@ const RegisterForm = () => {
          <input
             {...formik.getFieldProps("email")}
             type="text"
-            placeholder="Email*"
+            placeholder={text.email + "*"}
             className="input input-bordered w-full focus:input-primary"
          />
          {displayError("email") && (
@@ -84,7 +84,7 @@ const RegisterForm = () => {
          <input
             {...formik.getFieldProps("password")}
             type="password"
-            placeholder="Password*"
+            placeholder={text.password + "*"}
             className="input input-bordered w-full focus:input-primary"
          />
          {displayError("password") && (
@@ -98,7 +98,7 @@ const RegisterForm = () => {
                <input
                   {...formik.getFieldProps("country")}
                   type="text"
-                  placeholder="Country*"
+                  placeholder={text.country + "*"}
                   className="input input-bordered focus:input-primary w-full"
                />
                {displayError("country") && (
@@ -112,7 +112,7 @@ const RegisterForm = () => {
                <input
                   {...formik.getFieldProps("city")}
                   type="text"
-                  placeholder="City*"
+                  placeholder={text.city + "*"}
                   className="input input-bordered focus:input-primary w-full"
                />
                {displayError("city") && (
@@ -123,7 +123,7 @@ const RegisterForm = () => {
             </div>
          </div>
          <button type="submit" className="btn btn-primary btn-block">
-            Register
+            {text.title}
          </button>
       </form>
    );

@@ -15,31 +15,17 @@ import { useFormik } from "formik";
 import Categories from "./categories";
 import RadioBtn from "../common/radioBtn";
 import useQueryParams from "@/hooks/useQueryParams";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
-const NewEntryForm = () => {
+const NewEntryForm = ({ text }) => {
    const router = useRouter();
    const { lang } = useParams();
 
    const { getQueryByName } = useQueryParams();
+   const [color, setColor] = useState("primary");
 
    const isEdit = getQueryByName("edit");
-
-   useEffect(() => {
-      if (!isEdit) return;
-      getEntry();
-   }, [isEdit]);
-
-   async function getEntry() {
-      const id = getQueryByName("edit");
-      const entrytype = getQueryByName("entryType");
-      const res = await fetchEntryById(id, entrytype);
-      if (!res.ok) return;
-      const entry = res.data;
-      entry.entryType = entrytype;
-      formik.setValues(entry);
-   }
 
    const formik = useFormik({
       validateOnMount: true,
@@ -86,7 +72,27 @@ const NewEntryForm = () => {
       validationSchema: YupNewEntrySchema(),
    });
 
-   const color = formik.values.entryType === "income" ? "primary" : "secondary";
+   useEffect(() => {
+      if (!isEdit) return;
+      getEntry();
+   }, [isEdit]);
+   useEffect(() => {
+      const updatedColor =
+         formik.values.entryType === "income" ? "primary" : "secondary";
+      setColor(updatedColor);
+   }, [formik.values.entryType]);
+
+   async function getEntry() {
+      const id = getQueryByName("edit");
+      const entrytype = getQueryByName("entryType");
+      const res = await fetchEntryById(id, entrytype);
+      if (!res.ok) return;
+      const entry = res.data;
+      entry.entryType = entrytype;
+      formik.setValues(entry);
+   }
+
+   const colorCondition = formik.values.entryType === "income";
 
    return (
       <form onSubmit={formik.handleSubmit}>
@@ -99,6 +105,7 @@ const NewEntryForm = () => {
                   color={"primary"}
                   name={"entryType"}
                   value={"income"}
+                  label={text.income}
                   className="flex-1"
                   defaultChecked
                />
@@ -107,6 +114,7 @@ const NewEntryForm = () => {
                   color={"secondary"}
                   name={"entryType"}
                   value={"expense"}
+                  label={text.expense}
                   className="flex-1"
                />
             </div>
@@ -115,11 +123,15 @@ const NewEntryForm = () => {
             <input
                {...formik.getFieldProps("amount")}
                type="text"
-               placeholder="Amount*"
-               className={cn(`input input-bordered w-full input-${color}`, {
-                  "input-error placeholder:text-error":
-                     formik.touched.amount && formik.errors.amount,
-               })}
+               placeholder={`${text.amount}*`}
+               className={cn(
+                  `input input-bordered w-full `,
+                  colorCondition ? "input-primary" : "input-secondary",
+                  {
+                     "input-error placeholder:text-error":
+                        formik.touched.amount && formik.errors.amount,
+                  }
+               )}
             />
             {formik.touched.amount && formik.errors.amount && (
                <div className="text-sm text-error text-opacity-80">
@@ -130,20 +142,21 @@ const NewEntryForm = () => {
             {/* date */}
             <EntryDatesPicker
                handleDate={(date) => formik.setFieldValue("date", date)}
-               state={formik.values.date}
+               form={formik.values}
+               text={text}
                color={color}
             />
 
             {/* category */}
 
-            <Categories formik={formik} color={color} />
+            <Categories form={formik} text={text} color={color} />
 
             <button
                className={`btn btn-${color} text-lg`}
                type="submit"
                disabled={!formik.values.amount || !formik.isValid}
             >
-               Submit
+               {text.submit}
             </button>
          </div>
       </form>

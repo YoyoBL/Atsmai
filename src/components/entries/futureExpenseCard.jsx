@@ -3,12 +3,17 @@
 import useQueryParams from "@/hooks/useQueryParams";
 import { formatDate } from "@/lib/dates";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 const FutureExpenseCard = ({ entry = {} }) => {
+   const { lang } = useParams();
+
    if (!entry?._id) return;
 
-   // const { getPathWithNewParam } = useQueryParams();
-   const { amount, category } = entry;
+   let { amount, category } = entry;
+   if (category.toLowerCase() === "general") {
+      category = lang === "en" ? "general" : "כללי";
+   }
    const date = formatDate(entry.nextOccurrence, "dd/MM");
    return (
       <Link

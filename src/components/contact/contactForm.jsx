@@ -3,7 +3,7 @@
 import { useForm, ValidationError } from "@formspree/react";
 import { EnvelopeIcon, UserIcon } from "@heroicons/react/24/solid";
 
-const ContactForm = () => {
+const ContactForm = ({ text }) => {
    const [state, handleSubmit] = useForm("mzbnkdge");
    if (state.succeeded) {
       return (
@@ -20,6 +20,7 @@ const ContactForm = () => {
          </p>
       );
    }
+
    return (
       <form className="grid grid-cols-2 gap-3" onSubmit={handleSubmit}>
          <label className="input input-bordered flex items-center gap-2 col-span-1">
@@ -28,7 +29,7 @@ const ContactForm = () => {
                id="email"
                type="text"
                className="w-full grow"
-               placeholder="Email*"
+               placeholder={text.email}
                required
             />
          </label>
@@ -39,7 +40,7 @@ const ContactForm = () => {
                id="full-name"
                type="text"
                className="w-full grow"
-               placeholder="Full name*"
+               placeholder={text.fullName}
                autoComplete="name"
                required
             />
@@ -49,7 +50,7 @@ const ContactForm = () => {
                id="subject"
                type="text"
                className="w-full grow"
-               placeholder="Subject*"
+               placeholder={text.subject}
                minLength="2"
                required
             />
@@ -57,7 +58,7 @@ const ContactForm = () => {
          <textarea
             id="message"
             className="textarea textarea-bordered col-span-2"
-            placeholder="Message...*"
+            placeholder={text.message}
             name="message"
             required
             minLength="5"
@@ -67,7 +68,7 @@ const ContactForm = () => {
             type="submit"
             disabled={state.submitting}
          >
-            Submit
+            {text.submit}{" "}
          </button>
       </form>
    );

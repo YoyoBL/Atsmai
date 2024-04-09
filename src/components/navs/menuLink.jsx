@@ -4,11 +4,12 @@ import cn from "@/lib/tailwindMerge";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 
-const MenuLink = ({ link }) => {
+const MenuLink = ({ link, text }) => {
    const path = usePathname();
    const { lang } = useParams();
    const currentPath = path.split("/")[2] || "";
    const isCurrentPath = currentPath === link.href;
+   if (!text) return;
 
    return (
       <li>
@@ -21,7 +22,7 @@ const MenuLink = ({ link }) => {
             )}
          >
             {link.icon}
-            {link.title}
+            {text[link.key]}
          </Link>
       </li>
    );

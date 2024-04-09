@@ -2,11 +2,17 @@
    "common": {
       "signIn": "Sign In",
       "signOut": "Sign Out",
-      "register": "Register"
+      "register": "Register",
+      "income": "Income",
+      "expense": "Expense"
    },
-   "navigation": {
-      "home": "Home",
-      "about": "About"
+   "menuLinks": {
+      "welcome": "Welcome",
+      "about": "About",
+      "contact": "Contact",
+      "entries": "Entries",
+      "recurringExpenses": "Recurring expenses",
+      "searchEntries": "Search Entries"
    },
    "page": {
       "home": {
@@ -41,5 +47,57 @@
       "title": "Welcome to Atsmai",
       "greeting": "Welcome to our income and expense management application!<br />We're thrilled to have you here and excited to help you take control of your finances. <br /> <br />If you're tired of having no idea what's coming in or out, and you're looking to make order in your business, you're in the right place!",
       "demoText": "Want to see what Atsmai looks like?"
+   },
+   "about": {
+      "headers": {
+         "whatWeAre": "What are we",
+         "whyAtsmai": "Why Atsmai",
+         "whatCanAtsmaiDo": "What can Atsmai do",
+         "soundsGood": "Sounds good?"
+      },
+      "content": {
+         "whatWeAre": "Atsmai is an income and expenses manager. Atsmai is intended for small businesses to give you control over your cash traffic. No more second guessing, know exactly what to expect and where you stand.",
+         "whyAtsmai": "Atsmai was crafted while always keeping in mind simplicity and user-friendly experience. It's made for you to be able to enjoy and relax and have a clear view of what is going on in your business.",
+         "whatCanAtsmaiDo": {
+            "keyFeatures": "Key features",
+            "featuresList": [
+               "Light and Dark themes",
+               "Hebrew and English language support",
+               "Add incomes and expenses with the cross-page + button",
+               "A list of all your entries, sorted by month, with the total of each month conveniently displayed on top",
+               "Click on an entry and see the last 3 appearances of the same entry",
+               "Add recurring expenses, Atsmai will add them for you automatically when the time comes",
+               "Upcoming expenses displayed in the expenses list, no surprises!",
+               "Search and display entries"
+            ]
+         },
+         "soundsGood": "Join us or sign in!?"
+      }
+   },
+   "contact": {
+      "title": "Contact",
+      "email": "Email*",
+      "fullName": "Full name*",
+      "subject": "Subject*",
+      "message": "Message...*",
+      "submit": "Submit"
+   },
+   "register": {
+      "title": "Register",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "password": "Password",
+      "country": "Country",
+      "city": "City"
+   },
+   "newEntry": {
+      "title": "New Entry",
+      "amount": "Amount",
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "category": "Category",
+      "defaultCategory": "General",
+      "submit": "Save"
    }
 }

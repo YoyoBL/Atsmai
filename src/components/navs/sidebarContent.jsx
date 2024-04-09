@@ -13,21 +13,25 @@ import SignInBtn from "./signInBtn";
 import RegisterBtn from "./registerBtn";
 import MenuLink from "./menuLink";
 import { format } from "date-fns";
+import { getDictionary } from "@/lib/dictionary";
 
 const currentDate = format(new Date(), "MM-yy");
 const protectedLinks = [
    {
       title: "Entries",
+      key: "entries",
       href: `?entriesType=incomes&month=${currentDate}`,
       icon: <ArrowsUpDownIcon className="h-5 w-5" />,
    },
    {
       title: "Recurring expenses",
+      key: "recurringExpenses",
       href: "recurring-expenses",
       icon: <ArrowPathIcon className="h-5 w-5" />,
    },
    {
       title: "Search Entries",
+      key: "searchEntries",
       href: "search?entriesType=entries",
       icon: <MagnifyingGlassIcon className="h-5 w-5" />,
    },
@@ -38,11 +42,13 @@ const protectedLinks = [
    // },
    {
       title: "About",
+      key: "about",
       href: "/about",
       icon: <InformationCircleIcon className="h-5 w-5" />,
    },
    {
       title: "Contact",
+      key: "contact",
       href: "/contact",
       icon: <EnvelopeIcon className="h-5 w-5" />,
    },
@@ -51,22 +57,26 @@ const protectedLinks = [
 const publicLinks = [
    {
       title: "Welcome",
+      key: "welcome",
       href: "/welcome",
       icon: <HomeIcon className="h-5 w-5" />,
    },
    {
       title: "About",
+      key: "about",
       href: "/about",
       icon: <InformationCircleIcon className="h-5 w-5" />,
    },
    {
       title: "Contact",
+      key: "contact",
       href: "/contact",
       icon: <EnvelopeIcon className="h-5 w-5" />,
    },
 ];
 
 const SidebarContent = async ({ lang }) => {
+   const { menuLinks, common } = await getDictionary(lang);
    const session = await getServerSession();
 
    const user = session?.user || null;
@@ -81,10 +91,10 @@ const SidebarContent = async ({ lang }) => {
          <ul>
             {session
                ? protectedLinks.map((link) => (
-                    <MenuLink key={link.title} link={link} />
+                    <MenuLink key={link.title} link={link} text={menuLinks} />
                  ))
                : publicLinks.map((link) => (
-                    <MenuLink key={link.title} link={link} />
+                    <MenuLink key={link.title} link={link} text={menuLinks} />
                  ))}
          </ul>
          <ul className="mt-auto space-y-3 grid place-items-center ">
@@ -101,11 +111,11 @@ const SidebarContent = async ({ lang }) => {
             )}
             <li>
                {session ? (
-                  <SignOutBtn />
+                  <SignOutBtn text={common} />
                ) : (
                   <div className="flex gap-3">
-                     <SignInBtn />
-                     <RegisterBtn />
+                     <SignInBtn text={common} />
+                     <RegisterBtn text={common} />
                   </div>
                )}
             </li>

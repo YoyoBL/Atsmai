@@ -27,8 +27,8 @@ const Welcome = async ({ params: { lang } }) => {
                <div className="divider w-full md:hidden"></div>
 
                <div className="grid grid-cols-2 gap-3 mt-auto">
-                  <SignInBtn text={common} />
-                  <RegisterBtn text={common} />
+                  <SignInBtn />
+                  <RegisterBtn />
                </div>
                <div className="divider w-full md:hidden"></div>
                <p>{welcome.demoText}</p>
