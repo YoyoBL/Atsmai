@@ -3,8 +3,10 @@ import AddNewEntryBtn from "../new-entry/newEntryBtn";
 import Navbar from "./navbar";
 import BottomNavbar from "./bottomNavbar";
 import SidebarContent from "./sidebarContent";
+import { auth } from "@/auth";
 
 export default async function SideBar({ children, lang }) {
+   const session = await auth();
    return (
       <div className="drawer md:drawer-open">
          <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -15,7 +17,7 @@ export default async function SideBar({ children, lang }) {
             {children}
 
             <AddNewEntryBtn />
-            <BottomNavbar />
+            {session && <BottomNavbar />}
          </div>
          <div className="drawer-side">
             <label
