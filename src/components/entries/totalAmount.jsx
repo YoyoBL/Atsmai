@@ -27,14 +27,17 @@ const TotalAmount = async ({
                {
                   "bg-primary rounded-tl-none rtl:rounded-tl-xl rtl:rounded-tr-none":
                      entriesType === "incomes",
-                  "bg-secondary rounded-tr-none rtr:rounded-tr-xl rtr:rounded-tr-none":
+                  "bg-secondary rounded-tr-none rtl:rounded-tl-none rtl:rounded-tr-xl":
                      entriesType === "expenses",
                }
             )}
          >
-            <div className="text-5xl font-light text-white">{totalAmount}</div>
+            <div className="text-5xl font-light text-white">
+               {totalAmount.toLocaleString()}
+            </div>
 
-            <div className="flex w-full justify-evenly">
+            {/* //Needs work */}
+            {/* <div className="flex w-full justify-evenly">
                <TaxCard
                   date={date}
                   entries={entries}
@@ -48,7 +51,7 @@ const TotalAmount = async ({
                   taxPercent={0.05}
                   taxName="TAX"
                />
-            </div>
+            </div> */}
          </div>
       </div>
    );
