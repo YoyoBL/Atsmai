@@ -3,6 +3,7 @@ import TaxCard from "./taxCard";
 import cn from "@/lib/tailwindMerge";
 import { getTheme } from "@/actions/theme.actions";
 import { getDictionary } from "@/lib/dictionary";
+import Tabs from "./tabs";
 
 const TotalAmount = async ({
    entries = [],
@@ -31,27 +32,7 @@ const TotalAmount = async ({
                : "lightExpenses"
          }
       >
-         <div className="grid grid-cols-2 relative  bg-base-200 text-center text-lg">
-            <Link
-               href="/en?entriesType=incomes"
-               className={cn("p-2 ", {
-                  "bg-primary rounded-t-xl text-white":
-                     entriesType === "incomes",
-               })}
-            >
-               {entriesPage.incomesTab}
-            </Link>
-
-            <Link
-               href="/en?entriesType=expenses"
-               className={cn("p-2", {
-                  "bg-primary rounded-t-xl text-white":
-                     entriesType === "expenses",
-               })}
-            >
-               {entriesPage.expensesTab}
-            </Link>
-         </div>
+         <Tabs text={entriesPage} />
          <div
             className={cn(
                "bg-primary rounded-xl h-36 flex flex-col justify-center items-center gap-3",
