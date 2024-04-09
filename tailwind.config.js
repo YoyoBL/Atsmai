@@ -22,14 +22,6 @@ module.exports = {
                primary: "#077ADB",
                secondary: "#D27518",
             },
-            lightExpenses: {
-               ...require("daisyui/src/theming/themes")["light"],
-               primary: "#D27518",
-            },
-            darkExpenses: {
-               ...require("daisyui/src/theming/themes")["dark"],
-               primary: "#D27518",
-            },
          },
       ],
    },

@@ -18,7 +18,7 @@ const currentDate = format(new Date(), "MM-yy");
 const protectedLinks = [
    {
       title: "Entries",
-      href: `?entryType=incomes&month=${currentDate}`,
+      href: `?entriesType=incomes&month=${currentDate}`,
       icon: <ArrowsUpDownIcon className="h-5 w-5" />,
    },
    {
