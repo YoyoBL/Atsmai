@@ -3,14 +3,15 @@
 import { signIn } from "next-auth/react";
 import { useParams } from "next/navigation";
 
-const SignInBtn = () => {
+const SignInBtn = ({ text }) => {
+   if (!text) return null;
    const { lang } = useParams();
    return (
       <button
          onClick={() => signIn(undefined, { callbackUrl: `/${lang}/` })}
          className="btn btn-primary"
       >
-         Sign In
+         {text.signIn}
       </button>
    );
 };

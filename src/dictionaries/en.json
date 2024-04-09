@@ -1,4 +1,9 @@
 {
+   "common": {
+      "signIn": "Sign In",
+      "signOut": "Sign Out",
+      "register": "Register"
+   },
    "navigation": {
       "home": "Home",
       "about": "About"
@@ -31,5 +36,10 @@
       "October": "October",
       "November": "November",
       "December": "December"
+   },
+   "welcome": {
+      "title": "Welcome to Atsmai",
+      "greeting": "Welcome to our income and expense management application!<br />We're thrilled to have you here and excited to help you take control of your finances. <br /> <br />If you're tired of having no idea what's coming in or out, and you're looking to make order in your business, you're in the right place!",
+      "demoText": "Want to see what Atsmai looks like?"
    }
 }
