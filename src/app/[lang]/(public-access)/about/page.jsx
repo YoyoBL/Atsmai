@@ -32,8 +32,8 @@ const About = async ({ params: { lang } }) => {
                      </h2>
                      <ul style={{ listStyleType: "initial" }}>
                         <h3 className="text-lg">{content.keyFeatures}</h3>
-                        {featuresList.map((feature) => (
-                           <li>{feature}</li>
+                        {featuresList.map((feature, index) => (
+                           <li key={index}>{feature}</li>
                         ))}
                      </ul>
                   </li>
