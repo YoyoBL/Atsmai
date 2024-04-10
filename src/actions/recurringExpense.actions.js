@@ -37,7 +37,6 @@ export async function getRecurringExpenses() {
 }
 
 export async function autoAdd(recurring) {
-   console.log("Autoadd");
    const userId = await getUserId();
    const promises = [];
 
@@ -84,7 +83,6 @@ export async function resetLastCheck() {
    try {
       await dbConnect();
       const deleted = await LastRecurringCheck.findOneAndDelete({ userId });
-      console.log("deleted:", deleted);
       return { ok: true };
    } catch (error) {
       console.log(error);
