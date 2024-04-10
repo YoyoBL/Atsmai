@@ -37,6 +37,7 @@ export async function getRecurringExpenses() {
 }
 
 export async function autoAdd(recurring) {
+   console.log("autoadd");
    const userId = await getUserId();
    const promises = [];
 
@@ -58,8 +59,10 @@ export async function autoAdd(recurring) {
       }
    });
    const lastCheck = updateLastCheck(userId);
-   if (!promises.length) return;
+
    const results = await Promise.allSettled([...promises, lastCheck]);
+   console.log("results:");
+   console.log(results);
    revalidatePath("/[lang]/", "page");
    return results;
 }
