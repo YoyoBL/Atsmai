@@ -6,6 +6,7 @@ import {
    addNewRecurringExpense,
    editRecurringExpense,
    fetchRecurringExpenseById,
+   resetLastCheck,
 } from "@/actions/recurringExpense.actions";
 import useQueryParams from "@/hooks/useQueryParams";
 import { formatDate } from "@/lib/dates";
@@ -13,6 +14,7 @@ import { YupNewRecurringSchema } from "@/lib/yupSchemas";
 import { useFormik } from "formik";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { isToday } from "date-fns";
 
 const inputFields = [
    { key: "title", title: "Title", inputType: "text", defaultValue: "" },
@@ -64,6 +66,9 @@ const NewRecurringExpense = () => {
       onSubmit: async (values) => {
          try {
             const parsedValues = await YupNewRecurringSchema().validate(values);
+            const isStartToday = isToday(parsedValues.startDate);
+            if (isStartToday) await resetLastCheck();
+
             let res;
             if (!isEdit) {
                res = await addNewRecurringExpense(parsedValues);
@@ -72,6 +77,7 @@ const NewRecurringExpense = () => {
                res = await editRecurringExpense(parsedValues, id);
             }
             if (!res.ok) return toast.error("Server error, Try again later");
+
             toast.success("Success");
             router.replace(`/${params.lang}/recurring-expenses`);
          } catch (error) {

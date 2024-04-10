@@ -37,7 +37,7 @@ export async function getRecurringExpenses() {
 }
 
 export async function autoAdd(recurring) {
-   console.log("autoadd");
+   console.log("Autoadd");
    const userId = await getUserId();
    const promises = [];
 
@@ -52,6 +52,7 @@ export async function autoAdd(recurring) {
          };
          const ExpensePromise = Expense.create(newExpense);
          const updatedNextOccurrence = addMonths(v.nextOccurrence, 1);
+
          const recurringUpdate = RecurringExpense.findByIdAndUpdate(v._id, {
             nextOccurrence: updatedNextOccurrence,
          });
@@ -61,8 +62,7 @@ export async function autoAdd(recurring) {
    const lastCheck = updateLastCheck(userId);
 
    const results = await Promise.allSettled([...promises, lastCheck]);
-   console.log("results:");
-   console.log(results);
+
    revalidatePath("/[lang]/", "page");
    return results;
 }
@@ -79,15 +79,26 @@ async function updateLastCheck(userId) {
    });
 }
 
-export async function addNewRecurringExpense(formValues) {
+export async function resetLastCheck() {
+   const userId = await getUserId();
    try {
       await dbConnect();
-      const userId = await getUserId();
+      const deleted = await LastRecurringCheck.findOneAndDelete({ userId });
+      console.log("deleted:", deleted);
+      return { ok: true };
+   } catch (error) {
+      console.log(error);
+      return { ok: false, date: error.message };
+   }
+}
 
-      const isFuture = formValues.startDate > new Date();
-      const nextOccurrence = isFuture
-         ? formValues.startDate
-         : addMonths(formValues.startDate, 1);
+export async function addNewRecurringExpense(formValues) {
+   const userId = await getUserId();
+   try {
+      await dbConnect();
+
+      const nextOccurrence = formValues.startDate;
+
       const newDocument = new RecurringExpense({
          ...formValues,
          nextOccurrence,
