@@ -32,7 +32,7 @@ const protectedLinks = [
    {
       title: "Search Entries",
       key: "searchEntries",
-      href: "search?entriesType=entries",
+      href: "search?entriesType=incomes",
       icon: <MagnifyingGlassIcon className="h-5 w-5" />,
    },
    // {

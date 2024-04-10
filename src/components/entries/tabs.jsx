@@ -1,9 +1,12 @@
 "use client";
 
 import useQueryParams from "@/hooks/useQueryParams";
+import { formatDate } from "@/lib/dates";
 import cn from "@/lib/tailwindMerge";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+
+const currentDate = formatDate(new Date(), "MM-yy");
 
 const Tabs = ({ text: entriesPage }) => {
    const { lang } = useParams();
@@ -13,7 +16,7 @@ const Tabs = ({ text: entriesPage }) => {
    return (
       <div className="grid grid-cols-2 relative  bg-base-200 text-center text-lg">
          <Link
-            href={`/${lang}?entriesType=incomes`}
+            href={`/${lang}?entriesType=incomes&month=${currentDate}`}
             className={cn("p-2 ", {
                "bg-primary rounded-t-xl text-white": entriesType === "incomes",
             })}
@@ -22,7 +25,7 @@ const Tabs = ({ text: entriesPage }) => {
          </Link>
 
          <Link
-            href={`/${lang}?entriesType=expenses`}
+            href={`/${lang}?entriesType=expenses&month=${currentDate}`}
             className={cn("p-2", {
                "bg-secondary rounded-t-xl text-white":
                   entriesType === "expenses",
