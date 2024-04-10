@@ -14,6 +14,24 @@ import { useFormik } from "formik";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
+const inputFields = [
+   { key: "title", title: "Title", inputType: "text", defaultValue: "" },
+   { key: "amount", title: "Amount", inputType: "text", defaultValue: "" },
+   {
+      key: "category",
+      title: "Category",
+      inputType: "text",
+      defaultValue: "",
+   },
+   {
+      key: "startDate",
+      title: "Start Date",
+      inputType: "date",
+      min: formatDate(new Date(), "yyyy-MM-dd"),
+      defaultValue: "",
+   },
+];
+
 const NewRecurringExpense = () => {
    const { getQueryByName } = useQueryParams();
    const isEdit = getQueryByName("modal") !== "show";
@@ -24,22 +42,6 @@ const NewRecurringExpense = () => {
       fetchRecurringExpense(id);
    }, [isEdit]);
 
-   const inputFields = [
-      { key: "title", title: "Title", inputType: "text", defaultValue: "" },
-      { key: "amount", title: "Amount", inputType: "text", defaultValue: "" },
-      {
-         key: "category",
-         title: "Category",
-         inputType: "text",
-         defaultValue: "",
-      },
-      {
-         key: "startDate",
-         title: "Start Date",
-         inputType: "date",
-         defaultValue: "",
-      },
-   ];
    const params = useParams();
    const router = useRouter();
 
@@ -108,6 +110,7 @@ const NewRecurringExpense = () => {
                      type={field.inputType}
                      placeholder="Type here"
                      className="input input-bordered w-full"
+                     min={field?.min}
                   />
                   {form.touched[field.key] && form.errors[field.key] && (
                      <div className="text-sm text-error text-opacity-80">
