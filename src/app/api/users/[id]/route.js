@@ -5,7 +5,7 @@ export async function GET(request, { params }) {
    try {
       await dbConnect();
       const id = params.id;
-      const user = await User.findById(id);
+      const user = await User.findById(id, { password: false });
       if (!user)
          return Response.json({ data: "User not found" }, { status: 402 });
 

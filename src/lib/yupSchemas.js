@@ -66,3 +66,7 @@ export function YupRegisterSchema() {
       })
       .required();
 }
+
+export function YupEditUserSchema() {
+   return YupRegisterSchema().omit(["password", "email"]);
+}

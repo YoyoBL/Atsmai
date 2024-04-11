@@ -1,36 +1,42 @@
 "use client";
 
-import { addNewUser } from "@/actions/users.actions";
-import { YupRegisterSchema } from "@/lib/yupSchemas";
+import { EditUser } from "@/actions/users.actions";
+import { YupEditUserSchema } from "@/lib/yupSchemas";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { useFormik } from "formik";
 import { useState } from "react";
-import { signIn } from "next-auth/react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-const RegisterForm = ({ text }) => {
+const EditProfile = ({ text, user }) => {
    const [serverError, setServerError] = useState(null);
    const { lang } = useParams();
+   const router = useRouter();
+
+   const { firstName, lastName, country, city, _id: id } = user;
 
    const formik = useFormik({
       validateOnMount: true,
       initialValues: {
-         firstName: "",
-         lastName: "",
-         email: "",
-         password: "",
-         country: "",
-         city: "",
+         firstName,
+         lastName,
+
+         country,
+         city,
       },
       onSubmit: async (values) => {
-         const parsedValues = await YupRegisterSchema().validate(values);
-         const res = await addNewUser(parsedValues);
-         if (!res.ok) return setServerError(res.data);
-         toast.success("Account created, Please sign in");
-         signIn(undefined, { callbackUrl: `/${lang}/` });
+         const parsedValues = await YupEditUserSchema().validate(values);
+         try {
+            const res = await EditUser(id, parsedValues);
+            if (!res.ok) return setServerError(res.data);
+            toast.success("Account Edited");
+            const redirect = `/${lang}/profile`;
+            router.replace(redirect);
+         } catch (error) {
+            console.log(error);
+         }
       },
-      validationSchema: YupRegisterSchema(),
+      validationSchema: YupEditUserSchema(),
    });
    const displayError = (fieldName) =>
       formik.touched[fieldName] && formik.errors[fieldName];
@@ -71,26 +77,7 @@ const RegisterForm = ({ text }) => {
                )}
             </div>
          </div>
-         <input
-            {...formik.getFieldProps("email")}
-            type="text"
-            placeholder={text.email + "*"}
-            className="input input-bordered w-full focus:input-primary"
-         />
-         {displayError("email") && (
-            <div className="text-error text-xs mt-1">{formik.errors.email}</div>
-         )}
-         <input
-            {...formik.getFieldProps("password")}
-            type="password"
-            placeholder={text.password + "*"}
-            className="input input-bordered w-full focus:input-primary"
-         />
-         {displayError("password") && (
-            <div className="text-error text-xs mt-1">
-               {formik.errors.password}
-            </div>
-         )}
+
          <div className="grid grid-cols-2 gap-3">
             <div>
                <input
@@ -120,16 +107,15 @@ const RegisterForm = ({ text }) => {
                )}
             </div>
          </div>
-
          <button
             disabled={!formik.isValid}
             type="submit"
             className="btn btn-primary btn-block"
          >
-            {text.title}
+            {lang === "en" ? "Save" : "שמור"}
          </button>
       </form>
    );
 };
 
-export default RegisterForm;
+export default EditProfile;

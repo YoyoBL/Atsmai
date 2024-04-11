@@ -3,8 +3,7 @@
 import dbConnect, { serialize } from "@/lib/mongoDbConnect";
 import User from "@/models/user.model";
 import bcrypt from "bcrypt";
-
-export async function fetchUsers() {}
+import { revalidateTag } from "next/cache";
 
 export async function addNewUser(values) {
    try {
@@ -24,6 +23,26 @@ export async function addNewUser(values) {
       return {
          ok: true,
          data: { firstName, lastName, email, _id: _id.toString() },
+      };
+   } catch (error) {
+      console.log(error);
+      return { ok: false, data: error.message };
+   }
+}
+
+export async function EditUser(id, valuesToUpdate) {
+   try {
+      await dbConnect();
+
+      const updated = await User.findByIdAndUpdate(id, valuesToUpdate, {
+         new: true,
+      });
+      const data = serialize(updated);
+      revalidateTag("user");
+
+      return {
+         ok: true,
+         data,
       };
    } catch (error) {
       console.log(error);
