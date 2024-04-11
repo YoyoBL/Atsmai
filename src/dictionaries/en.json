@@ -117,5 +117,12 @@
       "title": "Search Entries",
       "placeHolder": "Type Here...",
       "noResults": "Nothing Found"
+   },
+   "profile": {
+      "name": "Name",
+      "joinedAt": "Joined at",
+      "country": "Country",
+      "city": "City",
+      "editBtn": "Edit Profile"
    }
 }

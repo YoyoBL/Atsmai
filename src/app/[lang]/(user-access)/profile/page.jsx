@@ -11,8 +11,8 @@ import Link from "next/link";
 const Profile = async ({ params: { lang } }) => {
    const { user } = await auth();
 
-   const { register } = await getDictionary(lang);
-   const text = { ...register };
+   const { register, profile } = await getDictionary(lang);
+   const text = { ...register, ...profile };
 
    const userData = await customFetch(
       `http://localhost:3000/api/users/${user.id}`,
@@ -38,21 +38,21 @@ const Profile = async ({ params: { lang } }) => {
                      <tbody>
                         {/* row 1 */}
                         <tr>
-                           <td>Name:</td>
+                           <td>{text.name}:</td>
                            <td>{name}</td>
                         </tr>
                         {/* row 2 */}
                         <tr>
-                           <td>Join at:</td>
+                           <td>{text.joinedAt}:</td>
                            <td>{joinedAt}</td>
                         </tr>
                         {/* row 3 */}
                         <tr>
-                           <td>Country:</td>
+                           <td>{text.country}:</td>
                            <td>{country}</td>
                         </tr>
                         <tr>
-                           <td>City:</td>
+                           <td>{text.city}:</td>
                            <td>{city}</td>
                         </tr>
                      </tbody>
@@ -64,7 +64,7 @@ const Profile = async ({ params: { lang } }) => {
                      className="btn btn-primary btn-block"
                   >
                      <Cog6ToothIcon className="h-6 w-6" />
-                     Edit Profile
+                     {text.editBtn}
                   </Link>
                </div>
             </div>

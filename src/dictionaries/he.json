@@ -118,5 +118,12 @@
       "title": "חיפוש רשומות",
       "placeHolder": "הקלידו...",
       "noResults": "לא נמצאו תוצאות"
+   },
+   "profile": {
+      "name": "שם",
+      "joinedAt": "הצטרף בתאריך",
+      "country": "מדינה",
+      "city": "עיר",
+      "editBtn": "ערוך פרופיל"
    }
 }
