@@ -14,10 +14,9 @@ const Profile = async ({ params: { lang } }) => {
    const { register, profile } = await getDictionary(lang);
    const text = { ...register, ...profile };
 
-   const userData = await customFetch(
-      `http://localhost:3000/api/users/${user.id}`,
-      { next: { tags: ["user"] } }
-   );
+   const userData = await customFetch(`/api/users/${user.id}`, {
+      next: { tags: ["user"] },
+   });
 
    const name = userData.firstName + " " + userData.lastName;
    const joinedAt = format(userData.createdAt, "dd/MM/yyyy");
