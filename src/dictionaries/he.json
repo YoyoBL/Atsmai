@@ -117,7 +117,9 @@
    "search": {
       "title": "חיפוש רשומות",
       "placeHolder": "הקלידו...",
-      "noResults": "לא נמצאו תוצאות"
+      "noResults": "לא נמצאו תוצאות",
+      "entries": "רשומות",
+      "total": "סה\"כ"
    },
    "profile": {
       "name": "שם",

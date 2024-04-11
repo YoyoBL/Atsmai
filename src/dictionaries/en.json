@@ -116,7 +116,9 @@
    "search": {
       "title": "Search Entries",
       "placeHolder": "Type Here...",
-      "noResults": "Nothing Found"
+      "noResults": "Nothing Found",
+      "entries": "Entries",
+      "total": "Total"
    },
    "profile": {
       "name": "Name",
