@@ -152,6 +152,7 @@ export async function deleteRecurringExpense(id) {
    try {
       await dbConnect();
       const deleted = await RecurringExpense.findByIdAndDelete(id);
+      if (!deleted) return { ok: false, data: "Entry to delete not found" };
       const data = serialize(deleted);
       revalidatePath("/[lang]/recurring-expenses", "page");
 

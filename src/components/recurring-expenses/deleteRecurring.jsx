@@ -5,12 +5,14 @@ import useQueryParams from "@/hooks/useQueryParams";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 const DeleteRecurring = ({ id }) => {
    const { getPathWithNewParam, getQueryByName } = useQueryParams();
    const { lang } = useParams();
    const router = useRouter();
    const confirmed = getQueryByName("confirm");
+
    useEffect(() => {
       if (!confirmed) return;
       if (confirmed.startsWith("confirmed")) {
@@ -18,14 +20,16 @@ const DeleteRecurring = ({ id }) => {
             const deleteId = confirmed.split("@")[1];
             try {
                const res = await deleteRecurringExpense(deleteId);
-               if (!res.ok) return console.log(res.data);
-               router.replace(`/${lang}/recurring-expenses`);
+               console.log(res);
+               if (!res.ok) return;
+               router.push(`/${lang}/recurring-expenses`);
+               toast.success("Deleted");
             } catch (error) {
                console.log(error);
             }
          })();
       }
-   }, [confirmed, lang, router]);
+   }, [confirmed, router]);
 
    return (
       <>

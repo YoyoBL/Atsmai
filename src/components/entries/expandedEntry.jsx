@@ -12,6 +12,7 @@ import {
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const ExpandedEntry = ({ entry }) => {
    const router = useRouter();
@@ -43,6 +44,7 @@ const ExpandedEntry = ({ entry }) => {
                const res = await deleteEntry(entry);
                if (!res.ok) return console.log(res.data);
                const redirectPath = `/${lang}/?entriesType=${entryType}&month=${month}`;
+               toast.success("Deleted");
                router.replace(redirectPath);
             } catch (error) {
                console.log(error.message);
