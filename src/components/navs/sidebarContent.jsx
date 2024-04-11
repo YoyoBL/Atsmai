@@ -14,6 +14,7 @@ import RegisterBtn from "./registerBtn";
 import MenuLink from "./menuLink";
 import { format } from "date-fns";
 import { getDictionary } from "@/lib/dictionary";
+import Link from "next/link";
 
 const currentDate = format(new Date(), "MM-yy");
 const protectedLinks = [
@@ -102,11 +103,11 @@ const SidebarContent = async ({ lang }) => {
             <li> {user?.name}</li>
             {session && (
                <li>
-                  <div className="avatar">
-                     <div className="h-20 rounded-full">
+                  <Link href={`/${lang}/profile`} className="avatar ">
+                     <div className="h-20 rounded-full hover:ring-4 hover:ring-primary hover:scale-110  active:ring-4 active:ring-primary active:scale-110 transition-all duration-150">
                         <img src={avatar} alt="Profile image" />
                      </div>
-                  </div>
+                  </Link>
                </li>
             )}
             <li>
