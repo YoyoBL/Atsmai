@@ -2,9 +2,7 @@
 
 import { PlusIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import NewRecurringExpense from "./newRecurringExpenseForm";
 import useQueryParams from "@/hooks/useQueryParams";
-import Modal from "../common/modal";
 
 const NewRecurringExpenseBtn = () => {
    const { getPathWithNewParam } = useQueryParams();
@@ -16,10 +14,6 @@ const NewRecurringExpenseBtn = () => {
          >
             <PlusIcon />
          </Link>
-
-         <Modal>
-            <NewRecurringExpense />
-         </Modal>
       </>
    );
 };

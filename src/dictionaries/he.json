@@ -4,7 +4,9 @@
       "signOut": "יציאה",
       "register": "הרשמה",
       "income": "הכנסה",
-      "expense": "הוצאה"
+      "expense": "הוצאה",
+      "incomes": "הכנסות",
+      "expenses": "הוצאות"
    },
    "menuLinks": {
       "welcome": "ברוכים הבאים",
@@ -100,5 +102,21 @@
       "category": "בשביל",
       "defaultCategory": "כללי",
       "submit": "שמור"
+   },
+   "recurringExpenses": {
+      "title": "הוראות קבע",
+      "newRecurringExpenseForm": {
+         "title": "שם",
+         "amount": "עלות",
+         "category": "בשביל",
+         "startDate": "תאריך התחלה",
+         "addBtn": "הוספת הו\"ק",
+         "placeHolder": "הקלידו..."
+      }
+   },
+   "search": {
+      "title": "חיפוש רשומות",
+      "placeHolder": "הקלידו...",
+      "noResults": "לא נמצאו תוצאות"
    }
 }

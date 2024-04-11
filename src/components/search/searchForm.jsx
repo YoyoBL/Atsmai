@@ -7,7 +7,7 @@ import useQueryParams from "@/hooks/useQueryParams";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const SearchForm = () => {
+const SearchForm = ({ text }) => {
    const { getQueryByName, getPathWithNewParam, deleteAndReturnPath } =
       useQueryParams();
 
@@ -41,8 +41,8 @@ const SearchForm = () => {
                name="searchValue"
                value={searchValue}
                onChange={(e) => setSearchValue(e.target.value)}
-               className="grow"
-               placeholder="Type Here..."
+               className="grow placeholder:opacity-40"
+               placeholder={text.placeHolder}
             />
             {searchValue && (
                <XCircleIcon
@@ -59,7 +59,7 @@ const SearchForm = () => {
                   entryType === "incomes" ? "btn-primary" : "btn-neutral"
                )}
             >
-               Incomes
+               {text.incomes}
             </Link>
             <Link
                href={getPathWithNewParam("entryType", "expenses")}
@@ -68,7 +68,7 @@ const SearchForm = () => {
                   entryType === "expenses" ? "btn-secondary" : "btn-neutral"
                )}
             >
-               expenses
+               {text.expenses}
             </Link>
          </div>
          <button disabled={searchValue.length < 2} className="btn btn-primary">

@@ -4,7 +4,9 @@
       "signOut": "Sign Out",
       "register": "Register",
       "income": "Income",
-      "expense": "Expense"
+      "expense": "Expense",
+      "incomes": "Incomes",
+      "expenses": "Expenses"
    },
    "menuLinks": {
       "welcome": "Welcome",
@@ -99,5 +101,21 @@
       "category": "Category",
       "defaultCategory": "General",
       "submit": "Save"
+   },
+   "recurringExpenses": {
+      "title": "Recurring expenses",
+      "newRecurringExpenseForm": {
+         "title": "Title",
+         "amount": "Amount",
+         "category": "category",
+         "startDate": "Start Date",
+         "addBtn": "Add Recurring Expense",
+         "placeHolder": "Type Here..."
+      }
+   },
+   "search": {
+      "title": "Search Entries",
+      "placeHolder": "Type Here...",
+      "noResults": "Nothing Found"
    }
 }

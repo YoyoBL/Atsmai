@@ -5,6 +5,7 @@ import ExpandedEntry from "../entries/expandedEntry";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 const SearchResults = async ({
+   text,
    searchParams = { entryType: "", searchValue: "", modal: "" },
 }) => {
    const searchValue = searchParams?.searchValue;
@@ -35,7 +36,7 @@ const SearchResults = async ({
       <>
          <div className="overflow-auto space-y-2 bg-base-300 rounded-xl p-3">
             {searchResults[0] === "Nothing Found" ? (
-               <div>{searchResults}</div>
+               <div>{text.noResults}</div>
             ) : (
                searchResults.map((result) => (
                   <EntryCard key={result._id} entry={result} />

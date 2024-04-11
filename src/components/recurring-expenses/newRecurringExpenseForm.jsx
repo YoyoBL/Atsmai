@@ -16,27 +16,11 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { isToday } from "date-fns";
 
-const inputFields = [
-   { key: "title", title: "Title", inputType: "text", defaultValue: "" },
-   { key: "amount", title: "Amount", inputType: "text", defaultValue: "" },
-   {
-      key: "category",
-      title: "Category",
-      inputType: "text",
-      defaultValue: "",
-   },
-   {
-      key: "startDate",
-      title: "Start Date",
-      inputType: "date",
-      min: formatDate(new Date(), "yyyy-MM-dd"),
-      defaultValue: "",
-   },
-];
-
-const NewRecurringExpense = () => {
+const NewRecurringExpense = ({ text }) => {
    const { getQueryByName } = useQueryParams();
    const isEdit = getQueryByName("modal") !== "show";
+   const params = useParams();
+   const router = useRouter();
 
    useEffect(() => {
       if (!isEdit) return;
@@ -44,8 +28,28 @@ const NewRecurringExpense = () => {
       fetchRecurringExpense(id);
    }, [isEdit]);
 
-   const params = useParams();
-   const router = useRouter();
+   const inputFields = [
+      { key: "title", title: text.title, inputType: "text", defaultValue: "" },
+      {
+         key: "amount",
+         title: text.amount,
+         inputType: "text",
+         defaultValue: "",
+      },
+      {
+         key: "category",
+         title: text.category,
+         inputType: "text",
+         defaultValue: "",
+      },
+      {
+         key: "startDate",
+         title: text.startDate,
+         inputType: "date",
+         min: formatDate(new Date(), "yyyy-MM-dd"),
+         defaultValue: "",
+      },
+   ];
 
    function generateFormikInitialValues(fields = []) {
       if (!fields[0]) throw new Error("Invalid inputFields");
@@ -114,8 +118,8 @@ const NewRecurringExpense = () => {
                   <input
                      {...form.getFieldProps(field.key)}
                      type={field.inputType}
-                     placeholder="Type here"
-                     className="input input-bordered w-full"
+                     placeholder={text.placeHolder}
+                     className="input input-bordered w-full placeholder:opacity-40"
                      min={field?.min}
                   />
                   {form.touched[field.key] && form.errors[field.key] && (
@@ -131,7 +135,7 @@ const NewRecurringExpense = () => {
                type="submit"
                className="btn btn-primary btn-block"
             >
-               Add Recurring Expense
+               {text.addBtn}
             </button>
          </form>
       </section>

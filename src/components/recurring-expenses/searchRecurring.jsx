@@ -1,12 +1,15 @@
 "use client";
 import useQueryParams from "@/hooks/useQueryParams";
 import { MagnifyingGlassIcon, XCircleIcon } from "@heroicons/react/24/outline";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
 const SearchRecurring = () => {
    const { getQueryByName, getPathWithNewParam, deleteAndReturnPath } =
       useQueryParams();
+   const { lang } = useParams();
+
+   const text = lang === "en" ? "Search" : "חיפוש";
 
    const inputValue = getQueryByName("search") || "";
 
@@ -35,7 +38,7 @@ const SearchRecurring = () => {
                value={searchValue}
                onChange={(e) => setSearchValue(e.target.value)}
                className="grow"
-               placeholder="Search..."
+               placeholder={`${text}...`}
             />
             {searchValue && (
                <XCircleIcon
