@@ -80,7 +80,6 @@ const RegisterForm = ({ text }) => {
          {displayError("email") && (
             <div className="text-error text-xs mt-1">{formik.errors.email}</div>
          )}
-
          <input
             {...formik.getFieldProps("password")}
             type="password"
@@ -92,7 +91,6 @@ const RegisterForm = ({ text }) => {
                {formik.errors.password}
             </div>
          )}
-
          <div className="grid grid-cols-2 gap-3">
             <div>
                <input
@@ -122,7 +120,12 @@ const RegisterForm = ({ text }) => {
                )}
             </div>
          </div>
-         <button type="submit" className="btn btn-primary btn-block">
+
+         <button
+            disabled={formik.isValid}
+            type="submit"
+            className="btn btn-primary btn-block"
+         >
             {text.title}
          </button>
       </form>
