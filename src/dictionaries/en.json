@@ -14,17 +14,8 @@
       "contact": "Contact",
       "entries": "Entries",
       "recurringExpenses": "Recurring expenses",
-      "searchEntries": "Search Entries"
-   },
-   "page": {
-      "home": {
-         "title": "Welcome to NextJs i18n",
-         "description": "Internationalization in NextJs 13 App router"
-      },
-      "about": {
-         "title": "About Us",
-         "description": "This is the about page"
-      }
+      "searchEntries": "Search Entries",
+      "adminCrm": "Admin CRM"
    },
    "entriesPage": {
       "header": "Entries",
@@ -51,6 +42,7 @@
       "demoText": "Want to see what Atsmai looks like?"
    },
    "about": {
+      "title": "About",
       "headers": {
          "whatWeAre": "What are we",
          "whyAtsmai": "Why Atsmai",

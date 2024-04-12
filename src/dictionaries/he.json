@@ -14,18 +14,10 @@
       "contact": "צור קשר",
       "entries": "רשומות",
       "recurringExpenses": "הוראות קבע",
-      "searchEntries": "חיפוש רשומות"
+      "searchEntries": "חיפוש רשומות",
+      "adminCrm": "Admin CRM"
    },
-   "page": {
-      "home": {
-         "title": "ברוכים הבאים ל-NextJs i18n",
-         "description": "אילוציוּלָוּת ב-NextJs 13 אפליקציית נתב"
-      },
-      "about": {
-         "title": "אודותינו",
-         "description": "זהו דף אודות"
-      }
-   },
+
    "entriesPage": {
       "header": "רשומות",
       "incomesTab": "הכנסות",
@@ -51,6 +43,8 @@
       "demoText": "רוצה לראות איך Atsmai נראה?"
    },
    "about": {
+      "title": "אודות",
+
       "headers": {
          "whatWeAre": "מה אנחנו",
          "whyAtsmai": "למה לבחור בAtsmai",
