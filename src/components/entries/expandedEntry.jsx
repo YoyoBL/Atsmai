@@ -40,7 +40,6 @@ const ExpandedEntry = ({ entry }) => {
          (async () => {
             try {
                entry.entryType = entryType;
-               console.log(entry);
                const res = await deleteEntry(entry);
                if (!res.ok) return console.log(res.data);
                const redirectPath = `/${lang}/?entriesType=${entryType}&month=${month}`;
