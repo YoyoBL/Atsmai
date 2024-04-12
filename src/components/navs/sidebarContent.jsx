@@ -6,8 +6,8 @@ import {
    InformationCircleIcon,
    EnvelopeIcon,
    HomeIcon,
+   LockClosedIcon,
 } from "@heroicons/react/24/outline";
-import { getServerSession } from "next-auth";
 import SignOutBtn from "./signOutBtn";
 import SignInBtn from "./signInBtn";
 import RegisterBtn from "./registerBtn";
@@ -15,25 +15,26 @@ import MenuLink from "./menuLink";
 import { format } from "date-fns";
 import { getDictionary } from "@/lib/dictionary";
 import Link from "next/link";
+import { auth } from "@/auth";
 
 const currentDate = format(new Date(), "MM-yy");
 const protectedLinks = [
    {
       title: "Entries",
       key: "entries",
-      href: `?entriesType=incomes&month=${currentDate}`,
+      href: `/?entriesType=incomes&month=${currentDate}`,
       icon: <ArrowsUpDownIcon className="h-5 w-5" />,
    },
    {
       title: "Recurring expenses",
       key: "recurringExpenses",
-      href: "recurring-expenses",
+      href: "/recurring-expenses",
       icon: <ArrowPathIcon className="h-5 w-5" />,
    },
    {
       title: "Search Entries",
       key: "searchEntries",
-      href: "search?entriesType=incomes",
+      href: "/search?entriesType=incomes",
       icon: <MagnifyingGlassIcon className="h-5 w-5" />,
    },
    // {
@@ -76,9 +77,16 @@ const publicLinks = [
    },
 ];
 
+const adminCRMLink = {
+   title: "Admin CRM",
+   key: "adminCrm",
+   href: "/admin-crm",
+   icon: <LockClosedIcon className="h-5 w-5" />,
+};
+
 const SidebarContent = async ({ lang }) => {
    const { menuLinks, common } = await getDictionary(lang);
-   const session = await getServerSession();
+   const session = await auth();
 
    const user = session?.user || null;
    const avatar =
@@ -90,6 +98,9 @@ const SidebarContent = async ({ lang }) => {
          {/* Sidebar content here */}
          {/* <Header lang={params.lang} /> */}
          <ul>
+            {user.role === "admin" && (
+               <MenuLink link={adminCRMLink} text={menuLinks} />
+            )}
             {session
                ? protectedLinks.map((link) => (
                     <MenuLink key={link.title} link={link} text={menuLinks} />
