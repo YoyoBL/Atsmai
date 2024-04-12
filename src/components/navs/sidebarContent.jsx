@@ -98,7 +98,7 @@ const SidebarContent = async ({ lang }) => {
          {/* Sidebar content here */}
          {/* <Header lang={params.lang} /> */}
          <ul>
-            {user.role === "admin" && (
+            {user?.role === "admin" && (
                <MenuLink link={adminCRMLink} text={menuLinks} />
             )}
             {session
