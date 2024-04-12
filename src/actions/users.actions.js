@@ -1,10 +1,11 @@
 "use server";
 
 import { auth } from "@/auth";
+import { customFetch } from "@/lib/customFetch";
 import dbConnect, { serialize } from "@/lib/mongoDbConnect";
 import User from "@/models/user.model";
 import bcrypt from "bcrypt";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function fetchUsers() {
    const session = await auth();
@@ -56,6 +57,48 @@ export async function EditUser(id, valuesToUpdate) {
       const data = serialize(updated);
       revalidateTag("user");
 
+      return {
+         ok: true,
+         data,
+      };
+   } catch (error) {
+      console.log(error);
+      return { ok: false, data: error.message };
+   }
+}
+
+export async function EditUserRole(id) {
+   try {
+      await dbConnect();
+      const user = await customFetch(`/api/users/${id}`);
+      const updatedUserRole = user.role === "user" ? "admin" : "user";
+      const updated = await User.findByIdAndUpdate(
+         id,
+         { role: updatedUserRole },
+         {
+            new: true,
+         }
+      );
+      const data = serialize(updated);
+      revalidateTag("user");
+
+      return {
+         ok: true,
+         data,
+      };
+   } catch (error) {
+      console.log(error);
+      return { ok: false, data: error.message };
+   }
+}
+
+export async function deleteUser(id) {
+   try {
+      const deletedUser = await User.findByIdAndDelete(id);
+
+      if (!deleteUser) return { ok: false, data: "Id to delete not found" };
+      revalidatePath("/[lang]/admin-crm", "page");
+      const data = serialize(deletedUser);
       return {
          ok: true,
          data,
