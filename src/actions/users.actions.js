@@ -1,9 +1,25 @@
 "use server";
 
+import { auth } from "@/auth";
 import dbConnect, { serialize } from "@/lib/mongoDbConnect";
 import User from "@/models/user.model";
 import bcrypt from "bcrypt";
 import { revalidateTag } from "next/cache";
+
+export async function fetchUsers() {
+   const session = await auth();
+   const role = session?.user?.role;
+   if (role !== "admin") return { ok: false, data: "Admin user only." };
+
+   try {
+      const users = await User.find({}, { password: false });
+      const data = serialize(users);
+      return { ok: true, data };
+   } catch (error) {
+      console.log(error);
+      return { ok: false, data: error.message };
+   }
+}
 
 export async function addNewUser(values) {
    try {
