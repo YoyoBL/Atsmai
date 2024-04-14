@@ -5,7 +5,7 @@ import SeedCard from "@/seed/seedCard";
 
 const Welcome = async ({ params: { lang } }) => {
    const { welcome } = await getDictionary(lang);
-   const isDevelopment = process.env.NODE_ENV;
+   const isDevelopment = process.env.NODE_ENV === "development";
 
    const greeting = { __html: welcome.greeting };
    return (
