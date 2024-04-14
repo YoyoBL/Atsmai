@@ -3,10 +3,10 @@
 import useQueryParams from "@/hooks/useQueryParams";
 import { useRouter } from "next/navigation";
 
-const Modal = ({ children }) => {
+const Modal = ({ children, trigger = "modal" }) => {
    const { getQueryByName } = useQueryParams();
    const router = useRouter();
-   const isOpen = getQueryByName("modal");
+   const isOpen = getQueryByName(trigger);
    return (
       isOpen && (
          <dialog className="modal modal-open">
