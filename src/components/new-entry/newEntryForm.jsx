@@ -39,7 +39,7 @@ const NewEntryForm = ({ text }) => {
       onSubmit: async (values) => {
          try {
             const parsedValues = await YupNewEntrySchema().validate(values);
-
+            parsedValues.category = parsedValues.category.toLowerCase();
             let res;
             if (!isEdit) {
                res = await AddNewEntry(parsedValues);
@@ -95,7 +95,7 @@ const NewEntryForm = ({ text }) => {
    const colorCondition = formik.values.entryType === "income";
 
    return (
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={formik.handleSubmit} autocomplete="off">
          <div className="flex flex-col gap-4">
             {/* income | expense */}
 
