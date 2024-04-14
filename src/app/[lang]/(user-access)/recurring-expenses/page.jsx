@@ -1,6 +1,7 @@
 import { getRecurringExpenses } from "@/actions/recurringExpense.actions";
 import ConfirmModal from "@/components/common/confirmModal";
 import Modal from "@/components/common/modal";
+import ExpandedRecurring from "@/components/recurring-expenses/expandedRecurring";
 import NewRecurringExpenseBtn from "@/components/recurring-expenses/newRecurringExpenseBtn";
 import NewRecurringExpense from "@/components/recurring-expenses/newRecurringExpenseForm";
 import RecurringExpenseCard from "@/components/recurring-expenses/recurringExpenseCard";
@@ -22,23 +23,29 @@ const RecurringExpensesPage = async ({
       );
    return (
       <section className="w-full flex flex-col items-center overflow-auto p-3">
-         <h1 className="text-3xl m-4 mb-5">{text.title}</h1>
-         <SearchRecurring />
+         <div className="card bg-base-200 md:w-3/4">
+            <div className="card-body">
+               <div className="card-title text-2xl">{text.title}</div>
+               <SearchRecurring />
 
-         <div className="flex flex-wrap items-center gap-3">
-            <NewRecurringExpenseBtn />
+               <div className="grid grid-cols-2 place-items-center md:flex md:flex-wrap md:items-center gap-3 bg-base-100 p-3 rounded-xl">
+                  <NewRecurringExpenseBtn />
 
-            {recurringExpenses.map((recurringExpense) => (
-               <RecurringExpenseCard
-                  key={recurringExpense._id}
-                  recurringExpense={recurringExpense}
-               />
-            ))}
+                  {recurringExpenses.map((recurringExpense) => (
+                     <RecurringExpenseCard
+                        key={recurringExpense._id}
+                        recurringExpense={recurringExpense}
+                     />
+                  ))}
+               </div>
+            </div>
          </div>
+         <Modal trigger="expanded">
+            <ExpandedRecurring text={text.expanded} />
+         </Modal>
          <Modal>
             <NewRecurringExpense text={text.newRecurringExpenseForm} />
          </Modal>
-         <ConfirmModal />
       </section>
    );
 };

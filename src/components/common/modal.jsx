@@ -2,6 +2,7 @@
 
 import useQueryParams from "@/hooks/useQueryParams";
 import { useRouter } from "next/navigation";
+import BackBtn from "./backBtn";
 
 const Modal = ({ children, trigger = "modal" }) => {
    const { getQueryByName } = useQueryParams();
@@ -10,7 +11,10 @@ const Modal = ({ children, trigger = "modal" }) => {
    return (
       isOpen && (
          <dialog className="modal modal-open">
-            <div className="modal-box">{children}</div>
+            <div className="modal-box">
+               <BackBtn />
+               {children}
+            </div>
             {/* close modal on outside click */}
             <span onClick={router.back} className="modal-backdrop"></span>
          </dialog>

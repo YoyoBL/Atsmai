@@ -104,8 +104,17 @@
          "amount": "עלות",
          "category": "בשביל",
          "startDate": "תאריך התחלה",
-         "addBtn": "הוספת הו\"ק",
+         "addBtn": "שמור",
          "placeHolder": "הקלידו..."
+      },
+      "expanded": {
+         "amount": "עלות",
+         "category": "בשביל",
+         "startDate": "תאריך התחלה",
+         "nextOccurrence": "הורדה הבאה",
+         "deleteMessage": "למחוק הו\"ק?",
+         "confirmBtn": "מחיקה",
+         "cancelBtn": "ביטול"
       }
    },
    "search": {

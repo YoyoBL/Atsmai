@@ -1,38 +1,28 @@
+"use client";
+
 import { formatDate } from "@/lib/dates";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
-import EditBtn from "./editRecurringBtn";
-import DeleteRecurring from "./deleteRecurring";
+import { useRouter } from "next/navigation";
 
 const RecurringExpenseCard = ({ recurringExpense }) => {
+   const router = useRouter();
+
    const { title, amount, category, startDate, _id } = recurringExpense;
    const recurringDate = formatDate(startDate, "dd");
+
+   function openModal() {
+      router.push(`?expanded=${_id}`);
+   }
    return (
-      <div className="card bg-base-200 min-w-28">
-         <div className="card-body p-2">
+      <div
+         onClick={openModal}
+         className="card bg-base-200 min-w-28 hover:scale-105 duration-150 hover:shadow-lg cursor-pointer"
+      >
+         <div className="card-body p-3">
             {/* card header */}
             <div className="card-title text-base justify-between">
                <span>{title}</span>
-               <div className="dropdown">
-                  <EllipsisVerticalIcon
-                     tabIndex={0}
-                     role="button"
-                     className="btn btn-sm btn-circle p-0 btn-ghost size-5"
-                  />
-                  <ul
-                     tabIndex={0}
-                     className="dropdown-content z-[1] menu p-5 shadow bg-base-200 rounded-box space-y-2"
-                  >
-                     <li>
-                        <EditBtn id={_id} />
-                     </li>
-                     <li>
-                        <DeleteRecurring id={_id} />
-                     </li>
-                  </ul>
-               </div>
             </div>
-            <ul className="text-sm bg-base-100 p-2 rounded-md">
+            <ul className="text-sm bg-base-100 p-2 rounded-md ">
                <li>{amount}</li>
                <li>{category}</li>
                <li>{recurringDate}</li>

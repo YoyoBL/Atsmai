@@ -101,8 +101,17 @@
          "amount": "Amount",
          "category": "category",
          "startDate": "Start Date",
-         "addBtn": "Add Recurring Expense",
+         "addBtn": "Save",
          "placeHolder": "Type Here..."
+      },
+      "expanded": {
+         "amount": "Amount",
+         "category": "Category",
+         "startDate": "Start Date",
+         "nextOccurrence": "Next Occurrence",
+         "deleteMessage": "Are you sure you want to delete?",
+         "confirmBtn": "Delete",
+         "cancelBtn": "Cancel"
       }
    },
    "search": {
