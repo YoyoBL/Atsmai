@@ -18,6 +18,7 @@ const userSchema = new Schema({
          "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
       required: false,
    },
+   lang: { type: String, required: false, default: "he" },
    createdAt: { type: Date, default: Date.now },
 });
 

@@ -48,12 +48,15 @@ export const authOptions = {
             token.id = user._id;
             token.role = user.role;
             token.name = [user.firstName, user.lastName].join(" ");
+            token.lang = user.lang;
          }
          return token;
       },
-      async session({ session, token, user }) {
+      async session({ session, token }) {
          session.user.id = token.id;
          session.user.role = token.role;
+         session.user.lang = token.lang;
+
          return session;
       },
    },
