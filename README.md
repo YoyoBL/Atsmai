@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Yoel Bar-Lev's Atsmai Expense Tracker App
 
-## Getting Started
+## Details
 
-First, run the development server:
+-  **Name:** Yoel Bar-Lev
+-  **Email:** yoelbl2@gmail.com
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Instructions
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Duplicate the `.env.example` file to `.env.developer.local`, then fill in the required variables. For production create a `.env.local` file.
+2. Run `npm run dev`.
+3. Navigate to your localhost; you'll see a "Click here to seed initial data" button. Click it, and the initial data will be loaded. Check the console for the user's accounts.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Key Features
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+-  Light and Dark themes (stored in cookie)
+-  Full Hebrew and English language and layout support
+-  Full mobile/PC compatibility
+-  All data stored in the cloud (MongoDB)
+-  Add incomes and expenses with the cross-page + button
+-  A list of all your entries, sorted by month, with the total of each month conveniently displayed on top
+-  Click on an entry and see the last 3 appearances of the same entry
+-  Add recurring expenses; Atsmai will add them for you automatically when the time comes
+-  Upcoming expenses (from recurring expenses) displayed in the expenses entries page
+-  Search and display entries
+-  Profile page with edit option
+-  Admin CRM page
 
-## Learn More
+## Technologies Used
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+-  bcrypt
+-  chalk
+-  chart.js
+-  client-only
+-  clsx
+-  date-fns
+-  formik
+-  framer-motion
+-  jsonwebtoken
+-  mongoose
+-  next
+-  next-auth
+-  react
+-  react-chartjs
+-  react-dom
+-  react-hot
+-  react-icons
+-  server-only
+-  tailwind-merge
+-  yup
+-  autoprefixer
+-  daisyui
+-  tailwindcss
