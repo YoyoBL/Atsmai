@@ -123,10 +123,18 @@ export async function signIn(credentials) {
       );
       if (!validatePassword) throw new Error("Wrong email or password");
 
-      const { firstName, lastName, email, role, image, _id } = user;
+      const { firstName, lastName, email, role, image, _id, lang } = user;
       return {
          ok: true,
-         data: { firstName, lastName, email, role, image, _id: _id.toString() },
+         data: {
+            firstName,
+            lastName,
+            email,
+            role,
+            lang,
+            image,
+            _id: _id.toString(),
+         },
       };
    } catch (error) {
       console.log(error);

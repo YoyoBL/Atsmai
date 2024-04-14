@@ -43,7 +43,7 @@ export const authOptions = {
       }),
    ],
    callbacks: {
-      async jwt({ user, account, profile, token }) {
+      async jwt({ user, account, token }) {
          if (account) {
             token.id = user._id;
             token.role = user.role;
