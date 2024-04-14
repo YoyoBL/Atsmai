@@ -47,7 +47,9 @@ const Categories = ({ form = {}, color = "primary", text = {} }) => {
                            !form.values.category
                         )
                            return category;
-                        return category.includes(form.values.category);
+                        return category.includes(
+                           form.values.category.toLowerCase()
+                        );
                      })
                      .map((category) => (
                         <RadioBtn
