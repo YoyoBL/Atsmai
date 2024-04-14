@@ -46,8 +46,6 @@ export async function seedInitialData() {
 }
 
 async function addData(id) {
-   const promises = [];
-
    try {
       const expenses = generateExpenses(id);
       const expensesPromise = AddExpenses(expenses);

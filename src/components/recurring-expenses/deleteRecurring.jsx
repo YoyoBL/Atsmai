@@ -20,7 +20,6 @@ const DeleteRecurring = ({ id }) => {
             const deleteId = confirmed.split("@")[1];
             try {
                const res = await deleteRecurringExpense(deleteId);
-               console.log(res);
                if (!res.ok) return;
                router.push(`/${lang}/recurring-expenses`);
                toast.success("Deleted");

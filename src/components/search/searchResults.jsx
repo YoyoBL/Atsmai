@@ -16,7 +16,6 @@ const SearchResults = async ({
    const res = await searchEntries(entryType, searchValue);
    if (!res.ok) serverError = res.data;
    const searchResults = res.data;
-   console.log(searchResults);
    const totalSum = searchResults
       .reduce((acc, curr) => acc + curr.amount, 0)
       .toLocaleString();

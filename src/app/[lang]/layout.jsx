@@ -20,6 +20,7 @@ export async function generateStaticParams() {
 
 export default async function RootLayout({ children, params }) {
    const session = getServerSession();
+   console.log(session);
 
    const theme = (await getTheme()) || "dark";
 
