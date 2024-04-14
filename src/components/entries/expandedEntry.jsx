@@ -4,6 +4,7 @@ import { deleteEntry, fetchThreeLast } from "@/actions/entries.actions";
 import useQueryParams from "@/hooks/useQueryParams";
 import { formatDate } from "@/lib/dates";
 import { Bar } from "@/lib/imports";
+import cn from "@/lib/tailwindMerge";
 import {
    PencilIcon,
    PresentationChartBarIcon,
@@ -57,10 +58,6 @@ const ExpandedEntry = ({ entry }) => {
    async function handleDelete() {
       const confirmPath = getPathWithNewParam("confirm", entry._id);
       router.push(confirmPath);
-      // const res = await deleteEntry(entry);
-      // if (!res.ok) return console.log("Error", res.data);
-
-      // router.back();
    }
 
    async function fetchLast3() {
@@ -84,14 +81,15 @@ const ExpandedEntry = ({ entry }) => {
    const date = formatDate(entry.date, "dd/MM");
    return (
       <div className="space-y-2">
-         <div className="bg-primary text-white flex flex-wrap justify-around items-center font-light p-4 rounded-xl">
+         <div
+            className={cn(
+               " text-white grid grid-cols-3 justify-items-center items-center font-light p-4 rounded-xl",
+               entryType === "incomes" ? "bg-primary" : "bg-secondary"
+            )}
+         >
             <div> {category}</div>
             <div className="text-3xl ">{amount}</div>
             <div> {date}</div>
-            {/* <div className="divider w-full text-xs text-base-content">
-               Notes
-            </div>
-            <div className="">Some Notes</div> */}
          </div>
 
          {/* Collapse */}
