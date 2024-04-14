@@ -2,6 +2,8 @@ import { Bars3Icon } from "@heroicons/react/24/outline";
 import LocaleSwitcher from "../localeSwitcher";
 import ThemeSwitcher from "../themeSwitcher";
 import { getTheme } from "@/actions/theme.actions";
+import Image from "next/image";
+import LOGO from "@/images/LOGO.png";
 
 const Navbar = async () => {
    const theme = (await getTheme()) || "dark";
@@ -17,7 +19,10 @@ const Navbar = async () => {
             </label>
          </div>
          <div className="navbar-center">
-            <a className="btn btn-ghost text-2xl">Atsmai</a>
+            <a className="btn btn-ghost text-2xl">
+               <Image height={25} width={25} src={LOGO} alt="Atsmai logo" />
+               Atsmai
+            </a>
          </div>
 
          <div className="navbar-end gap-5">
