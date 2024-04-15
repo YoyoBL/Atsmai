@@ -20,6 +20,7 @@ const Tabs = ({ text: entriesPage }) => {
             className={cn("p-2 ", {
                "bg-primary rounded-t-xl text-white": entriesType === "incomes",
             })}
+            prefetch={true}
          >
             {entriesPage.incomesTab}
          </Link>
@@ -30,6 +31,7 @@ const Tabs = ({ text: entriesPage }) => {
                "bg-secondary rounded-t-xl text-white":
                   entriesType === "expenses",
             })}
+            prefetch={true}
          >
             {entriesPage.expensesTab}
          </Link>

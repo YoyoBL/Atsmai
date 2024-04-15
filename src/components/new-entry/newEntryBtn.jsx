@@ -10,7 +10,7 @@ function AddNewEntryBtn() {
    if (currentPath.includes("/new-entry")) return null;
    return (
       <div className="fixed bottom-0 right-0 rtl:right-auto rtl:left-0 m-5 hidden md:block">
-         <Link href={`/${lang}/new-entry`}>
+         <Link href={`/${lang}/new-entry`} prefetch={true}>
             <button className="btn btn-lg btn-circle btn-primary">
                <PlusIcon className="h-6 w-6" />
             </button>

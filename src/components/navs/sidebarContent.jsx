@@ -1,7 +1,6 @@
 import {
    ArrowPathIcon,
    ArrowsUpDownIcon,
-   BriefcaseIcon,
    MagnifyingGlassIcon,
    InformationCircleIcon,
    EnvelopeIcon,
@@ -114,7 +113,11 @@ const SidebarContent = async ({ lang }) => {
             <li> {user?.name}</li>
             {session && (
                <li>
-                  <Link href={`/${lang}/profile`} className="avatar ">
+                  <Link
+                     href={`/${lang}/profile`}
+                     className="avatar "
+                     prefetch={true}
+                  >
                      <div className="h-20 rounded-full hover:ring-4 hover:ring-primary hover:scale-110  active:ring-4 active:ring-primary active:scale-110 transition-all duration-150">
                         <img src={avatar} alt="Profile image" />
                      </div>

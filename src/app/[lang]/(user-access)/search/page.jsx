@@ -1,8 +1,13 @@
 import SearchForm from "@/components/search/searchForm";
 import SearchResults from "@/components/search/searchResults";
+import { i18n } from "@/i18n.config";
 import { getDictionary } from "@/lib/dictionary";
 
 import { redirect } from "next/navigation";
+
+export async function generateStaticParams() {
+   return i18n.locales.map((locale) => ({ lang: locale }));
+}
 
 const SearchPage = async ({ params: { lang }, searchParams }) => {
    const { search, common } = await getDictionary(lang);
