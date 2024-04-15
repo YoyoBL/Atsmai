@@ -19,6 +19,7 @@ const MonthsPicker = ({ months }) => {
             <Link
                href={routeToPreviousMonth}
                className="btn btn-ghost btn-circle btn-xs"
+               prefetch={true}
             >
                <ChevronLeftIcon className="rtl:hidden" />
                <ChevronRightIcon className="ltr:hidden" />
@@ -32,6 +33,7 @@ const MonthsPicker = ({ months }) => {
             <Link
                href={routeToNextMonth}
                className="btn btn-ghost btn-circle btn-xs"
+               prefetch={true}
             >
                <ChevronRightIcon className="rtl:hidden" />
                <ChevronLeftIcon className="ltr:hidden" />

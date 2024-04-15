@@ -1,5 +1,10 @@
 import RegisterForm from "@/components/register/registerForm";
+import { i18n } from "@/i18n.config";
 import { getDictionary } from "@/lib/dictionary";
+
+export async function generateStaticParams() {
+   return i18n.locales.map((locale) => ({ lang: locale }));
+}
 
 const RegisterPage = async ({ params: { lang } }) => {
    const { register } = await getDictionary(lang);

@@ -1,6 +1,5 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { i18n } from "@/i18n.config";
 import SideBar from "@/components/navs/sidebar";
 import cn from "@/lib/tailwindMerge";
 import { Providers } from "@/contexts/providers";
@@ -13,10 +12,6 @@ export const metadata = {
    title: "Atsmai",
    description: "A business incomes and expenses manager",
 };
-
-export async function generateStaticParams() {
-   return i18n.locales.map((locale) => ({ lang: locale }));
-}
 
 export default async function RootLayout({ children, params }) {
    const session = await auth();

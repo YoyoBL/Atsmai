@@ -1,6 +1,10 @@
 import ContactForm from "@/components/contact/contactForm";
+import { i18n } from "@/i18n.config";
 import { getDictionary } from "@/lib/dictionary";
 
+export async function generateStaticParams() {
+   return i18n.locales.map((locale) => ({ lang: locale }));
+}
 const Contact = async ({ params: { lang } }) => {
    const { contact } = await getDictionary(lang);
    return (

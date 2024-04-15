@@ -1,7 +1,12 @@
 import RegisterBtn from "@/components/navs/registerBtn";
 import SignInBtn from "@/components/navs/signInBtn";
+import { i18n } from "@/i18n.config";
 import { getDictionary } from "@/lib/dictionary";
 import SeedCard from "@/seed/seedCard";
+
+export async function generateStaticParams() {
+   return i18n.locales.map((locale) => ({ lang: locale }));
+}
 
 const Welcome = async ({ params: { lang } }) => {
    const { welcome } = await getDictionary(lang);
