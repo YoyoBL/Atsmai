@@ -20,6 +20,7 @@ const MenuLink = ({ link, text }) => {
                "flex gap-3 p-3 hover:bg-base-300 rounded-xl",
                isCurrentPath && "bg-base-100 font-bold"
             )}
+            prefetch={true}
          >
             {link.icon}
             {text[link.key]}
