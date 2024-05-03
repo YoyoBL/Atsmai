@@ -7,6 +7,7 @@ import { getEndOfMonth, getStartOfMonth } from "../lib/dates";
 import { parse } from "date-fns";
 import { revalidatePath } from "next/cache";
 import { getUserId } from "../lib/userTools";
+import Project from "@/models/project.model";
 
 export async function AddNewEntry(entry) {
    const userId = await getUserId();
@@ -16,11 +17,30 @@ export async function AddNewEntry(entry) {
       await dbConnect();
       if (entry.entryType === "income") {
          newEntry = new Income({ ...entry, userId });
-         savedEntry = await newEntry.save();
+         if (entry.project) {
+            var updateProject = Project.findByIdAndUpdate(entry.project, {
+               $push: {
+                  incomes: { id: newEntry._id, amount: newEntry.amount },
+               },
+            });
+         }
+         const res = await Promise.allSettled([newEntry.save(), updateProject]);
+         console.log(res);
+         savedEntry = res[0].value;
       } else {
          newEntry = new Expense({ ...entry, userId });
-         savedEntry = await newEntry.save();
+         if (entry.project) {
+            var updateProject = Project.findByIdAndUpdate(entry.project, {
+               $push: {
+                  expenses: { id: newEntry._id, amount: newEntry.amount },
+               },
+            });
+         }
+         const res = await Promise.allSettled([newEntry.save(), updateProject]);
+
+         savedEntry = res[0].value;
       }
+
       savedEntry = serialize(savedEntry);
       revalidatePath("/[lang]/", "page");
       return { ok: true, data: savedEntry };

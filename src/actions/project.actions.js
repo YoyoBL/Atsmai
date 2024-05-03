@@ -21,6 +21,19 @@ export async function createProject(formValues) {
    }
 }
 
+export async function fetchProjectsTitles(project) {
+   const userId = await getUserId();
+   try {
+      await dbConnect();
+      const projects = await Project.find({ userId }).select("title");
+      const data = serialize(projects);
+      return { ok: true, data };
+   } catch (error) {
+      console.log(error);
+      return { ok: false, data: error.message };
+   }
+}
+
 export async function fetchProjects() {
    const userId = await getUserId();
    try {

@@ -17,6 +17,7 @@ import RadioBtn from "../common/radioBtn";
 import useQueryParams from "@/hooks/useQueryParams";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import LinkToProject from "./linkToProject";
 
 const NewEntryForm = ({ text }) => {
    const router = useRouter();
@@ -35,6 +36,7 @@ const NewEntryForm = ({ text }) => {
          amount: "",
          date: getToday(),
          category: "general",
+         project: null,
       },
       onSubmit: async (values) => {
          try {
@@ -95,7 +97,7 @@ const NewEntryForm = ({ text }) => {
    const colorCondition = formik.values.entryType === "income";
 
    return (
-      <form onSubmit={formik.handleSubmit} autocomplete="off">
+      <form onSubmit={formik.handleSubmit} autoComplete="off">
          <div className="flex flex-col gap-4">
             {/* income | expense */}
 
@@ -150,6 +152,9 @@ const NewEntryForm = ({ text }) => {
             {/* category */}
 
             <Categories form={formik} text={text} color={color} />
+
+            {/* link to project */}
+            <LinkToProject form={formik} />
 
             <button
                className={`btn btn-${color} text-lg`}
