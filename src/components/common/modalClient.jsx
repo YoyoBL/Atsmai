@@ -12,9 +12,7 @@ const ModalClient = ({ children, modalId = "id" }) => {
    }
    return (
       <dialog ref={modalRef} id={modalId} className="modal ">
-         <div onClick={closeModal} className="modal-box w-fit">
-            {children}
-         </div>
+         <div className="modal-box w-fit">{children}</div>
          {/* close modal on outside click */}
          <span onClick={closeModal} className="modal-backdrop"></span>
       </dialog>
