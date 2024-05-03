@@ -70,3 +70,11 @@ export function YupRegisterSchema() {
 export function YupEditUserSchema() {
    return YupRegisterSchema().omit(["password", "email"]);
 }
+
+export function YupProjectSchema() {
+   return yup
+      .object({
+         title: yup.string().min(2).required("Required field."),
+      })
+      .required();
+}
