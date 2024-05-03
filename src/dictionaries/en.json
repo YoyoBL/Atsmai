@@ -15,6 +15,7 @@
       "entries": "Entries",
       "recurringExpenses": "Recurring expenses",
       "searchEntries": "Search Entries",
+      "projects": "Projects",
       "adminCrm": "Admin CRM"
    },
    "entriesPage": {
@@ -127,5 +128,8 @@
       "country": "Country",
       "city": "City",
       "editBtn": "Edit Profile"
+   },
+   "projects": {
+      "title": "Projects"
    }
 }

@@ -6,6 +6,7 @@ import {
    EnvelopeIcon,
    HomeIcon,
    LockClosedIcon,
+   BriefcaseIcon,
 } from "@heroicons/react/24/outline";
 import SignOutBtn from "./signOutBtn";
 import SignInBtn from "./signInBtn";
@@ -36,11 +37,12 @@ const protectedLinks = [
       href: "/search?entriesType=incomes",
       icon: <MagnifyingGlassIcon className="h-5 w-5" />,
    },
-   // {
-   //    title: "Projects",
-   //    href: "/",
-   //    icon: <BriefcaseIcon className="h-5 w-5" />,
-   // },
+   {
+      title: "Projects",
+      key: "projects",
+      href: "/projects",
+      icon: <BriefcaseIcon className="h-5 w-5" />,
+   },
    {
       title: "About",
       key: "about",
