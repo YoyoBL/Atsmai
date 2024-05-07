@@ -20,20 +20,21 @@ export async function AddNewEntry(entry) {
          if (entry.project) {
             var updateProject = Project.findByIdAndUpdate(entry.project, {
                $push: {
-                  incomes: { id: newEntry._id, amount: newEntry.amount },
+                  incomes: newEntry._id,
                },
+               $inc: { totalIncomes: entry.amount },
             });
          }
          const res = await Promise.allSettled([newEntry.save(), updateProject]);
-         console.log(res);
          savedEntry = res[0].value;
       } else {
          newEntry = new Expense({ ...entry, userId });
          if (entry.project) {
             var updateProject = Project.findByIdAndUpdate(entry.project, {
                $push: {
-                  expenses: { id: newEntry._id, amount: newEntry.amount },
+                  expenses: newEntry._id,
                },
+               $inc: { totalExpenses: entry.amount },
             });
          }
          const res = await Promise.allSettled([newEntry.save(), updateProject]);
@@ -171,7 +172,7 @@ export async function editEntry(entry, updatedEntry) {
    try {
       await dbConnect();
       if (entryType === "income") {
-         // in case the user changes the entry form income to expense
+         // in case the user changes the entry from income to expense
          if (entryType !== updatedEntry.entryType) {
             const deleteEntry = Income.findByIdAndDelete(id);
             const newEntry = Expense.create(updatedEntry);
@@ -185,7 +186,7 @@ export async function editEntry(entry, updatedEntry) {
          return { ok: true, data: serialize(data) };
       }
       if (entryType === "expense") {
-         // in case the user changes the entry form expense to income
+         // in case the user changes the entry from expense to income
          if (entryType !== updatedEntry.entryType) {
             const deleteEntry = Expense.findByIdAndDelete(id);
             const newEntry = Income.create(updatedEntry);

@@ -18,15 +18,8 @@ const CardWrapper = ({ children }) => {
 };
 
 const ProjectCard = ({ project }) => {
-   console.log(project.incomes);
-   const totalIncomes = project.incomes.reduce(
-      (total, item) => total + item.amount,
-      0
-   );
-   const totalExpenses = project.expenses.reduce(
-      (total, item) => total + item.amount,
-      0
-   );
+   const totalIncomes = project.totalIncomes;
+   const totalExpenses = project.totalExpenses;
 
    const profit = totalIncomes - totalExpenses;
 

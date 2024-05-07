@@ -5,20 +5,10 @@ const projectSchema = new Schema({
 
    title: { type: String, required: true, minLength: 2 },
    createdAt: { type: Date, required: true, default: Date.now },
-   incomes: [
-      {
-         _id: false,
-         id: { type: Schema.Types.ObjectId, ref: "Income" },
-         amount: { type: Number, required: true },
-      },
-   ],
-   expenses: [
-      {
-         _id: false,
-         id: { type: Schema.Types.ObjectId, ref: "Expense" },
-         amount: { type: Number, required: true },
-      },
-   ],
+   incomes: [[{ type: Schema.Types.ObjectId, ref: "Incomes" }]],
+   expenses: [{ type: Schema.Types.ObjectId, ref: "Expense" }],
+   totalIncomes: { type: Number, default: 0 },
+   totalExpenses: { type: Number, default: 0 },
 });
 
 const Project =
