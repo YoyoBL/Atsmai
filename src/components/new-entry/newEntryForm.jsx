@@ -58,8 +58,6 @@ const NewEntryForm = ({ text }) => {
                   entryType: getQueryByName("entryType"),
                };
                res = await editEntry(oldEntryData, parsedValues);
-               res.ok = false;
-               res.data = "Server error";
                if (!res.ok) return toast.error(`Server error`);
                toast.success("Entry Edited");
 
