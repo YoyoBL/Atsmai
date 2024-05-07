@@ -46,3 +46,20 @@ export async function fetchProjects() {
       return { ok: false, data: error.message };
    }
 }
+
+export async function syncProject(newEntry) {
+   let updateObject = {
+      $push: {
+         entries: newEntry._id,
+      },
+   };
+
+   if (newEntry.entryType === "income") {
+      updateObject.$inc = { totalIncomes: newEntry.amount };
+   } else if (newEntry.entryType === "expense") {
+      updateObject.$inc = { totalExpenses: newEntry.amount };
+   }
+   return Project.findByIdAndUpdate(newEntry.project, updateObject, {
+      new: true,
+   });
+}

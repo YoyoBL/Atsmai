@@ -5,8 +5,7 @@ const projectSchema = new Schema({
 
    title: { type: String, required: true, minLength: 2 },
    createdAt: { type: Date, required: true, default: Date.now },
-   incomes: [[{ type: Schema.Types.ObjectId, ref: "Incomes" }]],
-   expenses: [{ type: Schema.Types.ObjectId, ref: "Expense" }],
+   entries: [{ type: Schema.Types.ObjectId, ref: "Entry" }],
    totalIncomes: { type: Number, default: 0 },
    totalExpenses: { type: Number, default: 0 },
 });

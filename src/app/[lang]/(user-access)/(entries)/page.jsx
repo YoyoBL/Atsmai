@@ -48,8 +48,10 @@ export default async function EntriesPage({ params: { lang }, searchParams }) {
       recurringExpenses = res.data.filter(filterByDate);
    }
 
-   const entries = (await fetchEntries(entriesType, date)) || [];
-
+   let entries = [];
+   const res = (await fetchEntries(entriesType, date)) || [];
+   if (!res.ok) toast.error("Something went wrong, try again later.");
+   entries = res.data;
    function getExpandedEntry() {
       if (!searchParams?.modal) return;
 

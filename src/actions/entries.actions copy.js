@@ -8,29 +8,43 @@ import { parse } from "date-fns";
 import { revalidatePath } from "next/cache";
 import { getUserId } from "../lib/userTools";
 import Project from "@/models/project.model";
-import Entry from "@/models/entry.model";
-import { syncProject } from "./project.actions";
 
 export async function AddNewEntry(entry) {
    const userId = await getUserId();
+   let savedEntry;
+   let newEntry;
    try {
       await dbConnect();
-      let data;
-      const newEntry = new Entry({ ...entry, userId });
-      if (entry.project) {
-         const updatedProject = syncProject(newEntry);
-         const result = await Promise.allSettled([
-            newEntry.save(),
-            updatedProject,
-         ]);
-         data = { newEntry: result[0].value, updatedProject: result[1].value };
+      if (entry.entryType === "income") {
+         newEntry = new Income({ ...entry, userId });
+         if (entry.project) {
+            var updateProject = Project.findByIdAndUpdate(entry.project, {
+               $push: {
+                  incomes: newEntry._id,
+               },
+               $inc: { totalIncomes: entry.amount },
+            });
+         }
+         const res = await Promise.allSettled([newEntry.save(), updateProject]);
+         savedEntry = res[0].value;
       } else {
-         data = await newEntry.save();
+         newEntry = new Expense({ ...entry, userId });
+         if (entry.project) {
+            var updateProject = Project.findByIdAndUpdate(entry.project, {
+               $push: {
+                  expenses: newEntry._id,
+               },
+               $inc: { totalExpenses: entry.amount },
+            });
+         }
+         const res = await Promise.allSettled([newEntry.save(), updateProject]);
+
+         savedEntry = res[0].value;
       }
 
-      data = serialize(data);
+      savedEntry = serialize(savedEntry);
       revalidatePath("/[lang]/", "page");
-      return { ok: true, data };
+      return { ok: true, data: savedEntry };
    } catch (error) {
       console.log(error);
       return { ok: false, data: error.message };
@@ -51,7 +65,6 @@ export async function fetchEntryById(id, entryType) {
 }
 
 export async function fetchEntries(entriesType, monthString) {
-   const entryType = (entriesType = "incomes" ? "income" : "expense");
    let month = undefined;
    if (monthString) {
       month = parse(monthString, "MM-yy", new Date());
@@ -59,23 +72,15 @@ export async function fetchEntries(entriesType, monthString) {
    const fromDate = getStartOfMonth(month);
    const toDate = getEndOfMonth(month);
    try {
-      await dbConnect();
-      const userId = await getUserId();
-
-      const incomes = await Entry.find({
-         userId,
-         entryType,
-         date: { $gte: fromDate, $lte: toDate },
-      }).sort({ date: -1 });
-      const data = serialize(incomes);
-      return { ok: true, data };
+      if (entriesType === "incomes") return fetchIncomes(fromDate, toDate);
+      if (entriesType === "expenses") return fetchExpenses(fromDate, toDate);
+      return "Error: Wrong entriesType, use only -  incomes | expenses";
    } catch (error) {
-      console.log(error);
-      return { ok: false, data: error.message };
+      return error;
    }
 }
 
-export async function fetchIncomes(fromDate, toDate) {
+export async function fetchIncomes(startDate, endDate) {
    try {
       await dbConnect();
       const userId = await getUserId();
