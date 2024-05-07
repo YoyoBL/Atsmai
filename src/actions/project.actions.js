@@ -63,3 +63,54 @@ export async function syncProject(newEntry) {
       new: true,
    });
 }
+
+export async function updateProject(oldEntry, newEntry, action) {
+   console.log(oldEntry, newEntry);
+   const actions = {
+      typeEdit: () => {
+         const decrement = oldEntry.amount * -1;
+         if (newEntry.entryType === "expense") {
+            return {
+               $inc: {
+                  totalIncomes: decrement,
+                  totalExpenses: newEntry.amount,
+               },
+            };
+         } else if (newEntry.entryType === "income") {
+            return {
+               $inc: {
+                  totalExpenses: decrement,
+                  totalIncomes: newEntry.amount,
+               },
+            };
+         }
+      },
+      amountChange: () => {
+         let query;
+         const difference = newEntry.amount - oldEntry.amount;
+         if (newEntry.entryType === "expense") {
+            query = {
+               $inc: { totalExpenses: difference },
+            };
+         } else if (newEntry.entryType === "income") {
+            query = {
+               $inc: { totalIncomes: difference },
+            };
+         }
+         return query;
+      },
+   };
+   try {
+      const updated = await Project.findByIdAndUpdate(
+         oldEntry.project,
+         actions[action](),
+         { new: true }
+      );
+      const data = serialize(updated);
+      revalidatePath("/[lang]/projects", "page");
+      return { ok: true, data };
+   } catch (error) {
+      console.log(error);
+      return { ok: false, data: error.message };
+   }
+}

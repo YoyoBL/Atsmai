@@ -4,7 +4,7 @@ import { fetchProjectsTitles } from "@/actions/project.actions";
 import { useEffect, useState } from "react";
 
 const LinkToProject = ({ form }) => {
-   const [checked, setChecked] = useState(false);
+   const [checked, setChecked] = useState(!!!form.project);
    const [error, setError] = useState("");
    const [projects, setProjects] = useState([]);
 
@@ -39,6 +39,7 @@ const LinkToProject = ({ form }) => {
                <input
                   type="checkbox"
                   className="checkbox checked:checkbox-primary"
+                  defaultChecked={checked}
                   onChange={() => setChecked((checked) => !checked)}
                />
                <span className="label-text">Link to project</span>
@@ -50,7 +51,6 @@ const LinkToProject = ({ form }) => {
             id="project-select"
             disabled={!checked}
             className="select select-bordered select-primary w-full max-w-xs"
-            defaultValue="default"
             onChange={(e) => onSelect(e.target.value)}
          >
             <option disabled value="default">

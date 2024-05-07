@@ -24,6 +24,7 @@ export default async function EntriesPage({ params: { lang }, searchParams }) {
 
    const entriesType = searchParams.entriesType;
    if (!entriesType) redirect(`/${lang}/?entriesType=incomes`);
+
    const date = searchParams?.month;
    if (!date)
       redirect(

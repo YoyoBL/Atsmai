@@ -41,7 +41,6 @@ const NewEntryForm = ({ text }) => {
       onSubmit: async (values) => {
          try {
             const parsedValues = await YupNewEntrySchema().validate(values);
-            parsedValues.category = parsedValues.category.toLowerCase();
             let res;
             if (!isEdit) {
                res = await AddNewEntry(parsedValues);
@@ -55,13 +54,10 @@ const NewEntryForm = ({ text }) => {
                router.replace(path);
             }
             if (isEdit) {
-               const oldEntryData = {
-                  id: getQueryByName("edit"),
-                  entryType: getQueryByName("entryType"),
-               };
-               res = await editEntry(oldEntryData, parsedValues);
-               res.ok = false;
-               res.data = "Server error";
+               const id = getQueryByName("edit");
+
+               res = await editEntry(id, parsedValues);
+
                if (!res.ok) return toast.error(`Server error`);
                toast.success("Entry Edited");
 
@@ -78,6 +74,7 @@ const NewEntryForm = ({ text }) => {
       if (!isEdit) return;
       getEntry();
    }, [isEdit]);
+
    useEffect(() => {
       const updatedColor =
          formik.values.entryType === "income" ? "primary" : "secondary";
@@ -86,11 +83,10 @@ const NewEntryForm = ({ text }) => {
 
    async function getEntry() {
       const id = getQueryByName("edit");
-      const entrytype = getQueryByName("entryType");
-      const res = await fetchEntryById(id, entrytype);
+      const res = await fetchEntryById(id);
       if (!res.ok) return;
       const entry = res.data;
-      entry.entryType = entrytype;
+      console.log(entry);
       formik.setValues(entry);
    }
 
