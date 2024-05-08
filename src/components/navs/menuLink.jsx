@@ -8,7 +8,8 @@ const MenuLink = ({ link, text }) => {
    const path = usePathname();
    const { lang } = useParams();
    const currentPath = path.split("/")[2] || "";
-   const isCurrentPath = currentPath === link.href;
+   const isCurrentPath = "/" + currentPath === link.href;
+
    if (!text) return;
 
    return (
@@ -17,8 +18,8 @@ const MenuLink = ({ link, text }) => {
             onClick={closeSidebar}
             href={`/${lang + link.href}`}
             className={cn(
-               "flex gap-3 p-3 hover:bg-base-300 rounded-xl",
-               isCurrentPath && "bg-base-100 font-bold"
+               "flex gap-3 p-3 hover:bg-base-100 rounded-xl",
+               isCurrentPath && "bg-base-300 font-bold hover:bg-base-300"
             )}
             prefetch={true}
          >
