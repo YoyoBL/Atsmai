@@ -1,15 +1,17 @@
 "use client";
 
+import cn from "@/lib/tailwindMerge";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { useParams, useRouter } from "next/navigation";
 
-const BackBtn = () => {
+const BackBtn = ({ className }) => {
    const router = useRouter();
    const { lang } = useParams();
+   const text = lang === "en" ? "Back" : "חזור";
 
    return (
       <button
-         className="btn btn-circle btn-ghost btn-sm text-sm"
+         className={cn("flex w-fit opacity-50 cursor-pointer", className)}
          onClick={router.back}
       >
          {lang === "en" ? (
@@ -17,6 +19,7 @@ const BackBtn = () => {
          ) : (
             <ChevronRightIcon className="size-6" />
          )}
+         {text}
       </button>
    );
 };
