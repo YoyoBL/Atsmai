@@ -1,12 +1,15 @@
 "use client";
 
 import { fetchProjectsTitles } from "@/actions/project.actions";
+import cn from "@/lib/tailwindMerge";
 import { useEffect, useState } from "react";
 
-const LinkToProject = ({ form }) => {
+const LinkToProject = ({ form, color }) => {
    const [checked, setChecked] = useState(!!!form.project);
    const [error, setError] = useState("");
    const [projects, setProjects] = useState([]);
+
+   const isIncome = color === "primary";
 
    useEffect(() => {
       if (checked)
@@ -38,7 +41,12 @@ const LinkToProject = ({ form }) => {
             <label className="label justify-start gap-3 cursor-pointer">
                <input
                   type="checkbox"
-                  className="checkbox checked:checkbox-primary"
+                  className={cn(
+                     "checkbox",
+                     isIncome
+                        ? "checked:checkbox-primary"
+                        : "checked:checkbox-secondary"
+                  )}
                   defaultChecked={checked}
                   onChange={() => setChecked((checked) => !checked)}
                />
@@ -50,7 +58,10 @@ const LinkToProject = ({ form }) => {
          <select
             id="project-select"
             disabled={!checked}
-            className="select select-bordered select-primary w-full max-w-xs"
+            className={cn(
+               "select select-bordered  w-full max-w-xs",
+               isIncome ? "select-primary" : "select-secondary"
+            )}
             onChange={(e) => onSelect(e.target.value)}
          >
             <option disabled value="default">

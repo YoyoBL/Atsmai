@@ -86,7 +86,6 @@ const NewEntryForm = ({ text }) => {
       const res = await fetchEntryById(id);
       if (!res.ok) return;
       const entry = res.data;
-      console.log(entry);
       formik.setValues(entry);
    }
 
@@ -105,7 +104,7 @@ const NewEntryForm = ({ text }) => {
                   value={"income"}
                   label={text.income}
                   className="flex-1"
-                  defaultChecked
+                  checked={formik.values.entryType === "income"}
                />
                <RadioBtn
                   form={formik}
@@ -114,6 +113,7 @@ const NewEntryForm = ({ text }) => {
                   value={"expense"}
                   label={text.expense}
                   className="flex-1"
+                  checked={formik.values.entryType === "expense"}
                />
             </div>
 
@@ -150,7 +150,7 @@ const NewEntryForm = ({ text }) => {
             <Categories form={formik} text={text} color={color} />
 
             {/* link to project */}
-            <LinkToProject form={formik} />
+            <LinkToProject form={formik} color={color} />
 
             <button
                className={`btn btn-${color} text-lg`}
