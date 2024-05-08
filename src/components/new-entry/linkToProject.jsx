@@ -5,7 +5,7 @@ import cn from "@/lib/tailwindMerge";
 import { useEffect, useState } from "react";
 
 const LinkToProject = ({ form, color }) => {
-   const [checked, setChecked] = useState(!!!form.project);
+   const [checked, setChecked] = useState(form.project);
    const [error, setError] = useState("");
    const [projects, setProjects] = useState([]);
 

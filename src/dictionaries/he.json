@@ -92,6 +92,7 @@
    },
    "newEntry": {
       "title": "רשומה חדשה",
+      "editTitle": "ערוך רשומה",
       "amount": "עלות",
       "today": "היום",
       "yesterday": "אתמול",
