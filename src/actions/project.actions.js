@@ -1,6 +1,7 @@
 "use server";
 
 import { getUserId } from "@/lib/userTools";
+import Entry from "@/models/entry.model";
 import Project from "@/models/project.model";
 import { revalidatePath } from "next/cache";
 
@@ -41,6 +42,56 @@ export async function fetchProjects() {
       const projects = await Project.find({ userId }, { userId: false });
       const data = serialize(projects);
       return { ok: true, data };
+   } catch (error) {
+      console.log(error);
+      return { ok: false, data: error.message };
+   }
+}
+
+export async function getProjectById(id) {
+   try {
+      await dbConnect();
+      const project = await Project.findById(id).populate("entries");
+      if (!project) throw new Error("Project id doesn't exist");
+      const data = serialize(project);
+      return { ok: true, data };
+   } catch (error) {
+      console.log(error);
+      return { ok: false, data: error.message };
+   }
+}
+
+export async function updateTitle(id, formData) {
+   const newTitle = formData.get("newTitle");
+
+   try {
+      await dbConnect();
+      const updated = await Project.findByIdAndUpdate(
+         id,
+         { title: newTitle },
+         { new: true }
+      );
+      const data = serialize(updated);
+      revalidatePath("/[lang]/projects/[projectId]", "page");
+      return { ok: true, data };
+   } catch (error) {
+      console.log(error);
+      return { ok: false, data: error.message };
+   }
+}
+
+export async function deleteProject(id) {
+   try {
+      await dbConnect();
+      const updateEntries = Entry.updateMany(
+         { project: id },
+         { $unset: { project: 1 } },
+         { multi: true }
+      );
+      const deleteProject = Project.findByIdAndDelete(id);
+      const results = await Promise.allSettled([updateEntries, deleteProject]);
+      revalidatePath("/[lang]/projects", "page");
+      return { ok: true, data: "Success" };
    } catch (error) {
       console.log(error);
       return { ok: false, data: error.message };

@@ -1,0 +1,60 @@
+"use client";
+
+import { deleteProject } from "@/actions/project.actions";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import ModalClient from "../common/modalClient";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+
+const DeleteProjectBtn = ({ id }) => {
+   const router = useRouter();
+   const modalId = "confirm-project-delete";
+   async function handleDelete() {
+      try {
+         const res = await deleteProject(id);
+         if (!res.ok) {
+            throw new Error();
+         }
+         if (res.ok) {
+            toast.success("Project Deleted");
+            router.replace(`/${lang}/projects`);
+         }
+      } catch (error) {
+         toast.error("Server Error, Try again later.");
+         closeModal();
+      }
+   }
+
+   function openModal() {
+      const modal = document.getElementById(modalId);
+      modal.showModal();
+   }
+
+   function closeModal() {
+      const modal = document.getElementById(modalId);
+      modal.close();
+   }
+   return (
+      <>
+         <button className="p-3 hover:text-error active:text-error w-fit">
+            <TrashIcon onClick={openModal} className="size-4" />
+         </button>
+
+         {/* modal */}
+         <ModalClient modalId={modalId}>
+            <p>Are you sure you want to delete this project?</p>
+
+            <div className="modal-action justify-center">
+               <button onClick={handleDelete} className="btn btn-error">
+                  Delete
+               </button>
+               <button onClick={closeModal} className="btn btn-outline">
+                  Cancel
+               </button>
+            </div>
+         </ModalClient>
+      </>
+   );
+};
+
+export default DeleteProjectBtn;

@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 
 const CardWrapper = ({ children, projectId }) => {
+   const { lang } = useParams();
    const href = `/${lang}/projects/${projectId}`;
    return (
       <Link href={href} className="card bg-base-100">
@@ -17,8 +18,6 @@ const CardWrapper = ({ children, projectId }) => {
 };
 
 const ProjectCard = ({ project }) => {
-   const { lang } = useParams();
-
    const totalIncomes = project.totalIncomes;
    const totalExpenses = project.totalExpenses;
 

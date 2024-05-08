@@ -2,10 +2,11 @@
 
 import useQueryParams from "@/hooks/useQueryParams";
 import { formatDate } from "@/lib/dates";
+import cn from "@/lib/tailwindMerge";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
-const EntryCard = ({ entry = {} }) => {
+const EntryCard = ({ entry = {}, className }) => {
    const { lang } = useParams();
 
    const { getPathWithNewParam } = useQueryParams();
@@ -19,7 +20,10 @@ const EntryCard = ({ entry = {} }) => {
    return (
       <Link
          href={getPathWithNewParam("modal", entry._id)}
-         className="card bg-base-100 px-3 cursor-pointer hover:bg-base-200 transition-colors duration-150"
+         className={cn(
+            "card bg-base-100 px-3 cursor-pointer hover:bg-base-200 transition-colors duration-150 ",
+            className
+         )}
       >
          <div className="p-3 flex flex-row justify-between items-center">
             <div className="text-base">{amount}</div>
