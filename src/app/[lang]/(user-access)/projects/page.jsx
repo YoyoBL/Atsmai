@@ -6,7 +6,6 @@ const ProjectsPage = async () => {
    const res = await fetchProjects();
    if (!res.ok) throw new Error("Error while fetching Data, Try again later.");
    const projects = res.data;
-   console.log(projects);
    return (
       <section className="p-3 w-full max-w-screen">
          <div className="card card-compact bg-base-200 w-full">
@@ -19,7 +18,7 @@ const ProjectsPage = async () => {
                   <AddProject />
                   {/* projects */}
                   {projects.map((project) => (
-                     <ProjectCard project={project} />
+                     <ProjectCard key={project._id} project={project} />
                   ))}
                </div>
             </div>
