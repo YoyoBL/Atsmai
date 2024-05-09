@@ -5,6 +5,7 @@ import { TrashIcon } from "@heroicons/react/24/outline";
 import ModalClient from "../common/modalClient";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { closeModalDOM, openModalDOM } from "@/lib/modalTools";
 
 const DeleteProjectBtn = ({ id }) => {
    const router = useRouter();
@@ -21,23 +22,17 @@ const DeleteProjectBtn = ({ id }) => {
          }
       } catch (error) {
          toast.error("Server Error, Try again later.");
-         closeModal();
+         closeModalDOM(modalId);
       }
    }
 
-   function openModal() {
-      const modal = document.getElementById(modalId);
-      modal.showModal();
-   }
-
-   function closeModal() {
-      const modal = document.getElementById(modalId);
-      modal.close();
-   }
    return (
       <>
          <button className="p-3 hover:text-error active:text-error w-fit">
-            <TrashIcon onClick={openModal} className="size-4" />
+            <TrashIcon
+               onClick={() => openModalDOM(modalId)}
+               className="size-4"
+            />
          </button>
 
          {/* modal */}
@@ -48,7 +43,10 @@ const DeleteProjectBtn = ({ id }) => {
                <button onClick={handleDelete} className="btn btn-error">
                   Delete
                </button>
-               <button onClick={closeModal} className="btn btn-outline">
+               <button
+                  onClick={() => closeModalDOM(modalId)}
+                  className="btn btn-outline"
+               >
                   Cancel
                </button>
             </div>

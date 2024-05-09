@@ -42,27 +42,25 @@ const NewEntryForm = ({ text }) => {
          try {
             const parsedValues = await YupNewEntrySchema().validate(values);
             let res;
+            const entriesType =
+               values.entryType === "income" ? "incomes" : "expenses";
+            const month = formatDate(values.date, "MM-yy");
+            let redirect = `/${lang}/?entriesType=${entriesType}&month=${month}`;
+
             if (!isEdit) {
                res = await AddNewEntry(parsedValues);
                if (!res.ok) return res.data;
-
-               const entriesType =
-                  values.entryType === "income" ? "incomes" : "expenses";
-               const month = formatDate(values.date, "MM-yy");
-               const path = `/${lang}/?entriesType=${entriesType}&month=${month}`;
                toast.success("Entry Created");
-               router.replace(path);
             }
             if (isEdit) {
                const id = getQueryByName("edit");
-
                res = await editEntry(id, parsedValues);
-
                if (!res.ok) return toast.error(`Server error`);
                toast.success("Entry Edited");
 
-               router.back();
+               redirect = redirect + `&modal=${res.data._id}`;
             }
+            router.replace(redirect);
          } catch (error) {
             console.log(error);
          }

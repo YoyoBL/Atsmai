@@ -13,7 +13,7 @@ const ProjectsPage = async () => {
                <div className="card-title">Projects</div>
 
                {/* body */}
-               <div className="flex items-center gap-3">
+               <div className="flex flex-wrap items-center gap-3">
                   {/* add new */}
                   <AddProject />
                   {/* projects */}

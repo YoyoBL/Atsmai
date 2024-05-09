@@ -1,18 +1,19 @@
 "use client";
 
+import useModal from "@/hooks/useModal";
 import cn from "@/lib/tailwindMerge";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
 const BackBtn = ({ className }) => {
-   const router = useRouter();
    const { lang } = useParams();
+   const { closeQueryModal } = useModal();
    const text = lang === "en" ? "Back" : "חזור";
 
    return (
       <button
          className={cn("flex w-fit opacity-50 cursor-pointer", className)}
-         onClick={router.back}
+         onClick={closeQueryModal}
       >
          {lang === "en" ? (
             <ChevronLeftIcon className="size-6" />

@@ -4,15 +4,14 @@ import { EditUserRole, deleteUser } from "@/actions/users.actions";
 import { useState } from "react";
 import ModalConfirm from "../common/modalConfirm";
 import toast from "react-hot-toast";
+import { openModalDOM } from "@/lib/modalTools";
 
 const UsersTable = ({ users = [] }) => {
-   // const [openModal, setOpenModal] = useState(false);
    const [selectedUser, setSelectedUser] = useState(null);
 
    function openModal(modalId, id) {
-      const modal = document.getElementById(modalId);
+      openModalDOM(modalId);
       setSelectedUser(id);
-      modal.showModal();
    }
 
    async function handleDelete() {

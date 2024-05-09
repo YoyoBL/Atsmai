@@ -44,7 +44,7 @@ function SubmitButton() {
    return (
       <button type="submit" className="btn btn-primary" disabled={pending}>
          {pending ? (
-            <span class="loading loading-spinner loading-sm"></span>
+            <span className="loading loading-spinner loading-sm"></span>
          ) : (
             "Save"
          )}

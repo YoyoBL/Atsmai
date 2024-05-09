@@ -2,31 +2,22 @@
 import { PlusIcon } from "@heroicons/react/24/outline";
 import ModalClient from "../common/modalClient";
 import NewProjectForm from "./newProjectForm";
+import { closeModalDOM, openModalDOM } from "@/lib/modalTools";
 
 const AddProject = () => {
    const modalId = "new-project";
 
-   function openModal() {
-      const modal = document.getElementById(modalId);
-      modal.showModal();
-   }
-
-   function closeModal() {
-      const modal = document.getElementById(modalId);
-      modal.close();
-   }
-
    return (
       <>
          <button
-            onClick={openModal}
+            onClick={() => openModalDOM(modalId)}
             className="btn btn-outline btn-circle p-4 size-20"
          >
             <PlusIcon />
          </button>
 
          <ModalClient modalId={modalId}>
-            <NewProjectForm onAdd={closeModal} />
+            <NewProjectForm onAdd={() => closeModalDOM(modalId)} />
          </ModalClient>
       </>
    );
