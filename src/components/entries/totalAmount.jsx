@@ -1,16 +1,11 @@
-import TaxCard from "./taxCard";
 import cn from "@/lib/tailwindMerge";
 import { getDictionary } from "@/lib/dictionary";
 import Tabs from "./tabs";
 import { auth } from "@/auth";
 import Taxes from "./taxes";
+import { MAIN_CURRENCY } from "@/constants";
 
-const TotalAmount = async ({
-   entries = [],
-   date = "",
-   entriesType = "",
-   lang = "he",
-}) => {
+const TotalAmount = async ({ entries = [], entriesType = "", lang = "he" }) => {
    const { entriesPage } = await getDictionary(lang);
    const { user } = auth();
 
@@ -35,9 +30,10 @@ const TotalAmount = async ({
          >
             <div className=" flex-1 grid place-items-center">
                <span className="text-5xl font-light text-white">
-                  {totalAmount.toLocaleString()}
+                  {totalAmount.toLocaleString() + MAIN_CURRENCY}
                </span>
             </div>
+            <Taxes entries={entries} entriesType={entriesType} />
          </div>
       </div>
    );

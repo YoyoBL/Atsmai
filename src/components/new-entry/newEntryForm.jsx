@@ -38,7 +38,7 @@ const NewEntryForm = ({ text }) => {
       initialValues: {
          entryType: "income",
          amount: "",
-         vat: false,
+         vatExempted: false,
          date: getToday(),
          category: "general",
          project: null,

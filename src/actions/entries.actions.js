@@ -2,11 +2,12 @@
 
 import dbConnect, { serialize } from "../lib/mongoDbConnect";
 import { getEndOfMonth, getStartOfMonth } from "../lib/dates";
-import { parse } from "date-fns";
+import { parse, month, format, sub, subMonths } from "date-fns";
 import { revalidatePath } from "next/cache";
 import { getUserId } from "../lib/userTools";
 import Entry from "@/models/entry.model";
 import { syncProject, updateProject } from "./project.actions";
+import { VAT_PERCENTAGE } from "@/constants";
 
 export async function AddNewEntry(entry) {
    const userId = await getUserId();
@@ -169,6 +170,34 @@ export async function searchEntries(entryType, searchValue) {
       if (!res.length) return { ok: true, data: ["Nothing Found"] };
       const data = serialize(res);
       return { ok: true, data };
+   } catch (error) {
+      console.log(error);
+      return { ok: false, data: error.message };
+   }
+}
+
+export async function fetchTaxesEntries() {
+   const currentDate = new Date();
+   let from;
+   let to = getEndOfMonth(currentDate);
+   let query = { vatExempted: { $ne: false } };
+   const monthNum = format(currentDate, "M");
+   //if unpaired month
+   if (monthNum % 2 === 0) {
+      from = getStartOfMonth(currentDate);
+      query = { ...query, date: { $gte: from, $lte: to } };
+   } else {
+      //if paired month
+      from = getStartOfMonth(subMonths(currentDate, 1));
+      query = { ...query, date: { $gte: from, $lte: to } };
+   }
+   try {
+      await dbConnect();
+      const res = await Entry.find(query).select(["amount", "date"]);
+      if (!res.length) return { ok: true, data: { vat: 0 } };
+      const months = `${format(from, "MMMM")} - ${format(to, "MMMM")}`;
+
+      return { ok: true, data: { months, entries: res } };
    } catch (error) {
       console.log(error);
       return { ok: false, data: error.message };

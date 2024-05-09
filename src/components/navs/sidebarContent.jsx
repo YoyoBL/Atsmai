@@ -7,6 +7,7 @@ import {
    HomeIcon,
    LockClosedIcon,
    BriefcaseIcon,
+   LightBulbIcon,
 } from "@heroicons/react/24/outline";
 import SignOutBtn from "./signOutBtn";
 import SignInBtn from "./signInBtn";
@@ -25,6 +26,12 @@ const protectedLinks = [
       key: "entries",
       href: `/?entriesType=incomes&month=${currentDate}`,
       icon: <ArrowsUpDownIcon className="h-5 w-5" />,
+   },
+   {
+      title: "Insights",
+      key: "insights",
+      href: "/insights",
+      icon: <LightBulbIcon className="h-5 w-5" />,
    },
    {
       title: "Recurring expenses",
