@@ -124,7 +124,7 @@ export async function signIn(credentials) {
       );
       if (!validatePassword) throw new Error("Wrong email or password");
 
-      const { firstName, lastName, email, role, image, _id, lang } = user;
+      const { firstName, lastName, email, role, _id, lang, vat } = user;
       return {
          ok: true,
          data: {
@@ -133,7 +133,7 @@ export async function signIn(credentials) {
             email,
             role,
             lang,
-            image,
+            vat,
             _id: _id.toString(),
          },
       };

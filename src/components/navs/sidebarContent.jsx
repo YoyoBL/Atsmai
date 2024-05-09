@@ -16,7 +16,7 @@ import { format } from "date-fns";
 import { getDictionary } from "@/lib/dictionary";
 import Link from "next/link";
 import { auth } from "@/auth";
-import Avatar from "./profile/avatar";
+import Avatar from "../profile/avatar";
 
 const currentDate = format(new Date(), "MM-yy");
 const protectedLinks = [

@@ -19,10 +19,13 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import LinkToProject from "./linkToProject";
 import LoadingEntry from "../entries/loadinfEntry";
+import { useSession } from "next-auth/react";
 
 const NewEntryForm = ({ text }) => {
    const router = useRouter();
    const { lang } = useParams();
+   const session = useSession();
+   const isVAT = session?.data?.user?.vat;
 
    const { getQueryByName } = useQueryParams();
    const [color, setColor] = useState("primary");
@@ -35,6 +38,7 @@ const NewEntryForm = ({ text }) => {
       initialValues: {
          entryType: "income",
          amount: "",
+         vat: false,
          date: getToday(),
          category: "general",
          project: null,
@@ -91,7 +95,7 @@ const NewEntryForm = ({ text }) => {
       formik.setValues(entry);
    }
 
-   const colorCondition = formik.values.entryType === "income";
+   const isIncome = formik.values.entryType === "income";
 
    return (
       <form onSubmit={formik.handleSubmit} autoComplete="off">
@@ -120,24 +124,41 @@ const NewEntryForm = ({ text }) => {
             </div>
 
             {/* Amount */}
-            <input
-               {...formik.getFieldProps("amount")}
-               type="text"
-               placeholder={`${text.amount}*`}
-               className={cn(
-                  `input input-bordered w-full `,
-                  colorCondition ? "input-primary" : "input-secondary",
-                  {
-                     "input-error placeholder:text-error":
-                        formik.touched.amount && formik.errors.amount,
-                  }
+            <div>
+               <input
+                  {...formik.getFieldProps("amount")}
+                  type="text"
+                  placeholder={`${text.amount}*`}
+                  className={cn(
+                     `input input-bordered w-full `,
+                     isIncome ? "input-primary" : "input-secondary",
+                     {
+                        "input-error placeholder:text-error":
+                           formik.touched.amount && formik.errors.amount,
+                     }
+                  )}
+               />
+               {formik.touched.amount && formik.errors.amount && (
+                  <div className="text-sm text-error text-opacity-80">
+                     {formik.errors.amount}
+                  </div>
                )}
-            />
-            {formik.touched.amount && formik.errors.amount && (
-               <div className="text-sm text-error text-opacity-80">
-                  {formik.errors.amount}
-               </div>
-            )}
+               {/* no VAT */}
+               {isVAT && isIncome && (
+                  <div className="form-control">
+                     <label className="label justify-end gap-2 cursor-pointer">
+                        <input
+                           type="checkbox"
+                           className="checkbox checkbox-sm checked:checkbox-primary"
+                           onChange={() =>
+                              formik.setFieldValue("vat", !formik.values.vat)
+                           }
+                        />
+                        <span className="label-text text-sm">VAT exempted</span>
+                     </label>
+                  </div>
+               )}
+            </div>
 
             {/* date */}
             <EntryDatesPicker

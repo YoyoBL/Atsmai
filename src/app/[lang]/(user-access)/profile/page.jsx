@@ -2,12 +2,12 @@ import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 
 import { auth } from "@/auth";
 import Modal from "@/components/common/modal";
-import EditProfile from "@/components/navs/profile/editProfile";
+import EditProfile from "@/components/profile/editProfile";
 import { customFetch } from "@/lib/customFetch";
 import { getDictionary } from "@/lib/dictionary";
 import { format } from "date-fns";
 import Link from "next/link";
-import Avatar from "@/components/navs/profile/avatar";
+import Avatar from "@/components/profile/avatar";
 
 const Profile = async ({ params: { lang } }) => {
    const { user } = await auth();

@@ -36,6 +36,12 @@ export function YupNewEntrySchema() {
             }
             return value;
          }),
+         vat: yup.boolean().transform((value, originalValue) => {
+            if (originalValue === false) {
+               return undefined;
+            }
+            return value;
+         }),
       })
       .required();
 }

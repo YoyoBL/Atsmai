@@ -10,6 +10,7 @@ const entrySchema = new Schema({
       ref: "Project",
       required: false,
    },
+   vatExempted: { type: Boolean, required: false },
    // notes: { type: String },
    date: { type: Date, default: Date.now },
    createdAt: { type: Date, default: Date.now },
