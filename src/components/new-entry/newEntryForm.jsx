@@ -18,6 +18,7 @@ import useQueryParams from "@/hooks/useQueryParams";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import LinkToProject from "./linkToProject";
+import LoadingEntry from "../entries/loadinfEntry";
 
 const NewEntryForm = ({ text }) => {
    const router = useRouter();
@@ -78,6 +79,9 @@ const NewEntryForm = ({ text }) => {
          formik.values.entryType === "income" ? "primary" : "secondary";
       setColor(updatedColor);
    }, [formik.values.entryType]);
+
+   // if edit don't load ui until data is fetched
+   if (isEdit && !formik.values.amount) return <LoadingEntry />;
 
    async function getEntry() {
       const id = getQueryByName("edit");
