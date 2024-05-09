@@ -13,19 +13,20 @@ const EditProfile = ({ text, user }) => {
    const { lang } = useParams();
    const router = useRouter();
 
-   const { firstName, lastName, country, city, _id: id } = user;
+   const { firstName, lastName, country, city, _id: id, vat } = user;
 
    const formik = useFormik({
       validateOnMount: true,
       initialValues: {
          firstName,
          lastName,
-
          country,
          city,
+         vat,
       },
       onSubmit: async (values) => {
          const parsedValues = await YupEditUserSchema().validate(values);
+         console.log(parsedValues);
          try {
             const res = await EditUser(id, parsedValues);
             if (!res.ok) return setServerError(res.data);
@@ -106,6 +107,36 @@ const EditProfile = ({ text, user }) => {
                   </div>
                )}
             </div>
+         </div>
+
+         {/* Business type */}
+         <div>
+            <fieldset className="grid grid-cols-2">
+               <div className="form-control">
+                  <label className="label cursor-pointer">
+                     <input
+                        type="radio"
+                        name="radio-10"
+                        className="radio checked:radio-primary"
+                        onChange={() => formik.setFieldValue("vat", false)}
+                        defaultChecked={!formik.values.vat}
+                     />
+                     <span className="label-text">Exempt business</span>
+                  </label>
+               </div>
+               <div className="form-control">
+                  <label className="label cursor-pointer">
+                     <input
+                        type="radio"
+                        name="radio-10"
+                        className="radio checked:radio-primary"
+                        onChange={() => formik.setFieldValue("vat", true)}
+                        defaultChecked={formik.values.vat}
+                     />
+                     <span className="label-text">Licensed business</span>
+                  </label>
+               </div>
+            </fieldset>
          </div>
          <button
             disabled={!formik.isValid}

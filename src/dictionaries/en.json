@@ -128,6 +128,9 @@
       "joinedAt": "Joined at",
       "country": "Country",
       "city": "City",
+      "business": "Business",
+      "licensed": "Licensed",
+      "exempt": "Exempt",
       "editBtn": "Edit Profile"
    },
    "projects": {

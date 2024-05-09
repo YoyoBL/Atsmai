@@ -22,6 +22,7 @@ const RegisterForm = ({ text }) => {
          password: "",
          country: "",
          city: "",
+         vat: false,
       },
       onSubmit: async (values) => {
          const parsedValues = await YupRegisterSchema().validate(values);
@@ -119,6 +120,35 @@ const RegisterForm = ({ text }) => {
                   </div>
                )}
             </div>
+         </div>
+
+         {/* Business type */}
+         <div>
+            <fieldset className="grid grid-cols-2">
+               <div className="form-control">
+                  <label className="label cursor-pointer">
+                     <input
+                        type="radio"
+                        name="radio-10"
+                        className="radio checked:radio-primary"
+                        onChange={() => formik.setFieldValue("vat", false)}
+                        defaultChecked
+                     />
+                     <span className="label-text">Exempt business</span>
+                  </label>
+               </div>
+               <div className="form-control">
+                  <label className="label cursor-pointer">
+                     <input
+                        type="radio"
+                        name="radio-10"
+                        className="radio checked:radio-primary"
+                        onChange={() => formik.setFieldValue("vat", true)}
+                     />
+                     <span className="label-text">Licensed business</span>
+                  </label>
+               </div>
+            </fieldset>
          </div>
 
          <button

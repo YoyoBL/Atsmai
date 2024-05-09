@@ -14,7 +14,7 @@ const Modal = ({ children, trigger = "modal" }) => {
       isOpen && (
          <dialog className="modal modal-open">
             <div className="modal-box">
-               <BackBtn />
+               <BackBtn className={"my-2"} />
                {children}
             </div>
             {/* close modal on outside click */}

@@ -16,6 +16,7 @@ import { format } from "date-fns";
 import { getDictionary } from "@/lib/dictionary";
 import Link from "next/link";
 import { auth } from "@/auth";
+import Avatar from "./profile/avatar";
 
 const currentDate = format(new Date(), "MM-yy");
 const protectedLinks = [
@@ -90,9 +91,6 @@ const SidebarContent = async ({ lang }) => {
    const session = await auth();
 
    const user = session?.user || null;
-   const avatar =
-      user?.image ||
-      "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png";
 
    return (
       <div className="flex flex-col gap-3 p-4 w-80 min-h-full bg-base-200 text-base-content">
@@ -115,15 +113,7 @@ const SidebarContent = async ({ lang }) => {
             <li> {user?.name}</li>
             {session && (
                <li>
-                  <Link
-                     href={`/${lang}/profile`}
-                     className="avatar "
-                     prefetch={true}
-                  >
-                     <div className="h-20 rounded-full hover:ring-4 hover:ring-primary hover:scale-110  active:ring-4 active:ring-primary active:scale-110 transition-all duration-150">
-                        <img src={avatar} alt="Profile image" />
-                     </div>
-                  </Link>
+                  <Avatar />
                </li>
             )}
             <li>

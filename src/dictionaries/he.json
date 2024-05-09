@@ -132,6 +132,9 @@
       "joinedAt": "הצטרף בתאריך",
       "country": "מדינה",
       "city": "עיר",
+      "business": "עסק",
+      "licensed": "מורשה",
+      "exempt": "פטור",
       "editBtn": "ערוך פרופיל"
    }
 }

@@ -7,6 +7,7 @@ import { customFetch } from "@/lib/customFetch";
 import { getDictionary } from "@/lib/dictionary";
 import { format } from "date-fns";
 import Link from "next/link";
+import Avatar from "@/components/navs/profile/avatar";
 
 const Profile = async ({ params: { lang } }) => {
    const { user } = await auth();
@@ -20,18 +21,15 @@ const Profile = async ({ params: { lang } }) => {
 
    const name = userData.firstName + " " + userData.lastName;
    const joinedAt = format(userData.createdAt, "dd/MM/yyyy");
+   const businessType = userData.vat ? "licensed" : "exempt";
    const { country, city } = userData;
+
    return (
       <section className="min-h-full p-3 grid place-items-center overflow-auto">
          <div className="card bg-base-200 w-full ">
             <div className="card-body justify-center text-center">
                <div className="card-title justify-center text-2xl">Profile</div>
-               <div className="avatar justify-center">
-                  <div className="w-40 rounded-full">
-                     <img src={userData.image} alt="Profile image" />
-                  </div>
-               </div>
-
+               <Avatar />
                <div className="bg-base-100 p-2 rounded-xl">
                   <table className="table">
                      <tbody>
@@ -53,6 +51,10 @@ const Profile = async ({ params: { lang } }) => {
                         <tr>
                            <td>{text.city}:</td>
                            <td>{city}</td>
+                        </tr>
+                        <tr>
+                           <td>{text.business}:</td>
+                           <td>{text[businessType]}</td>
                         </tr>
                      </tbody>
                   </table>

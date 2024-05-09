@@ -69,6 +69,7 @@ export function YupRegisterSchema() {
             .required("Required field."),
          country: yup.string().min(2).required("Required field."),
          city: yup.string().min(2).required("Required field."),
+         vat: yup.boolean().required("Required field."),
       })
       .required();
 }

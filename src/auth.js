@@ -34,7 +34,6 @@ export const authOptions = {
                return res.data;
             } else {
                // If you return null then an error will be displayed advising the user to check their details.
-               console.log(res.data);
                return null;
 
                // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
@@ -47,6 +46,7 @@ export const authOptions = {
          if (account) {
             token.id = user._id;
             token.role = user.role;
+            token.vat = user.vat;
             token.name = [user.firstName, user.lastName].join(" ");
             token.lang = user.lang;
          }
@@ -54,6 +54,7 @@ export const authOptions = {
       },
       async session({ session, token }) {
          session.user.id = token.id;
+         session.user.vat = token.vat;
          session.user.role = token.role;
          session.user.lang = token.lang;
 
