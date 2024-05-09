@@ -59,7 +59,7 @@ const LinkToProject = ({ form, color }) => {
             id="project-select"
             disabled={!checked}
             className={cn(
-               "select select-bordered  w-full max-w-xs",
+               "select select-bordered  w-full",
                isIncome ? "select-primary" : "select-secondary"
             )}
             onChange={(e) => onSelect(e.target.value)}
