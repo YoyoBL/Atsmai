@@ -32,7 +32,7 @@ const MenuLink = ({ link, text }) => {
 
 export default MenuLink;
 
-function closeSidebar() {
+export function closeSidebar() {
    const checkbox = document.getElementById("my-drawer-2");
    const checked = checkbox.checked;
    checkbox.checked = !checked;

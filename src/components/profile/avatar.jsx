@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import Link from "next/link";
+import { closeSidebar } from "../navs/menuLink";
 
 const Avatar = async () => {
    const { user } = await auth();
@@ -8,7 +9,7 @@ const Avatar = async () => {
    const initials = splitName[0][0] + splitName[1][0];
 
    return (
-      <Link href={`profile`} className=" " prefetch={true}>
+      <Link href={`profile`} onClick={closeSidebar} prefetch={true}>
          <div className="avatar placeholder">
             <div className="bg-neutral text-neutral-content rounded-full w-20">
                <span className="text-3xl">{initials}</span>
