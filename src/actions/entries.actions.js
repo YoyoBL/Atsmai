@@ -2,7 +2,7 @@
 
 import dbConnect, { serialize } from "../lib/mongoDbConnect";
 import { getEndOfMonth, getStartOfMonth } from "../lib/dates";
-import { parse, month, format, sub, subMonths } from "date-fns";
+import { parse, month, format, sub, subMonths, addMonths } from "date-fns";
 import { revalidatePath } from "next/cache";
 import { getUserId } from "../lib/userTools";
 import Entry from "@/models/entry.model";
@@ -59,12 +59,14 @@ export async function fetchEntries(entriesType, monthString) {
    try {
       await dbConnect();
       const userId = await getUserId();
+      // console.log(userId);
 
       const entries = await Entry.find({
          userId,
          entryType,
          date: { $gte: fromDate, $lte: toDate },
       }).sort({ date: -1 });
+      // console.log(entries);
       const data = serialize(entries);
       return { ok: true, data };
    } catch (error) {
@@ -176,18 +178,22 @@ export async function searchEntries(entryType, searchValue) {
 }
 
 export async function fetchTaxesEntries() {
+   const userId = await getUserId();
    const currentDate = new Date();
    let from;
-   let to = getEndOfMonth(currentDate);
-   let query = { vatExempted: { $ne: true } };
+   let to;
+   let query = { userId, vatExempted: { $ne: true } };
    const monthNum = format(currentDate, "M");
-   //if unpaired month
+   //if paired month
    if (monthNum % 2 === 0) {
-      from = getStartOfMonth(currentDate);
+      from = getStartOfMonth(subMonths(currentDate, 1));
+      to = getEndOfMonth(currentDate);
       query = { ...query, date: { $gte: from, $lte: to } };
    } else {
-      //if paired month
-      from = getStartOfMonth(subMonths(currentDate, 1));
+      //if unpaired month
+      from = getStartOfMonth(currentDate);
+      to = getEndOfMonth(addMonths(currentDate, 1));
+
       query = { ...query, date: { $gte: from, $lte: to } };
    }
    try {

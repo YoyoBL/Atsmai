@@ -14,7 +14,6 @@ const Taxes = async ({ entries, entriesType, lang }) => {
                entry.date > getStartOfMonth() && entry.date < getEndOfMonth()
          )
          .reduce((acc, entry) => acc + entry.amount, 0) * VAT_PERCENTAGE;
-   // console.log();
    const total = entries
       .filter((entry) => !entry?.vatExempt)
       .reduce((total, entry) => total + entry.amount, 0);

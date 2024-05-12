@@ -4,6 +4,7 @@ import Tabs from "./tabs";
 import { auth } from "@/auth";
 import Taxes from "./taxes";
 import { MAIN_CURRENCY } from "@/constants";
+import IsCurrentMonth from "./isCurrentMonth";
 
 const TotalAmount = async ({ entries = [], entriesType = "", lang = "he" }) => {
    const { entriesPage } = await getDictionary(lang);
@@ -35,7 +36,13 @@ const TotalAmount = async ({ entries = [], entriesType = "", lang = "he" }) => {
                </span>
             </div>
             {vat && (
-               <Taxes entries={entries} entriesType={entriesType} lang={lang} />
+               <IsCurrentMonth>
+                  <Taxes
+                     entries={entries}
+                     entriesType={entriesType}
+                     lang={lang}
+                  />
+               </IsCurrentMonth>
             )}
          </div>
       </div>
