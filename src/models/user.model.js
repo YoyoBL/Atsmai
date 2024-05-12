@@ -12,12 +12,7 @@ const userSchema = new Schema({
    role: { type: String, default: "user", required: false },
    country: { type: String, required: true },
    city: { type: String, minLength: 2, required: true },
-   image: {
-      type: String,
-      default:
-         "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
-      required: false,
-   },
+   vat: { type: Boolean, default: false },
    lang: { type: String, required: false, default: "he" },
    createdAt: { type: Date, default: Date.now },
 });

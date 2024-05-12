@@ -1,42 +1,47 @@
 "use server";
 
-import Income from "../models/income.model";
-import Expense from "../models/expense.model";
 import dbConnect, { serialize } from "../lib/mongoDbConnect";
 import { getEndOfMonth, getStartOfMonth } from "../lib/dates";
-import { parse } from "date-fns";
+import { parse, month, format, sub, subMonths } from "date-fns";
 import { revalidatePath } from "next/cache";
 import { getUserId } from "../lib/userTools";
+import Entry from "@/models/entry.model";
+import { syncProject, updateProject } from "./project.actions";
+import { VAT_PERCENTAGE } from "@/constants";
 
 export async function AddNewEntry(entry) {
    const userId = await getUserId();
-   let savedEntry;
-   let newEntry;
    try {
       await dbConnect();
-      if (entry.entryType === "income") {
-         newEntry = new Income({ ...entry, userId });
-         savedEntry = await newEntry.save();
+      let data;
+      const newEntry = new Entry({ ...entry, userId });
+      if (entry.project) {
+         const updatedProject = syncProject(newEntry);
+         const result = await Promise.allSettled([
+            newEntry.save(),
+            updatedProject,
+         ]);
+         data = { newEntry: result[0].value, updatedProject: result[1].value };
       } else {
-         newEntry = new Expense({ ...entry, userId });
-         savedEntry = await newEntry.save();
+         data = await newEntry.save();
       }
-      savedEntry = serialize(savedEntry);
+
+      data = serialize(data);
       revalidatePath("/[lang]/", "page");
-      return { ok: true, data: savedEntry };
+      return { ok: true, data };
    } catch (error) {
       console.log(error);
       return { ok: false, data: error.message };
    }
 }
 
-export async function fetchEntryById(id, entryType) {
+export async function fetchEntryById(id) {
    try {
       await dbConnect();
-      let data;
-      if (entryType === "income") data = await Income.findById(id);
-      if (entryType === "expense") data = await Expense.findById(id);
-      return { ok: true, data: serialize(data) };
+      const entry = await Entry.findById(id);
+      const data = serialize(entry);
+
+      return { ok: true, data };
    } catch (error) {
       console.log(error);
       return { ok: false, data: serialize(error) };
@@ -44,6 +49,7 @@ export async function fetchEntryById(id, entryType) {
 }
 
 export async function fetchEntries(entriesType, monthString) {
+   const entryType = entriesType === "incomes" ? "income" : "expense";
    let month = undefined;
    if (monthString) {
       month = parse(monthString, "MM-yy", new Date());
@@ -51,53 +57,29 @@ export async function fetchEntries(entriesType, monthString) {
    const fromDate = getStartOfMonth(month);
    const toDate = getEndOfMonth(month);
    try {
-      if (entriesType === "incomes") return fetchIncomes(fromDate, toDate);
-      if (entriesType === "expenses") return fetchExpenses(fromDate, toDate);
-      return "Error: Wrong entriesType, use only -  incomes | expenses";
-   } catch (error) {
-      return error;
-   }
-}
-
-export async function fetchIncomes(startDate, endDate) {
-   try {
       await dbConnect();
       const userId = await getUserId();
 
-      const incomes = await Income.find({
+      const entries = await Entry.find({
          userId,
-         date: { $gte: startDate, $lte: endDate },
+         entryType,
+         date: { $gte: fromDate, $lte: toDate },
       }).sort({ date: -1 });
-      return serialize(incomes);
+      const data = serialize(entries);
+      return { ok: true, data };
    } catch (error) {
       console.log(error);
-   }
-}
-
-export async function fetchExpenses(startDate, endDate) {
-   try {
-      await dbConnect();
-      const userId = await getUserId();
-
-      const expenses = await Expense.find({
-         userId,
-         date: { $gte: startDate, $lte: endDate },
-      }).sort({ date: -1 });
-      return serialize(expenses);
-   } catch (error) {
-      console.log(error);
+      return { ok: false, data: error.message };
    }
 }
 
 export async function fetchCategories(type = "incomes") {
    let categories = [];
+   const filter =
+      type === "incomes" ? { entryType: "income" } : { entryType: "expense" };
    try {
       await dbConnect();
-      if (type === "incomes") {
-         categories = await Income.distinct("category");
-      } else {
-         categories = await Expense.distinct("category");
-      }
+      categories = await Entry.distinct("category", filter);
 
       //put the general category first
       const index = categories.indexOf("general");
@@ -120,84 +102,52 @@ export async function fetchThreeLast(entry) {
    const userId = await getUserId();
    try {
       await dbConnect();
-      if (entryType.startsWith("income")) {
-         const lastThreeIncomes = await Income.find({
-            userId,
-            category: category,
-         })
-            .limit(3)
-            .sort({ date: -1 });
-         return serialize(lastThreeIncomes);
-      }
-      if (entryType.startsWith("expense")) {
-         const lastThreeIncomes = await Expense.find({
-            userId,
-            category: category,
-         })
-            .limit(3)
-            .sort({ date: -1 });
-         return serialize(lastThreeIncomes);
-      }
-      return "entryType not specified";
+      const lastThreeIncomes = await Entry.find({
+         entryType,
+         userId,
+         category,
+      })
+         .limit(3)
+         .sort({ date: -1 });
+      return serialize(lastThreeIncomes);
    } catch (error) {
       console.log(error);
    }
 }
 
-export async function editEntry(entry, updatedEntry) {
-   if (!entry || !updatedEntry) return "No entry/updatedEntry Provided";
-   const { id, entryType } = entry;
-   let data;
+export async function editEntry(id, updatedData) {
+   if (!id) throw new Error("Id not provided.");
    try {
       await dbConnect();
-      if (entryType === "income") {
-         // in case the user changes the entry form income to expense
-         if (entryType !== updatedEntry.entryType) {
-            const deleteEntry = Income.findByIdAndDelete(id);
-            const newEntry = Expense.create(updatedEntry);
-            data = await Promise.allSettled([deleteEntry, newEntry]);
-         } else {
-            data = await Income.findByIdAndUpdate(id, updatedEntry, {
-               new: true,
-            });
-         }
-         revalidatePath("/[lang]/", "page");
-         return { ok: true, data: serialize(data) };
-      }
-      if (entryType === "expense") {
-         // in case the user changes the entry form expense to income
-         if (entryType !== updatedEntry.entryType) {
-            const deleteEntry = Expense.findByIdAndDelete(id);
-            const newEntry = Income.create(updatedEntry);
-            data = await Promise.allSettled([deleteEntry, newEntry]);
-         } else {
-            data = await Expense.findByIdAndUpdate(id, updatedEntry, {
-               new: true,
-            });
-         }
-         revalidatePath("/[lang]/", "page");
+      const oldEntry = await Entry.findByIdAndUpdate(id, updatedData);
+      await updateProjectAfterEdit(oldEntry, updatedData);
 
-         return { ok: true, data: serialize(data) };
-      }
+      revalidatePath("/[lang]/", "page");
+      const data = serialize(oldEntry);
+      return { ok: true, data };
    } catch (error) {
       console.log(error);
-      return { ok: false, data: error };
+      return { ok: false, data: error.message };
+   }
+}
+
+async function updateProjectAfterEdit(oldEntry, updatedData) {
+   if (oldEntry.entryType !== updatedData.entryType) {
+      return await updateProject(oldEntry, updatedData, "typeEdit");
+   }
+   if (oldEntry.amount !== updatedData.amount) {
+      return await updateProject(oldEntry, updatedData, "amountChange");
    }
 }
 
 export async function deleteEntry(entry) {
    if (!entry) return "No entry Provided";
-   const { _id: id, entryType } = entry;
-   let deletedEntry;
+   const { _id: id } = entry;
    try {
       await dbConnect();
-      if (entryType.startsWith("income")) {
-         deletedEntry = await Income.findByIdAndDelete(id);
-      }
-      if (entryType.startsWith("expense")) {
-         deletedEntry = await Expense.findByIdAndDelete(id);
-      }
-      if (!deleteEntry.length) throw new Error("Entry to delete not found.");
+      const deletedEntry = await Entry.findByIdAndDelete(id);
+
+      if (!deleteEntry) throw new Error("Entry to delete not found.");
       revalidatePath("/[lang]/", "page");
       return { ok: true, data: serialize(deletedEntry) };
    } catch (error) {
@@ -207,26 +157,46 @@ export async function deleteEntry(entry) {
 }
 
 export async function searchEntries(entryType, searchValue) {
-   const searchByType = {
-      incomes: async (id) =>
-         await Income.find({
-            userId: id,
-            category: { $regex: searchValue, $options: "i" },
-         }),
-      expenses: async (id) =>
-         await Expense.find({
-            userId: id,
-            category: { $regex: searchValue, $options: "i" },
-         }),
-   };
-
+   searchValue = searchValue.toLowerCase();
    try {
       await dbConnect();
       const userId = await getUserId();
-      const res = await searchByType[entryType](userId);
+      const res = await Entry.find({
+         entryType,
+         userId,
+         category: { $regex: searchValue, $options: "i" },
+      });
       if (!res.length) return { ok: true, data: ["Nothing Found"] };
       const data = serialize(res);
       return { ok: true, data };
+   } catch (error) {
+      console.log(error);
+      return { ok: false, data: error.message };
+   }
+}
+
+export async function fetchTaxesEntries() {
+   const currentDate = new Date();
+   let from;
+   let to = getEndOfMonth(currentDate);
+   let query = { vatExempted: { $ne: false } };
+   const monthNum = format(currentDate, "M");
+   //if unpaired month
+   if (monthNum % 2 === 0) {
+      from = getStartOfMonth(currentDate);
+      query = { ...query, date: { $gte: from, $lte: to } };
+   } else {
+      //if paired month
+      from = getStartOfMonth(subMonths(currentDate, 1));
+      query = { ...query, date: { $gte: from, $lte: to } };
+   }
+   try {
+      await dbConnect();
+      const res = await Entry.find(query).select(["amount", "date"]);
+      if (!res.length) return { ok: true, data: { vat: 0 } };
+      const months = `${format(from, "MMMM")} - ${format(to, "MMMM")}`;
+
+      return { ok: true, data: { months, entries: res } };
    } catch (error) {
       console.log(error);
       return { ok: false, data: error.message };

@@ -6,22 +6,29 @@
       "income": "הכנסה",
       "expense": "הוצאה",
       "incomes": "הכנסות",
-      "expenses": "הוצאות"
+      "expenses": "הוצאות",
+      "profit": "רווח",
+      "all": "הכל"
    },
    "menuLinks": {
       "welcome": "ברוכים הבאים",
       "about": "אודות",
       "contact": "צור קשר",
       "entries": "רשומות",
+      "insights": "תובנות",
       "recurringExpenses": "הוראות קבע",
       "searchEntries": "חיפוש רשומות",
+      "projects": "פרויקטים",
+
       "adminCrm": "Admin CRM"
    },
 
    "entriesPage": {
       "header": "רשומות",
       "incomesTab": "הכנסות",
-      "expensesTab": "הוצאות"
+      "expensesTab": "הוצאות",
+      "vat": "מע\"מ",
+      "includingVat": "כולל מע\"מ"
    },
    "months": {
       "January": "ינואר",
@@ -86,11 +93,17 @@
       "email": "דוא\"ל",
       "password": "סיסמה",
       "country": "מדינה",
-      "city": "עיר"
+      "city": "עיר",
+      "licensedBusiness": "עסק מורשה",
+      "exemptBusiness": "עסק פטור"
    },
    "newEntry": {
       "title": "רשומה חדשה",
+      "editTitle": "ערוך רשומה",
       "amount": "עלות",
+      "vat": "פטור מע\"מ",
+      "linkToProject": "קישור לפרויקט",
+      "selectProject": "בחרו פרויקט",
       "today": "היום",
       "yesterday": "אתמול",
       "category": "בשביל",
@@ -125,10 +138,17 @@
       "total": "סה\"כ"
    },
    "profile": {
+      "title": "פרופיל",
       "name": "שם",
       "joinedAt": "הצטרף בתאריך",
       "country": "מדינה",
       "city": "עיר",
+      "business": "עסק",
+      "licensed": "מורשה",
+      "exempt": "פטור",
       "editBtn": "ערוך פרופיל"
+   },
+   "projects": {
+      "title": "פרויקטים"
    }
 }

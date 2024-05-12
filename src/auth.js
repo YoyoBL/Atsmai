@@ -1,6 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import { signIn } from "@/actions/users.actions";
 import { getServerSession } from "next-auth";
+import { customFetch } from "./lib/customFetch";
 
 export const authOptions = {
    session: {
@@ -34,7 +35,6 @@ export const authOptions = {
                return res.data;
             } else {
                // If you return null then an error will be displayed advising the user to check their details.
-               console.log(res.data);
                return null;
 
                // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
@@ -43,10 +43,22 @@ export const authOptions = {
       }),
    ],
    callbacks: {
-      async jwt({ user, account, token }) {
+      async jwt({ user, account, token, trigger, session }) {
+         if (trigger === "update" && token.name) {
+            const {
+               user: { id },
+            } = await auth();
+            const updated = await customFetch(`/api/users/${id}`);
+            token.id = updated._id;
+            token.role = updated.role;
+            token.vat = updated.vat;
+            token.name = [updated.firstName, updated.lastName].join(" ");
+            token.lang = updated.lang;
+         }
          if (account) {
             token.id = user._id;
             token.role = user.role;
+            token.vat = user.vat;
             token.name = [user.firstName, user.lastName].join(" ");
             token.lang = user.lang;
          }
@@ -54,6 +66,7 @@ export const authOptions = {
       },
       async session({ session, token }) {
          session.user.id = token.id;
+         session.user.vat = token.vat;
          session.user.role = token.role;
          session.user.lang = token.lang;
 

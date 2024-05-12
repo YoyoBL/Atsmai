@@ -14,7 +14,7 @@ const Tabs = ({ text: entriesPage }) => {
    const entriesType = getQueryByName("entriesType");
 
    return (
-      <div className="grid grid-cols-2 relative  bg-base-200 text-center text-lg">
+      <div className="grid grid-cols-2 translate-y-[1px] text-center text-lg">
          <Link
             href={`/${lang}?entriesType=incomes&month=${currentDate}`}
             className={cn("p-2 ", {

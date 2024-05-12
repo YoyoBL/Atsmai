@@ -17,10 +17,15 @@ import RadioBtn from "../common/radioBtn";
 import useQueryParams from "@/hooks/useQueryParams";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import LinkToProject from "./linkToProject";
+import LoadingEntry from "../entries/loadinfEntry";
+import { useSession } from "next-auth/react";
 
 const NewEntryForm = ({ text }) => {
    const router = useRouter();
    const { lang } = useParams();
+   const session = useSession();
+   const isVAT = session?.data?.user?.vat;
 
    const { getQueryByName } = useQueryParams();
    const [color, setColor] = useState("primary");
@@ -33,36 +38,39 @@ const NewEntryForm = ({ text }) => {
       initialValues: {
          entryType: "income",
          amount: "",
+         vatExempted: false,
          date: getToday(),
          category: "general",
+         project: null,
       },
       onSubmit: async (values) => {
          try {
             const parsedValues = await YupNewEntrySchema().validate(values);
-            parsedValues.category = parsedValues.category.toLowerCase();
             let res;
+            const entriesType =
+               values.entryType === "income" ? "incomes" : "expenses";
+            const month = formatDate(values.date, "MM-yy");
+            let redirect = `/${lang}/?entriesType=${entriesType}&month=${month}`;
+
             if (!isEdit) {
                res = await AddNewEntry(parsedValues);
                if (!res.ok) return res.data;
-
-               const entriesType =
-                  values.entryType === "income" ? "incomes" : "expenses";
-               const month = formatDate(values.date, "MM-yy");
-               const path = `/${lang}/?entriesType=${entriesType}&month=${month}`;
                toast.success("Entry Created");
-               router.replace(path);
             }
             if (isEdit) {
-               const oldEntryData = {
-                  id: getQueryByName("edit"),
-                  entryType: getQueryByName("entryType"),
-               };
-               res = await editEntry(oldEntryData, parsedValues);
+
+               const id = getQueryByName("edit");
+               res = await editEntry(id, parsedValues);
+
+
+
+
                if (!res.ok) return toast.error(`Server error`);
                toast.success("Entry Edited");
 
-               router.back();
+               redirect = redirect + `&modal=${res.data._id}`;
             }
+            router.replace(redirect);
          } catch (error) {
             console.log(error);
          }
@@ -74,26 +82,28 @@ const NewEntryForm = ({ text }) => {
       if (!isEdit) return;
       getEntry();
    }, [isEdit]);
+
    useEffect(() => {
       const updatedColor =
          formik.values.entryType === "income" ? "primary" : "secondary";
       setColor(updatedColor);
    }, [formik.values.entryType]);
 
+   // if edit don't load ui until data is fetched
+   if (isEdit && !formik.values.amount) return <LoadingEntry />;
+
    async function getEntry() {
       const id = getQueryByName("edit");
-      const entrytype = getQueryByName("entryType");
-      const res = await fetchEntryById(id, entrytype);
+      const res = await fetchEntryById(id);
       if (!res.ok) return;
       const entry = res.data;
-      entry.entryType = entrytype;
       formik.setValues(entry);
    }
 
-   const colorCondition = formik.values.entryType === "income";
+   const isIncome = formik.values.entryType === "income";
 
    return (
-      <form onSubmit={formik.handleSubmit} autocomplete="off">
+      <form onSubmit={formik.handleSubmit} autoComplete="off">
          <div className="flex flex-col gap-4">
             {/* income | expense */}
 
@@ -105,7 +115,7 @@ const NewEntryForm = ({ text }) => {
                   value={"income"}
                   label={text.income}
                   className="flex-1"
-                  defaultChecked
+                  checked={formik.values.entryType === "income"}
                />
                <RadioBtn
                   form={formik}
@@ -114,28 +124,46 @@ const NewEntryForm = ({ text }) => {
                   value={"expense"}
                   label={text.expense}
                   className="flex-1"
+                  checked={formik.values.entryType === "expense"}
                />
             </div>
 
             {/* Amount */}
-            <input
-               {...formik.getFieldProps("amount")}
-               type="text"
-               placeholder={`${text.amount}*`}
-               className={cn(
-                  `input input-bordered w-full `,
-                  colorCondition ? "input-primary" : "input-secondary",
-                  {
-                     "input-error placeholder:text-error":
-                        formik.touched.amount && formik.errors.amount,
-                  }
+            <div>
+               <input
+                  {...formik.getFieldProps("amount")}
+                  type="text"
+                  placeholder={`${text.amount}*`}
+                  className={cn(
+                     `input input-bordered w-full `,
+                     isIncome ? "input-primary" : "input-secondary",
+                     {
+                        "input-error placeholder:text-error":
+                           formik.touched.amount && formik.errors.amount,
+                     }
+                  )}
+               />
+               {formik.touched.amount && formik.errors.amount && (
+                  <div className="text-sm text-error text-opacity-80">
+                     {formik.errors.amount}
+                  </div>
                )}
-            />
-            {formik.touched.amount && formik.errors.amount && (
-               <div className="text-sm text-error text-opacity-80">
-                  {formik.errors.amount}
-               </div>
-            )}
+               {/* no VAT */}
+               {isVAT && isIncome && (
+                  <div className="form-control">
+                     <label className="label justify-end gap-2 cursor-pointer">
+                        <input
+                           type="checkbox"
+                           className="checkbox checkbox-sm checked:checkbox-primary"
+                           onChange={() =>
+                              formik.setFieldValue("vat", !formik.values.vat)
+                           }
+                        />
+                        <span className="label-text text-sm">{text.vat}</span>
+                     </label>
+                  </div>
+               )}
+            </div>
 
             {/* date */}
             <EntryDatesPicker
@@ -148,6 +176,9 @@ const NewEntryForm = ({ text }) => {
             {/* category */}
 
             <Categories form={formik} text={text} color={color} />
+
+            {/* link to project */}
+            <LinkToProject form={formik} color={color} text={text} />
 
             <button
                className={`btn btn-${color} text-lg`}

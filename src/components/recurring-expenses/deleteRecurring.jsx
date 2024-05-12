@@ -9,15 +9,12 @@ import toast from "react-hot-toast";
 import { TrashIcon } from "@heroicons/react/24/outline";
 
 const DeleteRecurring = () => {
-   function openModal() {
-      const modal = document.getElementById("confirm-delete");
-      modal.showModal();
-   }
+   const modalId = "confirm-delete";
 
    return (
       <>
          <button
-            onClick={openModal}
+            onClick={() => openModalDOM(modalId)}
             className="btn btn-md btn-circle btn-outline btn-neutrals"
          >
             <TrashIcon className="h-6 w-6" />

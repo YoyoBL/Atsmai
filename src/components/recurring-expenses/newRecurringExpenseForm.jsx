@@ -111,7 +111,7 @@ const NewRecurringExpense = ({ text }) => {
          <form
             onSubmit={form.handleSubmit}
             className="space-y-3"
-            autocomplete="off"
+            autoComplete="off"
          >
             {inputFields.map((field) => (
                <label key={field.title} className="form-control w-full">

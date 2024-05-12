@@ -7,28 +7,31 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { useSession } from "next-auth/react";
 
 const EditProfile = ({ text, user }) => {
    const [serverError, setServerError] = useState(null);
    const { lang } = useParams();
    const router = useRouter();
+   const { update } = useSession();
 
-   const { firstName, lastName, country, city, _id: id } = user;
+   const { firstName, lastName, country, city, _id: id, vat } = user;
 
    const formik = useFormik({
       validateOnMount: true,
       initialValues: {
          firstName,
          lastName,
-
          country,
          city,
+         vat,
       },
       onSubmit: async (values) => {
          const parsedValues = await YupEditUserSchema().validate(values);
          try {
             const res = await EditUser(id, parsedValues);
             if (!res.ok) return setServerError(res.data);
+            update();
             toast.success("Account Edited");
             const redirect = `/${lang}/profile`;
             router.replace(redirect);
@@ -106,6 +109,36 @@ const EditProfile = ({ text, user }) => {
                   </div>
                )}
             </div>
+         </div>
+
+         {/* Business type */}
+         <div>
+            <fieldset className="grid grid-cols-2">
+               <div className="form-control">
+                  <label className="label justify-start cursor-pointer">
+                     <input
+                        type="radio"
+                        name="radio-10"
+                        className="radio checked:radio-primary"
+                        onChange={() => formik.setFieldValue("vat", false)}
+                        defaultChecked={!formik.values.vat}
+                     />
+                     <span className="label-text">{text.exemptBusiness}</span>
+                  </label>
+               </div>
+               <div className="form-control">
+                  <label className="label justify-start cursor-pointer">
+                     <input
+                        type="radio"
+                        name="radio-10"
+                        className="radio checked:radio-primary"
+                        onChange={() => formik.setFieldValue("vat", true)}
+                        defaultChecked={formik.values.vat}
+                     />
+                     <span className="label-text">{text.licensedBusiness}</span>
+                  </label>
+               </div>
+            </fieldset>
          </div>
          <button
             disabled={!formik.isValid}

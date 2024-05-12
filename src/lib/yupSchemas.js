@@ -30,6 +30,18 @@ export function YupNewEntrySchema() {
          entryType: yup.mixed().oneOf(["income", "expense"]).required(),
          date: yup.date().required(),
          category: yup.string(),
+         project: yup.string().transform((value, originalValue) => {
+            if (originalValue === null) {
+               return undefined;
+            }
+            return value;
+         }),
+         vat: yup.boolean().transform((value, originalValue) => {
+            if (originalValue === false) {
+               return undefined;
+            }
+            return value;
+         }),
       })
       .required();
 }
@@ -63,10 +75,19 @@ export function YupRegisterSchema() {
             .required("Required field."),
          country: yup.string().min(2).required("Required field."),
          city: yup.string().min(2).required("Required field."),
+         vat: yup.boolean().required("Required field."),
       })
       .required();
 }
 
 export function YupEditUserSchema() {
    return YupRegisterSchema().omit(["password", "email"]);
+}
+
+export function YupProjectSchema() {
+   return yup
+      .object({
+         title: yup.string().min(2).required("Required field."),
+      })
+      .required();
 }
