@@ -58,12 +58,8 @@ const NewEntryForm = ({ text }) => {
                toast.success("Entry Created");
             }
             if (isEdit) {
-
                const id = getQueryByName("edit");
                res = await editEntry(id, parsedValues);
-
-
-
 
                if (!res.ok) return toast.error(`Server error`);
                toast.success("Entry Edited");
@@ -156,7 +152,10 @@ const NewEntryForm = ({ text }) => {
                            type="checkbox"
                            className="checkbox checkbox-sm checked:checkbox-primary"
                            onChange={() =>
-                              formik.setFieldValue("vat", !formik.values.vat)
+                              formik.setFieldValue(
+                                 "vatExempted",
+                                 !formik.values.vat
+                              )
                            }
                         />
                         <span className="label-text text-sm">{text.vat}</span>

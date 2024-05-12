@@ -18,6 +18,7 @@ import {
    startOfMonth,
 } from "date-fns";
 import ConfirmModal from "@/components/common/confirmModal";
+import toast from "react-hot-toast";
 
 export default async function EntriesPage({ params: { lang }, searchParams }) {
    const { entriesPage, months } = await getDictionary(lang);

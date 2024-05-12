@@ -3,9 +3,9 @@
 import { useSession } from "next-auth/react";
 
 const UserName = () => {
-   const {
-      data: { user },
-   } = useSession();
+   const { data } = useSession();
+   if (!data?.user) return;
+   const { user } = data;
    return user.name;
 };
 

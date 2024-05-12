@@ -179,7 +179,7 @@ export async function fetchTaxesEntries() {
    const currentDate = new Date();
    let from;
    let to = getEndOfMonth(currentDate);
-   let query = { vatExempted: { $ne: false } };
+   let query = { vatExempted: { $ne: true } };
    const monthNum = format(currentDate, "M");
    //if unpaired month
    if (monthNum % 2 === 0) {
@@ -192,8 +192,7 @@ export async function fetchTaxesEntries() {
    }
    try {
       await dbConnect();
-      const res = await Entry.find(query).select(["amount", "date"]);
-      if (!res.length) return { ok: true, data: { vat: 0 } };
+      const res = await Entry.find(query);
       const months = `${format(from, "MMMM")} - ${format(to, "MMMM")}`;
 
       return { ok: true, data: { months, entries: res } };
