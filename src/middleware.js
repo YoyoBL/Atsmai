@@ -4,6 +4,7 @@ import { i18n } from "@/i18n.config";
 
 import { match as matchLocale } from "@formatjs/intl-localematcher";
 import Negotiator from "negotiator";
+import { getToken } from "next-auth/jwt";
 
 function getLocale(request) {
    const negotiatorHeaders = {};
@@ -16,7 +17,8 @@ function getLocale(request) {
    return locale;
 }
 
-export function middleware(request) {
+export async function middleware(request) {
+   const session = await getToken({ req: request });
    const pathname = request.nextUrl.pathname;
 
    const pathnameIsMissingLocale = i18n.locales.every(
@@ -26,6 +28,15 @@ export function middleware(request) {
 
    // Redirect if there is no locale
    if (pathnameIsMissingLocale) {
+      if (session?.lang) {
+         const lang = session.lang;
+         return NextResponse.redirect(
+            new URL(
+               `/${lang}${pathname.startsWith("/") ? "" : "/"}${pathname}`,
+               request.url
+            )
+         );
+      }
       const locale = getLocale(request);
       return NextResponse.redirect(
          new URL(
