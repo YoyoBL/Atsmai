@@ -7,7 +7,8 @@ import { MAIN_CURRENCY } from "@/constants";
 
 const TotalAmount = async ({ entries = [], entriesType = "", lang = "he" }) => {
    const { entriesPage } = await getDictionary(lang);
-   const { user } = auth();
+   const { user } = await auth();
+   const vat = user.vat;
 
    const totalAmount = entries.reduce(
       (accumulator, currentValue) => accumulator + currentValue.amount,
@@ -33,7 +34,7 @@ const TotalAmount = async ({ entries = [], entriesType = "", lang = "he" }) => {
                   {totalAmount.toLocaleString() + MAIN_CURRENCY}
                </span>
             </div>
-            <Taxes entries={entries} entriesType={entriesType} />
+            {vat && <Taxes entries={entries} entriesType={entriesType} />}
          </div>
       </div>
    );
