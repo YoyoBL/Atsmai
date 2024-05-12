@@ -116,7 +116,6 @@ export async function syncProject(newEntry) {
 }
 
 export async function updateProject(oldEntry, newEntry, action) {
-   console.log(oldEntry, newEntry);
    const actions = {
       typeEdit: () => {
          const decrement = oldEntry.amount * -1;

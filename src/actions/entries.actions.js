@@ -109,7 +109,6 @@ export async function fetchThreeLast(entry) {
       })
          .limit(3)
          .sort({ date: -1 });
-      console.log(lastThreeIncomes);
       return serialize(lastThreeIncomes);
    } catch (error) {
       console.log(error);

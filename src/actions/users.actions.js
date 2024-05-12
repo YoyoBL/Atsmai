@@ -54,7 +54,6 @@ export async function EditUser(id, valuesToUpdate) {
       const updated = await User.findByIdAndUpdate(id, valuesToUpdate, {
          new: true,
       });
-      console.log(updated);
       const data = serialize(updated);
       revalidateTag("user");
 

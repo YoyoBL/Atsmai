@@ -18,6 +18,7 @@ import { getDictionary } from "@/lib/dictionary";
 import Link from "next/link";
 import { auth } from "@/auth";
 import Avatar from "../profile/avatar";
+import UserName from "./userName";
 
 const currentDate = format(new Date(), "MM-yy");
 const protectedLinks = [
@@ -117,7 +118,11 @@ const SidebarContent = async ({ lang }) => {
          </ul>
          <ul className="mt-auto space-y-3 grid place-items-center ">
             <div className="divider w-full"></div>
-            <li> {user?.name}</li>
+            <li>
+               {" "}
+               <UserName />
+            </li>
+
             {session && (
                <li>
                   <Avatar />

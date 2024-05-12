@@ -1,6 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import { signIn } from "@/actions/users.actions";
 import { getServerSession } from "next-auth";
+import { customFetch } from "./lib/customFetch";
 
 export const authOptions = {
    session: {
@@ -42,10 +43,19 @@ export const authOptions = {
       }),
    ],
    callbacks: {
-      async jwt({ user, account, token }) {
+      async jwt({ user, account, token, trigger, session }) {
+         if (trigger === "update" && token.name) {
+            const {
+               user: { id },
+            } = await auth();
+            const updated = await customFetch(`/api/users/${id}`);
+            token.id = updated._id;
+            token.role = updated.role;
+            token.vat = updated.vat;
+            token.name = [updated.firstName, updated.lastName].join(" ");
+            token.lang = updated.lang;
+         }
          if (account) {
-            console.log("user");
-            console.log(user);
             token.id = user._id;
             token.role = user.role;
             token.vat = user.vat;
