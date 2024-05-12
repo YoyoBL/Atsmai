@@ -6,7 +6,9 @@
       "income": "Income",
       "expense": "Expense",
       "incomes": "Incomes",
-      "expenses": "Expenses"
+      "expenses": "Expenses",
+      "profit": "Profit",
+      "all": "All"
    },
    "menuLinks": {
       "welcome": "Welcome",
@@ -22,7 +24,9 @@
    "entriesPage": {
       "header": "Entries",
       "incomesTab": "Incomes",
-      "expensesTab": "Expenses"
+      "expensesTab": "Expenses",
+      "vat": "VAT",
+      "includingVat": "Including VAT"
    },
    "months": {
       "January": "January",
@@ -85,12 +89,17 @@
       "email": "Email",
       "password": "Password",
       "country": "Country",
-      "city": "City"
+      "city": "City",
+      "licensedBusiness": "Licensed Business",
+      "exemptBusiness": "Exempted Business"
    },
    "newEntry": {
       "title": "New Entry",
       "editTitle": "Edit Entry",
       "amount": "Amount",
+      "vat": "VAT Exempt",
+      "linkToProject": "Link to Project",
+      "selectProject": "Select Project",
       "today": "Today",
       "yesterday": "Yesterday",
       "category": "Category",
@@ -125,6 +134,7 @@
       "total": "Total"
    },
    "profile": {
+      "title": "Profile",
       "name": "Name",
       "joinedAt": "Joined at",
       "country": "Country",

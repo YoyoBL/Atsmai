@@ -12,22 +12,24 @@ const Navbar = async () => {
       <div className="navbar bg-base-100 ">
          <div className="navbar-start ">
             <label
-               className="btn btn-ghost btn-circle md:hidden"
+               className="btn btn-ghost btn-circle md:hidden "
                htmlFor="my-drawer-2"
             >
                <Bars3Icon className="h-5 w-5" />
             </label>
          </div>
-         <div className="navbar-center">
+         <div className="navbar-center flex-1">
             <a className="btn btn-ghost text-2xl">
                <Image height={25} width={25} src={LOGO} alt="Atsmai logo" />
                Atsmai
             </a>
          </div>
 
-         <div className="navbar-end gap-5">
-            <LocaleSwitcher />
-            <ThemeSwitcher sessionTheme={theme} />
+         <div className=" navbar-end ">
+            <div className="hidden md:flex gap-5">
+               <LocaleSwitcher />
+               <ThemeSwitcher sessionTheme={theme} />
+            </div>
          </div>
       </div>
    );

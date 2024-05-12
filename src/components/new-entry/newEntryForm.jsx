@@ -154,7 +154,7 @@ const NewEntryForm = ({ text }) => {
                               formik.setFieldValue("vat", !formik.values.vat)
                            }
                         />
-                        <span className="label-text text-sm">VAT exempted</span>
+                        <span className="label-text text-sm">{text.vat}</span>
                      </label>
                   </div>
                )}
@@ -173,7 +173,7 @@ const NewEntryForm = ({ text }) => {
             <Categories form={formik} text={text} color={color} />
 
             {/* link to project */}
-            <LinkToProject form={formik} color={color} />
+            <LinkToProject form={formik} color={color} text={text} />
 
             <button
                className={`btn btn-${color} text-lg`}

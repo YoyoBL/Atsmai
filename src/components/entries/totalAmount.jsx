@@ -34,7 +34,9 @@ const TotalAmount = async ({ entries = [], entriesType = "", lang = "he" }) => {
                   {totalAmount.toLocaleString() + MAIN_CURRENCY}
                </span>
             </div>
-            {vat && <Taxes entries={entries} entriesType={entriesType} />}
+            {vat && (
+               <Taxes entries={entries} entriesType={entriesType} lang={lang} />
+            )}
          </div>
       </div>
    );

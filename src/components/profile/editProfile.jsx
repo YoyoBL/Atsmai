@@ -115,7 +115,7 @@ const EditProfile = ({ text, user }) => {
          <div>
             <fieldset className="grid grid-cols-2">
                <div className="form-control">
-                  <label className="label cursor-pointer">
+                  <label className="label justify-start cursor-pointer">
                      <input
                         type="radio"
                         name="radio-10"
@@ -123,11 +123,11 @@ const EditProfile = ({ text, user }) => {
                         onChange={() => formik.setFieldValue("vat", false)}
                         defaultChecked={!formik.values.vat}
                      />
-                     <span className="label-text">Exempt business</span>
+                     <span className="label-text">{text.exemptBusiness}</span>
                   </label>
                </div>
                <div className="form-control">
-                  <label className="label cursor-pointer">
+                  <label className="label justify-start cursor-pointer">
                      <input
                         type="radio"
                         name="radio-10"
@@ -135,7 +135,7 @@ const EditProfile = ({ text, user }) => {
                         onChange={() => formik.setFieldValue("vat", true)}
                         defaultChecked={formik.values.vat}
                      />
-                     <span className="label-text">Licensed business</span>
+                     <span className="label-text">{text.licensedBusiness}</span>
                   </label>
                </div>
             </fieldset>

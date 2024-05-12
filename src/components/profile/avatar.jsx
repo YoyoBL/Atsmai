@@ -1,9 +1,13 @@
-import { auth } from "@/auth";
+"use client";
+
 import Link from "next/link";
 import { closeSidebar } from "../navs/menuLink";
+import { useSession } from "next-auth/react";
 
-const Avatar = async () => {
-   const { user } = await auth();
+const Avatar = () => {
+   const {
+      data: { user },
+   } = useSession();
    if (!user) return null;
    const splitName = user.name.split(" ");
    const initials = splitName[0][0] + splitName[1][0];

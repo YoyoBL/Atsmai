@@ -4,7 +4,7 @@ import { fetchProjectsTitles } from "@/actions/project.actions";
 import cn from "@/lib/tailwindMerge";
 import { useEffect, useState } from "react";
 
-const LinkToProject = ({ form, color }) => {
+const LinkToProject = ({ form, color, text }) => {
    const [checked, setChecked] = useState(form.project);
    const [error, setError] = useState("");
    const [projects, setProjects] = useState([]);
@@ -50,7 +50,7 @@ const LinkToProject = ({ form, color }) => {
                   defaultChecked={checked}
                   onChange={() => setChecked((checked) => !checked)}
                />
-               <span className="label-text">Link to project</span>
+               <span className="label-text">{text.linkToProject}</span>
             </label>
          </div>
 
@@ -65,7 +65,7 @@ const LinkToProject = ({ form, color }) => {
             onChange={(e) => onSelect(e.target.value)}
          >
             <option disabled value="default">
-               Select Project..
+               {text.selectProject}...
             </option>
             {projects.length ? (
                projects.map((project) => (

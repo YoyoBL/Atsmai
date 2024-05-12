@@ -28,7 +28,9 @@ const Profile = async ({ params: { lang } }) => {
       <section className="min-h-full p-3 grid place-items-center overflow-auto">
          <div className="card bg-base-200 w-full ">
             <div className="card-body justify-center text-center">
-               <div className="card-title justify-center text-2xl">Profile</div>
+               <div className="card-title justify-center text-2xl">
+                  {text.title}
+               </div>
                <Avatar />
                <div className="bg-base-100 p-2 rounded-xl">
                   <table className="table">

@@ -19,6 +19,9 @@ import Link from "next/link";
 import { auth } from "@/auth";
 import Avatar from "../profile/avatar";
 import UserName from "./userName";
+import ThemeSwitcher from "../themeSwitcher";
+import { getTheme } from "@/actions/theme.actions";
+import LocaleSwitcher from "../localeSwitcher";
 
 const currentDate = format(new Date(), "MM-yy");
 const protectedLinks = [
@@ -29,16 +32,16 @@ const protectedLinks = [
       icon: <ArrowsUpDownIcon className="h-5 w-5" />,
    },
    {
+      title: "Projects",
+      key: "projects",
+      href: "/projects",
+      icon: <BriefcaseIcon className="h-5 w-5" />,
+   },
+   {
       title: "Insights",
       key: "insights",
       href: "/insights",
       icon: <LightBulbIcon className="h-5 w-5" />,
-   },
-   {
-      title: "Recurring expenses",
-      key: "recurringExpenses",
-      href: "/recurring-expenses",
-      icon: <ArrowPathIcon className="h-5 w-5" />,
    },
    {
       title: "Search Entries",
@@ -47,10 +50,10 @@ const protectedLinks = [
       icon: <MagnifyingGlassIcon className="h-5 w-5" />,
    },
    {
-      title: "Projects",
-      key: "projects",
-      href: "/projects",
-      icon: <BriefcaseIcon className="h-5 w-5" />,
+      title: "Recurring expenses",
+      key: "recurringExpenses",
+      href: "/recurring-expenses",
+      icon: <ArrowPathIcon className="h-5 w-5" />,
    },
    {
       title: "About",
@@ -97,6 +100,7 @@ const adminCRMLink = {
 const SidebarContent = async ({ lang }) => {
    const { menuLinks, common } = await getDictionary(lang);
    const session = await auth();
+   const sessionTheme = await getTheme();
 
    const user = session?.user || null;
 
@@ -116,7 +120,11 @@ const SidebarContent = async ({ lang }) => {
                     <MenuLink key={link.title} link={link} text={menuLinks} />
                  ))}
          </ul>
-         <ul className="mt-auto space-y-3 grid place-items-center ">
+         <ul className="mt-auto grid place-items-center gap-2">
+            <div className="w-full md:hidden flex gap-3 justify-around">
+               <LocaleSwitcher />
+               <ThemeSwitcher sessionTheme={sessionTheme} />
+            </div>
             <div className="divider w-full"></div>
             <li>
                {" "}

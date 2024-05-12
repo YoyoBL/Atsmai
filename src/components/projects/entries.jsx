@@ -4,7 +4,7 @@ import { useState } from "react";
 import EntryCard from "../entries/entryCard";
 import cn from "@/lib/tailwindMerge";
 
-const Entries = ({ entries = [] }) => {
+const Entries = ({ entries = [], text }) => {
    const [filter, setFilter] = useState("all");
 
    function onFilterClick(filter) {
@@ -22,7 +22,7 @@ const Entries = ({ entries = [] }) => {
                      : "opacity-70  hover:opacity-100"
                )}
             >
-               All
+               {text.all}
             </button>
             <button
                onClick={() => onFilterClick("incomes")}
@@ -33,7 +33,7 @@ const Entries = ({ entries = [] }) => {
                      : "opacity-70 hover:opacity-100"
                )}
             >
-               Incomes
+               {text.incomes}
             </button>
             <button
                onClick={() => onFilterClick("expenses")}
@@ -44,7 +44,7 @@ const Entries = ({ entries = [] }) => {
                      : "opacity-70 hover:opacity-100"
                )}
             >
-               Expenses
+               {text.expenses}
             </button>
          </div>
 

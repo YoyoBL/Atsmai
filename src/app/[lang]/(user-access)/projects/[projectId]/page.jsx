@@ -1,14 +1,13 @@
 import { getProjectById } from "@/actions/project.actions";
 import BackBtn from "@/components/common/backBtn";
-import EntryCard from "@/components/entries/entryCard";
 import DeleteProjectBtn from "@/components/projects/deleteProjectBtn";
 import Entries from "@/components/projects/entries";
 import ProjectTitle from "@/components/projects/title";
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
-export const dynamic = "force-dynamic";
+import { getDictionary } from "@/lib/dictionary";
 
-const ProjectPage = async ({ params: { projectId } }) => {
+const ProjectPage = async ({ params: { lang, projectId } }) => {
    const res = await getProjectById(projectId);
+   const { common: text } = await getDictionary(lang);
    if (!res.ok) throw new Error("Error while fetching data.");
    const project = res.data;
    const entries = project.entries;
@@ -41,24 +40,28 @@ const ProjectPage = async ({ params: { projectId } }) => {
                      <div className="stat-value text-xl  text-primary">
                         {totalIncomes}
                      </div>
-                     <div className="stat-desc text-primary">Incomes</div>
+                     <div className="stat-desc text-primary">
+                        {text.incomes}
+                     </div>
                   </div>
 
                   <div className="stat place-items-center p-3">
                      <div className="stat-value text-xl text-secondary">
                         {totalExpenses}
                      </div>
-                     <div className="stat-desc text-secondary">Expenses</div>
+                     <div className="stat-desc text-secondary">
+                        {text.expenses}
+                     </div>
                   </div>
 
                   <div className="stat place-items-center p-3">
                      <div className="stat-value text-xl">{profit}</div>
-                     <div className="stat-desc">Profit</div>
+                     <div className="stat-desc">{text.profit}</div>
                   </div>
                </div>
 
                {/* entries */}
-               <Entries entries={entries} />
+               <Entries entries={entries} text={text} />
             </div>
          </div>
       </section>
