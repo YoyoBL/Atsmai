@@ -98,26 +98,10 @@ export async function deleteProject(id) {
    }
 }
 
-export async function syncProject(newEntry) {
-   let updateObject = {
-      $push: {
-         entries: newEntry._id,
-      },
-   };
-
-   if (newEntry.entryType === "income") {
-      updateObject.$inc = { totalIncomes: newEntry.amount };
-   } else if (newEntry.entryType === "expense") {
-      updateObject.$inc = { totalExpenses: newEntry.amount };
-   }
-   return Project.findByIdAndUpdate(newEntry.project, updateObject, {
-      new: true,
-   });
-}
-
 export async function updateProject(oldEntry, newEntry, action) {
+   const projectId = oldEntry.project || newEntry.project;
    const actions = {
-      typeEdit: () => {
+      typeEdit: function () {
          const decrement = oldEntry.amount * -1;
          if (newEntry.entryType === "expense") {
             return {
@@ -135,7 +119,7 @@ export async function updateProject(oldEntry, newEntry, action) {
             };
          }
       },
-      amountChange: () => {
+      amountChange: function () {
          let query;
          const difference = newEntry.amount - oldEntry.amount;
          if (newEntry.entryType === "expense") {
@@ -149,13 +133,49 @@ export async function updateProject(oldEntry, newEntry, action) {
          }
          return query;
       },
+      unlink: function () {
+         let query;
+         const decrementValue = newEntry.amount * -1;
+         console.log(decrementValue);
+         if (newEntry.entryType === "expense") {
+            query = {
+               $inc: { totalExpenses: decrementValue },
+            };
+         } else if (newEntry.entryType === "income") {
+            query = {
+               $inc: { totalIncomes: decrementValue },
+            };
+         }
+         query = {
+            ...query,
+            $pull: { entries: oldEntry._id },
+         };
+         console.log(query);
+         return query;
+      },
+      link: function () {
+         let query = {
+            $push: {
+               entries: newEntry._id,
+            },
+         };
+
+         if (newEntry.entryType === "income") {
+            query.$inc = { totalIncomes: newEntry.amount };
+         } else if (newEntry.entryType === "expense") {
+            query.$inc = { totalExpenses: newEntry.amount };
+         }
+         return query;
+      },
    };
    try {
       const updated = await Project.findByIdAndUpdate(
-         oldEntry.project,
+         projectId,
          actions[action](),
          { new: true }
       );
+      console.log("updated project");
+      console.log(updated);
       const data = serialize(updated);
       revalidatePath("/[lang]/projects", "page");
       return { ok: true, data };

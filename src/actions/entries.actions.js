@@ -16,7 +16,7 @@ export async function AddNewEntry(entry) {
       let data;
       const newEntry = new Entry({ ...entry, userId });
       if (entry.project) {
-         const updatedProject = syncProject(newEntry);
+         const updatedProject = updateProject(null, newEntry);
          const result = await Promise.allSettled([
             newEntry.save(),
             updatedProject,
@@ -134,12 +134,21 @@ export async function editEntry(id, updatedData) {
 }
 
 async function updateProjectAfterEdit(oldEntry, updatedData) {
+   let action;
    if (oldEntry.entryType !== updatedData.entryType) {
-      return await updateProject(oldEntry, updatedData, "typeEdit");
+      action = "typeEdit";
    }
    if (oldEntry.amount !== updatedData.amount) {
-      return await updateProject(oldEntry, updatedData, "amountChange");
+      action = "amountChange";
    }
+   if (!oldEntry?.project && updatedData.project) {
+      action = "link";
+   }
+   if (oldEntry?.project && !updatedData.project) {
+      action = "unlink";
+   }
+   if (!action) return null;
+   return await updateProject(oldEntry, updatedData, action);
 }
 
 export async function deleteEntry(entry) {
@@ -160,6 +169,7 @@ export async function deleteEntry(entry) {
 
 export async function searchEntries(entryType, searchValue) {
    searchValue = searchValue.toLowerCase();
+   entryType = entryType === "incomes" ? "income" : "expense";
    try {
       await dbConnect();
       const userId = await getUserId();

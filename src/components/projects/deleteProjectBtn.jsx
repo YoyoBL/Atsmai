@@ -4,11 +4,13 @@ import { deleteProject } from "@/actions/project.actions";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import ModalClient from "../common/modalClient";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { closeModalDOM, openModalDOM } from "@/lib/modalTools";
+import useQueryParams from "@/hooks/useQueryParams";
 
 const DeleteProjectBtn = ({ id }) => {
    const router = useRouter();
+   const { lang } = useParams();
    const modalId = "confirm-project-delete";
    async function handleDelete() {
       try {
@@ -21,6 +23,7 @@ const DeleteProjectBtn = ({ id }) => {
             router.replace(`/${lang}/projects`);
          }
       } catch (error) {
+         console.log(error);
          toast.error("Server Error, Try again later.");
          closeModalDOM(modalId);
       }

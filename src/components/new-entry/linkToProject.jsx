@@ -5,7 +5,7 @@ import cn from "@/lib/tailwindMerge";
 import { useEffect, useState } from "react";
 
 const LinkToProject = ({ form, color, text }) => {
-   const [checked, setChecked] = useState(form.project);
+   const [checked, setChecked] = useState(form.values.project);
    const [error, setError] = useState("");
    const [projects, setProjects] = useState([]);
 
@@ -28,10 +28,6 @@ const LinkToProject = ({ form, color, text }) => {
          select.selectedIndex = 0;
       }
    }, [checked]);
-
-   function onSelect(value) {
-      form.setFieldValue("project", value);
-   }
 
    if (error) return <div className="text-error">{error}</div>;
    return (
@@ -62,7 +58,9 @@ const LinkToProject = ({ form, color, text }) => {
                "select select-bordered  w-full",
                isIncome ? "select-primary" : "select-secondary"
             )}
-            onChange={(e) => onSelect(e.target.value)}
+            name="project"
+            onChange={form.handleChange}
+            value={form.values.selectOption}
          >
             <option disabled value="default">
                {text.selectProject}...

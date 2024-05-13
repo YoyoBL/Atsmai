@@ -30,18 +30,8 @@ export function YupNewEntrySchema() {
          entryType: yup.mixed().oneOf(["income", "expense"]).required(),
          date: yup.date().required(),
          category: yup.string(),
-         project: yup.string().transform((value, originalValue) => {
-            if (originalValue === null) {
-               return undefined;
-            }
-            return value;
-         }),
-         vatExempted: yup.boolean().transform((value, originalValue) => {
-            if (originalValue === false) {
-               return undefined;
-            }
-            return value;
-         }),
+         project: yup.string().nullable(),
+         vatExempted: yup.boolean(),
       })
       .required();
 }
