@@ -78,6 +78,8 @@ export function YupProjectSchema() {
    return yup
       .object({
          title: yup.string().min(2).required("Required field."),
+         startDate: yup.date().required(),
+         status: yup.string().oneOf(["active", "inactive"]).required(),
       })
       .required();
 }

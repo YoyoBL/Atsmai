@@ -8,11 +8,11 @@ import { revalidatePath } from "next/cache";
 const { default: dbConnect, serialize } = require("@/lib/mongoDbConnect");
 
 export async function createProject(formValues) {
-   const userId = await getUserId();
-   const { title } = formValues;
    try {
+      console.log(formValues);
+      const userId = await getUserId();
       await dbConnect();
-      const newProject = await Project.create({ userId, title });
+      const newProject = await Project.create({ userId, ...formValues });
       const data = serialize(newProject);
       revalidatePath("/[lang]/projects", "page");
       return { ok: true, data };

@@ -150,5 +150,10 @@
    },
    "projects": {
       "title": "פרויקטים"
+   },
+   "project": {
+      "statusChangeMessage": "Change the status to",
+      "active": "Active",
+      "inactive": "Inactive"
    }
 }
