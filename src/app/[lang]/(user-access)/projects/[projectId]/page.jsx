@@ -2,7 +2,7 @@ import { getProjectById } from "@/actions/project.actions";
 import BackBtn from "@/components/common/backBtn";
 import ModalClient from "@/components/common/modalClient";
 import ModalConfirm from "@/components/common/modalConfirm";
-import ChangeStatusModal from "@/components/projects/changeStatus";
+import ChangeStatusModal from "@/components/projects/changeStatusModal";
 import ChangeStatusBtn from "@/components/projects/changeStatusBtn";
 import DeleteProjectBtn from "@/components/projects/deleteProjectBtn";
 import Entries from "@/components/projects/entries";
@@ -33,7 +33,7 @@ const ProjectPage = async ({ params: { lang, projectId } }) => {
    const modalId = "change-status";
    const OppositeProjectStatus =
       project.status === "active" ? "inactive" : "active";
-   const statusChangeMessage = `${text.statusChangeMessage} ${text[OppositeProjectStatus]}?`;
+   const statusChangeMessage = `${text.statusChangeMessage} - ${text[OppositeProjectStatus]}?`;
 
    return (
       <section className="p-3 w-full max-w-xl">
@@ -109,7 +109,11 @@ const ProjectPage = async ({ params: { lang, projectId } }) => {
             </div>
          </div>
 
-         <ChangeStatusModal modalId={modalId} message={statusChangeMessage} />
+         <ChangeStatusModal
+            modalId={modalId}
+            message={statusChangeMessage}
+            text={text}
+         />
       </section>
    );
 };

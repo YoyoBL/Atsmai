@@ -4,7 +4,7 @@ import ModalClient from "../common/modalClient";
 import NewProjectForm from "./newProjectForm";
 import { closeModalDOM, openModalDOM } from "@/lib/modalTools";
 
-const AddProject = () => {
+const AddProject = ({ text }) => {
    const modalId = "new-project";
 
    return (
@@ -17,7 +17,7 @@ const AddProject = () => {
          </button>
 
          <ModalClient modalId={modalId}>
-            <NewProjectForm onAdd={() => closeModalDOM(modalId)} />
+            <NewProjectForm onAdd={() => closeModalDOM(modalId)} text={text} />
          </ModalClient>
       </>
    );

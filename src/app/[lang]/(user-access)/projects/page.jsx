@@ -17,7 +17,7 @@ const ProjectsPage = async ({ params: { lang } }) => {
                {/* body */}
                <div className="flex flex-wrap items-center gap-3">
                   {/* add new */}
-                  <AddProject />
+                  <AddProject text={text} />
                   {/* projects */}
                   {projects.map((project) => (
                      <ProjectCard key={project._id} project={project} />

@@ -209,7 +209,7 @@ export async function fetchTaxesEntries() {
    try {
       await dbConnect();
       const res = await Entry.find(query);
-      const months = `${format(from, "MMMM")} - ${format(to, "MMMM")}`;
+      const months = [format(from, "MMMM"), format(to, "MMMM")];
 
       return { ok: true, data: { months, entries: res } };
    } catch (error) {

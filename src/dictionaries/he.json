@@ -8,7 +8,8 @@
       "incomes": "הכנסות",
       "expenses": "הוצאות",
       "profit": "רווח",
-      "all": "הכל"
+      "all": "הכל",
+      "vat": "מע\"מ"
    },
    "menuLinks": {
       "welcome": "ברוכים הבאים",
@@ -149,11 +150,23 @@
       "editBtn": "ערוך פרופיל"
    },
    "projects": {
-      "title": "פרויקטים"
+      "title": "פרויקטים",
+      "newProjectForm": {
+         "title": "פרויקט חדש",
+         "projectTitle": "שם הפרויקט",
+         "startDate": "תאריך התחלה",
+         "add": "הוסף פרויקט"
+      }
    },
    "project": {
-      "statusChangeMessage": "Change the status to",
-      "active": "Active",
-      "inactive": "Inactive"
+      "statusChangeMessage": "שינוי סטטוס ל",
+      "active": "פעיל",
+      "inactive": "לא פעיל"
+   },
+   "insights": {
+      "title": "תובנות",
+      "taxesEstimates": {
+         "title": "מיסים משוערים"
+      }
    }
 }

@@ -8,7 +8,8 @@
       "incomes": "Incomes",
       "expenses": "Expenses",
       "profit": "Profit",
-      "all": "All"
+      "all": "All",
+      "vat": "VAT"
    },
    "menuLinks": {
       "welcome": "Welcome",
@@ -145,6 +146,23 @@
       "editBtn": "Edit Profile"
    },
    "projects": {
-      "title": "Projects"
+      "title": "Projects",
+      "newProjectForm": {
+         "title": "New Project",
+         "projectTitle": "Project Title",
+         "startDate": "Start Date",
+         "add": "Add Project"
+      }
+   },
+   "project": {
+      "statusChangeMessage": "Change the status to",
+      "active": "Active",
+      "inactive": "Inactive"
+   },
+   "insights": {
+      "title": "Insights",
+      "taxesEstimates": {
+         "title": "taxes Estimate"
+      }
    }
 }

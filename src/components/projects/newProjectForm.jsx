@@ -6,7 +6,8 @@ import { format } from "date-fns";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
 
-const NewProjectForm = ({ onAdd = () => {} }) => {
+const NewProjectForm = ({ onAdd = () => {}, text }) => {
+   text = text.newProjectForm;
    const form = useFormik({
       initialValues: {
          title: "",
@@ -31,10 +32,10 @@ const NewProjectForm = ({ onAdd = () => {} }) => {
 
    return (
       <form onSubmit={form.handleSubmit}>
-         <h2 className="text-xl font-bold text-center">New Project</h2>
+         <h2 className="text-xl font-bold text-center">{text.title}</h2>
          <label className="form-control w-full max-w-xs">
             <div className="label">
-               <span className="label-text">Project title:</span>
+               <span className="label-text">{text.projectTitle}:</span>
             </div>
             <input
                {...form.getFieldProps("title")}
@@ -49,7 +50,7 @@ const NewProjectForm = ({ onAdd = () => {} }) => {
          </label>
          <label className="form-control w-full max-w-xs">
             <div className="label">
-               <span className="label-text">Start date:</span>
+               <span className="label-text">{text.startDate}:</span>
             </div>
             <input
                {...form.getFieldProps("startDate")}
@@ -63,7 +64,7 @@ const NewProjectForm = ({ onAdd = () => {} }) => {
             <div className="label"></div>
          </label>
          <button type="submit" className="btn btn-primary btn-block">
-            Add
+            {text.add}
          </button>
       </form>
    );
