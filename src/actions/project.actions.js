@@ -26,7 +26,9 @@ export async function fetchProjectsTitles(project) {
    const userId = await getUserId();
    try {
       await dbConnect();
-      const projects = await Project.find({ userId }).select("title");
+      const projects = await Project.find({ userId, status: "active" }).select(
+         "title"
+      );
       const data = serialize(projects);
       return { ok: true, data };
    } catch (error) {
@@ -99,7 +101,7 @@ export async function deleteProject(id) {
 }
 
 export async function updateProject(oldEntry, newEntry, action) {
-   const projectId = oldEntry.project || newEntry.project;
+   const projectId = oldEntry?.project || newEntry?.project;
    const actions = {
       typeEdit: function () {
          const decrement = oldEntry.amount * -1;
@@ -174,10 +176,32 @@ export async function updateProject(oldEntry, newEntry, action) {
          actions[action](),
          { new: true }
       );
-      console.log("updated project");
-      console.log(updated);
+
       const data = serialize(updated);
       revalidatePath("/[lang]/projects", "page");
+      return { ok: true, data };
+   } catch (error) {
+      console.log(error);
+      return { ok: false, data: error.message };
+   }
+}
+
+export async function changeStatus(id) {
+   try {
+      const userId = await getUserId();
+      await dbConnect();
+      const project = await Project.findById(id);
+      if (!project) throw new Error("Project not found");
+      const projectOwnerId = String(project.userId);
+      if (projectOwnerId !== userId) throw new Error("Access denied");
+      const newStatus = project.status === "active" ? "inactive" : "active";
+      const updated = await Project.findByIdAndUpdate(
+         id,
+         { status: newStatus },
+         { new: true }
+      );
+      const data = serialize(updated);
+      revalidatePath(`/[lang]/project/${id}`, "page");
       return { ok: true, data };
    } catch (error) {
       console.log(error);

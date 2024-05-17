@@ -1,12 +1,13 @@
 "use client";
 
 import { openModalDOM } from "@/lib/modalTools";
+import cn from "@/lib/tailwindMerge";
 
-const ChangeStatusBtn = ({ modalId, children }) => {
+const ChangeStatusBtn = ({ modalId, children, className }) => {
    return (
       <div
          onClick={() => openModalDOM(modalId)}
-         className="flex gap-2 btn btn-sm btn-neutral w-fit"
+         className={cn("flex gap-2 btn btn-outline btn-sm w-fit", className)}
       >
          {children}
       </div>

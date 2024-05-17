@@ -75,7 +75,7 @@ const ProjectPage = async ({ params: { lang, projectId } }) => {
 
                {/*more info */}
                <div className="rounded-xl">
-                  <table className="table">
+                  <table className="table table-sm">
                      <tbody>
                         {/* row 1 */}
                         <tr>
@@ -85,15 +85,16 @@ const ProjectPage = async ({ params: { lang, projectId } }) => {
                         <tr>
                            <td>Status:</td>
                            <td>
-                              <ChangeStatusBtn modalId={modalId}>
+                              <ChangeStatusBtn
+                                 modalId={modalId}
+                                 className={
+                                    project.status === "active"
+                                       ? "btn-success"
+                                       : "btn-error"
+                                 }
+                              >
                                  <Cog6ToothIcon className="size-5" />
-                                 <div
-                                    className={cn(
-                                       project.status === "active"
-                                          ? "text-success"
-                                          : "text-error"
-                                    )}
-                                 >
+                                 <div className={cn("capitalize")}>
                                     {project.status}
                                  </div>
                               </ChangeStatusBtn>

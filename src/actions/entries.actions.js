@@ -16,7 +16,7 @@ export async function AddNewEntry(entry) {
       let data;
       const newEntry = new Entry({ ...entry, userId });
       if (entry.project) {
-         const updatedProject = updateProject(null, newEntry);
+         const updatedProject = await updateProject(null, newEntry, "link");
          const result = await Promise.allSettled([
             newEntry.save(),
             updatedProject,

@@ -1,4 +1,5 @@
 "use client";
+import cn from "@/lib/tailwindMerge";
 import {
    ChevronDownIcon,
    ChevronUpIcon,
@@ -11,7 +12,7 @@ const CardWrapper = ({ children, projectId }) => {
    const { lang } = useParams();
    const href = `/${lang}/projects/${projectId}`;
    return (
-      <Link href={href} className="card bg-base-100">
+      <Link href={href} className="card bg-base-100  min-w-28">
          {children}
       </Link>
    );
@@ -20,13 +21,24 @@ const CardWrapper = ({ children, projectId }) => {
 const ProjectCard = ({ project }) => {
    const totalIncomes = project.totalIncomes;
    const totalExpenses = project.totalExpenses;
-
    const profit = totalIncomes - totalExpenses;
+
+   const isStatusActive = project.status === "active";
 
    return (
       <CardWrapper projectId={project._id}>
-         <div className="card-body" style={{ padding: "0.75rem" }}>
-            <div className="card-title text-base">{project.title} </div>
+         <div className="card-body " style={{ padding: "0.75rem" }}>
+            <div className="card-title text-base">
+               {project.title}{" "}
+               <span
+                  className={cn(
+                     "text-xl",
+                     isStatusActive ? "text-success" : "text-error"
+                  )}
+               >
+                  •
+               </span>
+            </div>
             <div>
                <ul className="text-sm bg-base-200 p-2 rounded-md">
                   <li className="text-primary flex gap-2">
