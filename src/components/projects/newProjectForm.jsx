@@ -58,8 +58,8 @@ const NewProjectForm = ({ onAdd = () => {}, text }) => {
                placeholder="Type here"
                className="input input-bordered w-full max-w-xs placeholder:opacity-50"
             />
-            {form.touched.title && form.errors.title && (
-               <div className="text-error p-2">{form.errors.title}</div>
+            {form.touched.startDate && form.errors.startDate && (
+               <div className="text-error p-2">{form.errors.startDate}</div>
             )}
             <div className="label"></div>
          </label>
