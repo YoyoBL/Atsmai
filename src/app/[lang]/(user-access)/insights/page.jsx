@@ -4,7 +4,6 @@ import { getDictionary } from "@/lib/dictionary";
 const InsightsPage = async ({ params: { lang } }) => {
    const { insights, common, months } = await getDictionary(lang);
    const text = { ...insights, ...common, months };
-   console.log(months);
    return (
       <section className="h-full w-full overflow-auto">
          <div className="card card-compact ">

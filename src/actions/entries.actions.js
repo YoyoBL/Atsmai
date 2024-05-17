@@ -59,14 +59,12 @@ export async function fetchEntries(entriesType, monthString) {
    try {
       await dbConnect();
       const userId = await getUserId();
-      // console.log(userId);
 
       const entries = await Entry.find({
          userId,
          entryType,
          date: { $gte: fromDate, $lte: toDate },
       }).sort({ date: -1 });
-      // console.log(entries);
       const data = serialize(entries);
       return { ok: true, data };
    } catch (error) {

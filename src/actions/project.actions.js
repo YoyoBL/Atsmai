@@ -9,7 +9,6 @@ const { default: dbConnect, serialize } = require("@/lib/mongoDbConnect");
 
 export async function createProject(formValues) {
    try {
-      console.log(formValues);
       const userId = await getUserId();
       await dbConnect();
       const newProject = await Project.create({ userId, ...formValues });
@@ -138,7 +137,6 @@ export async function updateProject(oldEntry, newEntry, action) {
       unlink: function () {
          let query;
          const decrementValue = newEntry.amount * -1;
-         console.log(decrementValue);
          if (newEntry.entryType === "expense") {
             query = {
                $inc: { totalExpenses: decrementValue },
