@@ -2,7 +2,6 @@
 
 import dbConnect, { serialize } from "@/lib/mongoDbConnect";
 import { getUserId } from "@/lib/userTools";
-import Expense from "@/models/expense.model";
 import LastRecurringCheck from "@/models/lastRecurringCheck.model";
 import RecurringExpense from "@/models/recurringExpense.model";
 import { addDays, addMonths, isAfter, startOfToday } from "date-fns";
