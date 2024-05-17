@@ -1,4 +1,3 @@
-import { fetchEntries } from "@/actions/entries.actions copy";
 import InsightWrapper from "./insightWrapper";
 import { fetchTaxesEntries } from "@/actions/entries.actions";
 import InsightServerError from "./insightServerError";
@@ -10,8 +9,9 @@ const Taxes = async () => {
    if (!res.ok) return <InsightServerError title={title} />;
 
    const entries = res.data.entries;
-   const vat =
-      entries.reduce((acc, entry) => acc + entry.amount, 0) * VAT_PERCENTAGE;
+   const vat = (
+      entries.reduce((acc, entry) => acc + entry.amount, 0) * VAT_PERCENTAGE
+   ).toLocaleString();
    const months = res.data.months;
    return (
       <InsightWrapper title={`Taxes estimates`}>
