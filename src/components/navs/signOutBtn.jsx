@@ -1,15 +1,28 @@
 "use client";
 
 import { signIn, signOut } from "next-auth/react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { closeSidebar } from "./menuLink";
 
 const SignOutBtn = () => {
    const { lang } = useParams();
+   const router = useRouter();
    const text = lang === "en" ? "Sign Out" : "התנתקות";
-   function handleSignOut() {
-      signOut();
-      toast.success("Signed Out");
+   async function handleSignOut() {
+      try {
+         const res = await signOut({
+            redirect: false,
+            callbackUrl: `/${lang}/welcome`,
+         });
+         toast.success("Signed Out");
+         router.replace(res.url);
+         closeSidebar();
+         router.refresh();
+      } catch (error) {
+         toast.error("Error");
+         console.log(error);
+      }
    }
 
    return (
