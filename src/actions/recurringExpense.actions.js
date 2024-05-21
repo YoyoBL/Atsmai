@@ -6,6 +6,7 @@ import LastRecurringCheck from "@/models/lastRecurringCheck.model";
 import RecurringExpense from "@/models/recurringExpense.model";
 import { addDays, addMonths, isAfter, startOfToday } from "date-fns";
 import { revalidatePath } from "next/cache";
+import { AddNewEntry } from "./entries.actions";
 
 export async function getRecurringExpenses() {
    const userId = await getUserId();
@@ -46,9 +47,10 @@ export async function autoAdd(recurring) {
             amount: v.amount,
             category: v.category,
             date: v.nextOccurrence,
+            entryType: "expense",
             userId,
          };
-         const ExpensePromise = Expense.create(newExpense);
+         const ExpensePromise = AddNewEntry(newExpense);
          const updatedNextOccurrence = addMonths(v.nextOccurrence, 1);
 
          const recurringUpdate = RecurringExpense.findByIdAndUpdate(v._id, {

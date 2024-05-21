@@ -1,6 +1,7 @@
 import { seedInitialData } from "@/seed/seed.actions";
 import { redirect } from "next/navigation";
-import { Cog6ToothIcon } from "@heroicons/react/24/outline";
+
+import LoginButtons from "./loginButtons";
 
 const Seed = async () => {
    if (process.env.NODE_ENV !== "development") redirect("/");
@@ -29,6 +30,8 @@ const Seed = async () => {
             </svg>
             {res}
          </div>
+
+         <LoginButtons />
       </section>
    );
 };

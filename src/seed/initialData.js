@@ -1,180 +1,316 @@
+import Entry from "@/models/entry.model";
 import { addDays, subMonths } from "date-fns";
+
+const currentDate = new Date();
+const oneMonthAgo = subMonths(new Date(), 1);
+const twoMonthAgo = subMonths(new Date(), 2);
+
+export function generateProjects(userId) {
+   return [
+      {
+         title: "Project A",
+         startDate: twoMonthAgo,
+         userId,
+      },
+      {
+         title: "Project B",
+         startDate: oneMonthAgo,
+         userId,
+      },
+      {
+         title: "Project C",
+         startDate: currentDate,
+         userId,
+      },
+   ];
+}
+
+export function generateProjectsEntries(projectTitle, projectId, userId) {
+   console.log();
+   const entries = {
+      "Project A": [
+         new Entry({
+            userId: userId,
+            amount: 500,
+            entryType: "income",
+            category: "sales revenue",
+
+            project: projectId,
+         }),
+         new Entry({
+            userId: userId,
+            amount: 300,
+            entryType: "expense",
+            category: "consulting fees",
+
+            project: projectId,
+         }),
+         new Entry({
+            userId: userId,
+            amount: 700,
+            entryType: "expense",
+            category: "product",
+
+            project: projectId,
+         }),
+         new Entry({
+            userId: userId,
+            amount: 2500,
+            entryType: "expense",
+            category: "service",
+
+            project: projectId,
+         }),
+         new Entry({
+            userId: userId,
+            amount: 400,
+            entryType: "income",
+            category: "investment income",
+
+            project: projectId,
+         }),
+      ],
+      "Project B": [
+         new Entry({
+            userId: userId,
+            amount: 500,
+            entryType: "income",
+            category: "sales revenue",
+
+            project: projectId,
+         }),
+         new Entry({
+            userId: userId,
+            amount: 500,
+            entryType: "income",
+            category: "sales revenue",
+
+            project: projectId,
+         }),
+         new Entry({
+            userId: userId,
+            amount: 300,
+            entryType: "expense",
+            category: "consulting fees",
+
+            project: projectId,
+         }),
+         new Entry({
+            userId: userId,
+            amount: 700,
+            entryType: "expense",
+            category: "product",
+
+            project: projectId,
+         }),
+         new Entry({
+            userId: userId,
+            amount: 2500,
+            entryType: "income",
+            category: "service revenue",
+
+            project: projectId,
+         }),
+         new Entry({
+            userId: userId,
+            amount: 400,
+            entryType: "income",
+            category: "investment income",
+
+            project: projectId,
+         }),
+      ],
+      "Project C": [
+         new Entry({
+            userId: userId,
+            amount: 500,
+            entryType: "income",
+            category: "sales revenue",
+
+            project: projectId,
+         }),
+         new Entry({
+            userId: userId,
+            amount: 500,
+            entryType: "income",
+            category: "sales revenue",
+
+            project: projectId,
+         }),
+         new Entry({
+            userId: userId,
+            amount: 500,
+            entryType: "expense",
+            category: "sales",
+
+            project: projectId,
+         }),
+         new Entry({
+            userId: userId,
+            amount: 300,
+            entryType: "expense",
+            category: "consulting fees",
+
+            project: projectId,
+         }),
+         new Entry({
+            userId: userId,
+            amount: 700,
+            entryType: "expense",
+            category: "product",
+
+            project: projectId,
+         }),
+         new Entry({
+            userId: userId,
+            amount: 2500,
+            entryType: "expense",
+            category: "service",
+
+            project: projectId,
+         }),
+         new Entry({
+            userId: userId,
+            amount: 400,
+            entryType: "income",
+            category: "investment income",
+
+            project: projectId,
+         }),
+      ],
+   };
+   return entries[projectTitle];
+}
 
 export function generateIncomes(userId) {
    return [
       {
          userId: userId,
          amount: 500,
+         entryType: "income",
          category: "sales revenue",
-         date: subMonths(new Date(1), 2),
+         date: twoMonthAgo,
       },
       {
          userId: userId,
          amount: 300,
+         entryType: "income",
          category: "consulting fees",
-         date: subMonths(new Date(1), 2),
+         date: twoMonthAgo,
       },
       {
          userId: userId,
          amount: 700,
+         entryType: "income",
          category: "product revenue",
-         date: subMonths(new Date(), 2),
+         date: twoMonthAgo,
       },
       {
          userId: userId,
          amount: 2500,
+         entryType: "income",
          category: "service revenue",
-         date: subMonths(new Date(), 2),
+         date: twoMonthAgo,
       },
       {
          userId: userId,
          amount: 400,
+         entryType: "income",
          category: "investment income",
-         date: subMonths(new Date(), 2),
+         date: twoMonthAgo,
       },
       {
          userId: userId,
          amount: 600,
+         entryType: "income",
          category: "royalties",
-         date: subMonths(new Date(), 2),
+         date: twoMonthAgo,
       },
       {
          userId: userId,
          amount: 3500,
+         entryType: "income",
          category: "advertising revenue",
-         date: subMonths(new Date(), 2),
+         date: twoMonthAgo,
+      },
+
+      {
+         userId: userId,
+         amount: 3500,
+         entryType: "income",
+         category: "advertising revenue",
+         date: oneMonthAgo,
       },
       {
          userId: userId,
          amount: 500,
+         entryType: "income",
          category: "sales revenue",
-         date: subMonths(new Date(), 2),
+         date: oneMonthAgo,
       },
       {
          userId: userId,
          amount: 300,
+         entryType: "income",
          category: "consulting fees",
-         date: subMonths(new Date(), 2),
+         date: oneMonthAgo,
       },
       {
          userId: userId,
          amount: 700,
+         entryType: "income",
          category: "product revenue",
-         date: subMonths(new Date(), 2),
+         date: oneMonthAgo,
       },
       {
          userId: userId,
          amount: 2500,
+         entryType: "income",
          category: "service revenue",
-         date: subMonths(new Date(), 2),
+         date: oneMonthAgo,
       },
       {
          userId: userId,
          amount: 400,
+         entryType: "income",
          category: "investment income",
-         date: subMonths(new Date(), 2),
+         date: oneMonthAgo,
       },
-      {
-         userId: userId,
-         amount: 600,
-         category: "royalties",
-         date: subMonths(new Date(), 2),
-      },
-      {
-         userId: userId,
-         amount: 3500,
-         category: "advertising revenue",
-         date: subMonths(new Date(), 1),
-      },
-      {
-         userId: userId,
-         amount: 500,
-         category: "sales revenue",
-         date: subMonths(new Date(), 1),
-      },
-      {
-         userId: userId,
-         amount: 300,
-         category: "consulting fees",
-         date: subMonths(new Date(), 1),
-      },
-      {
-         userId: userId,
-         amount: 700,
-         category: "product revenue",
-         date: subMonths(new Date(), 1),
-      },
-      {
-         userId: userId,
-         amount: 2500,
-         category: "service revenue",
-         date: subMonths(new Date(), 1),
-      },
-      {
-         userId: userId,
-         amount: 400,
-         category: "investment income",
-         date: subMonths(new Date(), 1),
-      },
-      {
-         userId: userId,
-         amount: 600,
-         category: "royalties",
-         date: subMonths(new Date(), 1),
-      },
-      {
-         userId: userId,
-         amount: 3500,
-         category: "advertising revenue",
-         date: subMonths(new Date(), 1),
-      },
-      {
-         userId: userId,
-         amount: 4500,
-         category: "grants",
-         date: subMonths(new Date(), 1),
-      },
-      {
-         userId: userId,
-         amount: 5500,
-         category: "interest income",
-         date: subMonths(new Date(), 1),
-      },
-      {
-         userId: userId,
-         amount: 200,
-         category: "rental income",
-         date: subMonths(new Date(), 1),
-      },
+
       {
          userId: userId,
          amount: 7500,
+         entryType: "income",
          category: "contractual income",
-         date: new Date(),
+         date: currentDate,
       },
       {
          userId: userId,
          amount: 3200,
+         entryType: "income",
          category: "subscription revenue",
-         date: new Date(),
+         date: currentDate,
       },
       {
          userId: userId,
          amount: 4800,
+         entryType: "income",
          category: "donations",
-         date: new Date(),
+         date: currentDate,
       },
       {
          userId: userId,
          amount: 3800,
+         entryType: "income",
          category: "licensing fees",
-         date: new Date(),
+         date: currentDate,
       },
       {
          userId: userId,
          amount: 4200,
+         entryType: "income",
          category: "sponsorships",
-         date: new Date(),
+         date: currentDate,
       },
    ];
 }
@@ -184,230 +320,143 @@ export function generateExpenses(userId) {
       {
          userId: userId,
          amount: 2500,
+         entryType: "expense",
          category: "office supplies",
-         date: subMonths(new Date(), 2),
+         date: twoMonthAgo,
       },
       {
          userId: userId,
          amount: 1200,
+         entryType: "expense",
          category: "marketing",
-         date: subMonths(new Date(), 2),
+         date: twoMonthAgo,
       },
       {
          userId: userId,
          amount: 3500,
+         entryType: "expense",
          category: "travel expenses",
-         date: subMonths(new Date(), 2),
+         date: twoMonthAgo,
       },
       {
          userId: userId,
          amount: 800,
+         entryType: "expense",
          category: "utilities",
-         date: subMonths(new Date(), 2),
+         date: twoMonthAgo,
       },
       {
          userId: userId,
          amount: 1750,
+         entryType: "expense",
          category: "business meals",
-         date: subMonths(new Date(), 2),
+         date: twoMonthAgo,
       },
       {
          userId: userId,
          amount: 200,
+         entryType: "expense",
          category: "equipment",
-         date: subMonths(new Date(), 2),
+         date: twoMonthAgo,
       },
-      {
-         userId: userId,
-         amount: 900,
-         category: "advertising",
-         date: subMonths(new Date(), 2),
-      },
-      {
-         userId: userId,
-         amount: 3000,
-         category: "insurance",
-         date: subMonths(new Date(), 2),
-      },
-      {
-         userId: userId,
-         amount: 1500,
-         category: "software",
-         date: subMonths(new Date(), 2),
-      },
-      {
-         userId: userId,
-         amount: 600,
-         category: "training",
-         date: subMonths(new Date(), 2),
-      },
-      {
-         userId: userId,
-         amount: 1200,
-         category: "consulting",
-         date: subMonths(new Date(), 2),
-      },
+
       {
          userId: userId,
          amount: 2500,
+         entryType: "expense",
          category: "office supplies",
-         date: subMonths(new Date(), 1),
+         date: oneMonthAgo,
       },
       {
          userId: userId,
          amount: 1200,
+         entryType: "expense",
          category: "marketing",
-         date: subMonths(new Date(), 1),
+         date: oneMonthAgo,
       },
       {
          userId: userId,
          amount: 3500,
+         entryType: "expense",
          category: "travel expenses",
-         date: subMonths(new Date(), 1),
+         date: oneMonthAgo,
       },
       {
          userId: userId,
          amount: 800,
+         entryType: "expense",
          category: "utilities",
-         date: subMonths(new Date(), 1),
+         date: oneMonthAgo,
       },
       {
          userId: userId,
          amount: 1750,
+         entryType: "expense",
          category: "business meals",
-         date: subMonths(new Date(), 1),
+         date: oneMonthAgo,
       },
       {
          userId: userId,
          amount: 2000,
+         entryType: "expense",
          category: "equipment",
-         date: subMonths(new Date(), 1),
+         date: oneMonthAgo,
       },
       {
          userId: userId,
          amount: 900,
+         entryType: "expense",
          category: "advertising",
-         date: subMonths(new Date(), 1),
+         date: oneMonthAgo,
       },
-      {
-         userId: userId,
-         amount: 3000,
-         category: "insurance",
-         date: subMonths(new Date(), 1),
-      },
-      {
-         userId: userId,
-         amount: 1500,
-         category: "software",
-         date: subMonths(new Date(), 1),
-      },
-      {
-         userId: userId,
-         amount: 600,
-         category: "training",
-         date: subMonths(new Date(), 1),
-      },
-      {
-         userId: userId,
-         amount: 1200,
-         category: "consulting",
-         date: subMonths(new Date(), 1),
-      },
+
       {
          userId: userId,
          amount: 2500,
+         entryType: "expense",
          category: "office supplies",
-         date: new Date(),
+         date: currentDate,
       },
       {
          userId: userId,
          amount: 1200,
+         entryType: "expense",
          category: "marketing",
-         date: new Date(),
+         date: currentDate,
       },
       {
          userId: userId,
          amount: 3500,
+         entryType: "expense",
          category: "travel expenses",
-         date: new Date(),
+         date: currentDate,
       },
       {
          userId: userId,
          amount: 800,
+         entryType: "expense",
          category: "utilities",
-         date: new Date(),
+         date: currentDate,
       },
       {
          userId: userId,
          amount: 1750,
+         entryType: "expense",
          category: "business meals",
-         date: new Date(),
+         date: currentDate,
       },
       {
          userId: userId,
          amount: 2000,
+         entryType: "expense",
          category: "equipment",
-         date: new Date(),
-      },
-      {
-         userId: userId,
-         amount: 900,
-         category: "advertising",
-         date: new Date(),
-      },
-      {
-         userId: userId,
-         amount: 3000,
-         category: "insurance",
-         date: new Date(),
-      },
-      {
-         userId: userId,
-         amount: 1500,
-         category: "software",
-         date: new Date(),
-      },
-      {
-         userId: userId,
-         amount: 600,
-         category: "training",
-         date: new Date(),
-      },
-      {
-         userId: userId,
-         amount: 1200,
-         category: "consulting",
-         date: new Date(),
-      },
-      {
-         userId: userId,
-         amount: 1800,
-         category: "rent",
-         date: new Date(),
-      },
-      {
-         userId: userId,
-         amount: 500,
-         category: "maintenance",
-         date: new Date(),
-      },
-      {
-         userId: userId,
-         amount: 700,
-         category: "legal fees",
-         date: new Date(),
-      },
-      {
-         userId: userId,
-         amount: 400,
-         category: "transportation",
-         date: new Date(),
+         date: currentDate,
       },
    ];
 }
 
 export function generateRecurringExpenses(userId) {
-   const today = new Date();
+   const today = currentDate;
    return [
       {
          userId,
@@ -448,30 +497,6 @@ export function generateRecurringExpenses(userId) {
          category: "software",
          startDate: addDays(today, 5),
          nextOccurrence: addDays(today, 5),
-      },
-      {
-         userId,
-         title: "Maintenance Services",
-         amount: 300,
-         category: "facilities",
-         startDate: addDays(today, 6),
-         nextOccurrence: addDays(today, 6),
-      },
-      {
-         userId,
-         title: "Employee Salaries",
-         amount: 5000,
-         category: "payroll",
-         startDate: addDays(today, 7),
-         nextOccurrence: addDays(today, 7),
-      },
-      {
-         userId,
-         title: "Insurance Premium",
-         amount: 400,
-         category: "insurance",
-         startDate: addDays(today, 8),
-         nextOccurrence: addDays(today, 8),
       },
    ];
 }

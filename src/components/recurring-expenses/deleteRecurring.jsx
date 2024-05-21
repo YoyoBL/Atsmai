@@ -1,12 +1,7 @@
 "use client";
 
-import { deleteRecurringExpense } from "@/actions/recurringExpense.actions";
-import useQueryParams from "@/hooks/useQueryParams";
-import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
-import toast from "react-hot-toast";
 import { TrashIcon } from "@heroicons/react/24/outline";
+import { openModalDOM } from "@/lib/modalTools";
 
 const DeleteRecurring = () => {
    const modalId = "confirm-delete";

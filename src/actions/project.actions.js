@@ -21,7 +21,7 @@ export async function createProject(formValues) {
    }
 }
 
-export async function fetchProjectsTitles(project) {
+export async function fetchProjectsTitles() {
    const userId = await getUserId();
    try {
       await dbConnect();
@@ -134,6 +134,7 @@ export async function updateProject(oldEntry, newEntry, action) {
          }
          return query;
       },
+
       unlink: function () {
          let query;
          const decrementValue = newEntry.amount * -1;
@@ -205,4 +206,35 @@ export async function changeStatus(id) {
       console.log(error);
       return { ok: false, data: error.message };
    }
+}
+
+export async function syncProjectTotals({
+   projectId,
+   totalIncomes,
+   totalExpenses,
+}) {
+   try {
+      await dbConnect();
+      await checkPermission(projectId);
+      const updated = await Project.findByIdAndUpdate(
+         projectId,
+         { totalIncomes, totalExpenses },
+         { new: true }
+      );
+      revalidatePath("/[lang]/projects", "page");
+      return { ok: true };
+   } catch (error) {
+      console.log(error);
+      return error.message;
+   }
+}
+
+async function checkPermission(projectId) {
+   const userId = await getUserId();
+
+   const project = await Project.findById(projectId);
+   if (!project) throw new Error("Project not found");
+   const projectOwner = project.userId.toString();
+   if (projectOwner !== userId)
+      throw new Error("Access denied, User owner only");
 }

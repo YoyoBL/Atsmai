@@ -1,4 +1,8 @@
-import { getProjectById } from "@/actions/project.actions";
+import {
+   getProjectById,
+   syncProjectTotals,
+   updateProject,
+} from "@/actions/project.actions";
 import BackBtn from "@/components/common/backBtn";
 import ModalClient from "@/components/common/modalClient";
 import ModalConfirm from "@/components/common/modalConfirm";
@@ -24,6 +28,17 @@ const ProjectPage = async ({ params: { lang, projectId } }) => {
    const totalIncomes = calculateTotal("income");
    const totalExpenses = calculateTotal("expense");
    const profit = totalIncomes - totalExpenses;
+
+   if (
+      project.totalIncomes !== totalIncomes ||
+      project.totalExpenses !== totalExpenses
+   ) {
+      syncProjectTotals({
+         projectId: project._id,
+         totalIncomes,
+         totalExpenses,
+      });
+   }
 
    function calculateTotal(entryType) {
       return project.entries

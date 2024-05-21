@@ -190,7 +190,7 @@ export async function fetchTaxesEntries() {
    const currentDate = new Date();
    let from;
    let to;
-   let query = { userId, vatExempted: { $ne: true } };
+   let query = { userId, entryType: "income", vatExempted: { $ne: true } };
    const monthNum = format(currentDate, "M");
    //if paired month
    if (monthNum % 2 === 0) {
