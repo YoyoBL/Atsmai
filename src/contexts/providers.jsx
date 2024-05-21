@@ -11,11 +11,13 @@ export function Providers({ children, session }) {
             position="top-center"
             reverseOrder={false}
             gutter={8}
-            containerClassName=""
-            containerStyle={{}}
+            containerClassName="oklch(var(--b3))"
             toastOptions={{
-               // Define default options
-               className: "",
+               className: "text-lg",
+               style: {
+                  background: "oklch(var(--b3))",
+                  color: "oklch(var(--bc))",
+               },
                duration: 5000,
             }}
          />
