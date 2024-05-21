@@ -18,13 +18,17 @@
 -  Full Hebrew and English language and layout support
 -  Full mobile/PC compatibility
 -  All data stored in the cloud (MongoDB)
+-  Choose to register as a licensed or Exempted business, This will be relevant to the VAT calculations
 -  Add incomes and expenses with the cross-page + button
 -  A list of all your entries, sorted by month, with the total of each month conveniently displayed on top
 -  Click on an entry and see the last 3 appearances of the same entry
 -  Add recurring expenses; Atsmai will add them for you automatically when the time comes
--  Upcoming expenses (from recurring expenses) displayed on the expenses entries page
+-  Upcoming expenses (from recurring expenses) displayed on the expenses entries page under "Future Expenses"
+-  Create projects and link entries to them, for tracking a specific group of entries
+-  Set project as \"inactive\", This way it wont be suggested for future entries
 -  Search and display entries
 -  Profile page with edit option
+-  Insights page with insights on the entries - under development
 -  Admin CRM page
 
 ## Technologies Used
