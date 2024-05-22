@@ -75,11 +75,14 @@ export async function fetchEntries(entriesType, monthString) {
 
 export async function fetchCategories(type = "incomes") {
    let categories = [];
-   const filter =
-      type === "incomes" ? { entryType: "income" } : { entryType: "expense" };
    try {
       await dbConnect();
-      categories = await Entry.distinct("category", filter);
+      const userId = await getUserId();
+      const filter =
+         type === "incomes"
+            ? { entryType: "income" }
+            : { entryType: "expense" };
+      categories = await Entry.distinct("category", { ...filter, userId });
 
       //put the general category first
       const index = categories.indexOf("general");
