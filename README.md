@@ -8,9 +8,9 @@
 
 ## Instructions
 
-1. Duplicate the `.env.example` file to `.env.developer.local`, then fill in the required variables. For production, create a `.env.local` file.
-2. Run `npm run dev`.
-3. Navigate to your localhost; you'll see a "Click here to seed initial data" button. Click it, and the initial data will be loaded. Check the console for the user's accounts.
+1. rename the `.env.example` file to `.env`, then fill in the required variables.
+2. Run `npm run build`.
+3. Navigate to localhost
 
 ## Key Features
 
