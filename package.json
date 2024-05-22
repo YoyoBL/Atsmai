@@ -5,7 +5,6 @@
    "scripts": {
       "dev": "next dev",
       "build": "next build",
-      "postbuild": "next start",
       "start": "next start",
       "lint": "next lint",
       "seed": "node -r dotenv/config ./seed/seed.js"

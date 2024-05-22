@@ -10,7 +10,8 @@
 
 1. rename the `.env.example` file to `.env`, then fill in the required variables.
 2. Run `npm run build`.
-3. Navigate to localhost
+3. Run `npm run start`.
+4. Navigate to localhost
 
 ## Key Features
 
