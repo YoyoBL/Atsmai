@@ -9,9 +9,10 @@
 ## Instructions
 
 1. rename the `.env.example` file to `.env`, then fill in the required variables.
-2. Run `npm run build`.
-3. Run `npm run start`.
-4. Navigate to localhost
+2. Run `npm run seed` to seed initial data.
+3. Run `npm run build`.
+4. Run `npm run start`.
+5. Navigate to localhost
 
 ## Key Features
 
