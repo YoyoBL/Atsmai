@@ -1,8 +1,10 @@
+import { auth } from "@/auth";
 import RegisterBtn from "@/components/navs/registerBtn";
 import SignInBtn from "@/components/navs/signInBtn";
 import { i18n } from "@/i18n.config";
 import { getDictionary } from "@/lib/dictionary";
 import SeedCard from "@/seed/seedCard";
+import { redirect } from "next/navigation";
 
 export async function generateStaticParams() {
    return i18n.locales.map((locale) => ({ lang: locale }));
@@ -11,6 +13,9 @@ export async function generateStaticParams() {
 const Welcome = async ({ params: { lang } }) => {
    const { welcome } = await getDictionary(lang);
    const isDevelopment = process.env.NODE_ENV === "development";
+
+   const session = await auth();
+   if (session) return redirect(`/${lang}/`);
 
    const greeting = { __html: welcome.greeting };
    return (
