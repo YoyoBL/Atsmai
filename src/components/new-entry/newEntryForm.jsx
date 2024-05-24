@@ -150,13 +150,10 @@ const NewEntryForm = ({ text }) => {
                      <label className="label justify-end gap-2 cursor-pointer">
                         <input
                            type="checkbox"
+                           name="vatExempted"
                            className="checkbox checkbox-sm checked:checkbox-primary"
-                           onChange={() =>
-                              formik.setFieldValue(
-                                 "vatExempted",
-                                 !formik.values.vat
-                              )
-                           }
+                           onChange={formik.handleChange}
+                           defaultChecked={formik.values.vatExempted}
                         />
                         <span className="label-text text-sm">{text.vat}</span>
                      </label>
