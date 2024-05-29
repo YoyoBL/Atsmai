@@ -63,8 +63,15 @@ export async function fetchEntries(entriesType, monthString) {
       const entries = await Entry.find({
          userId,
          entryType,
-         date: { $gte: fromDate, $lte: toDate },
+         date: { $gte: fromDate, $lt: toDate },
       }).sort({ date: -1 });
+      console.log("query");
+      console.log(fromDate);
+      console.log(toDate);
+
+      console.log("entries");
+      console.log(entries);
+
       const data = serialize(entries);
       return { ok: true, data };
    } catch (error) {
