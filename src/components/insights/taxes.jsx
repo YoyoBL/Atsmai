@@ -19,7 +19,7 @@ const Taxes = async ({ text }) => {
    }`;
    return (
       <InsightWrapper title={text.title}>
-         <div className="stats w-full shadow">
+         <div className="stats shadow">
             <div className="stat">
                <div className="stat-title">{`${text.vat} ${formattedMonths}`}</div>
                <div className="stat-value text-2xl">{vat + MAIN_CURRENCY}</div>

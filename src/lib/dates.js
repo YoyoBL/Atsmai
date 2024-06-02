@@ -22,3 +22,7 @@ export function getStartOfMonth(month = new Date()) {
 export function getEndOfMonth(month = new Date()) {
    return endOfMonth(month);
 }
+
+export function getCurrentMonthString() {
+   return format(new Date(), "MMMM");
+}

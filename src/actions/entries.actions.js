@@ -67,6 +67,8 @@ export async function fetchEntries(entriesType, monthString) {
    let month = undefined;
    if (monthString) {
       month = parse(monthString, "MM-yy", new Date());
+   } else {
+      month = new Date();
    }
    const fromDate = getStartOfMonth(month);
    const toDate = getEndOfMonth(month);

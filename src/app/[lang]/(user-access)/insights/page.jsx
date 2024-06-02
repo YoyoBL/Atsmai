@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import UnderWork from "@/components/insights/UnderWork";
+import CurrentMonthBalance from "@/components/insights/currentMonthBalance";
 import Taxes from "@/components/insights/taxes";
 import { getDictionary } from "@/lib/dictionary";
 
@@ -13,16 +14,19 @@ const InsightsPage = async ({ params: { lang } }) => {
          <div className="card card-compact ">
             <div className="card-body  gap-3 overflow-hidden">
                <div className="card-title">{text.title}</div>
-               {/* taxes */}
-               {isVat && (
-                  <Taxes
-                     text={{
-                        ...text.taxesEstimates,
-                        vat: text.vat,
-                        months: text.months,
-                     }}
-                  />
-               )}
+               <div className="grid md:flex md:items-center gap-3">
+                  {/* taxes */}
+                  {isVat && (
+                     <Taxes
+                        text={{
+                           ...text.taxesEstimates,
+                           vat: text.vat,
+                           months: text.months,
+                        }}
+                     />
+                  )}
+                  <CurrentMonthBalance text={text} />
+               </div>
                <UnderWork />
             </div>
          </div>
