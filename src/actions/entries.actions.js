@@ -2,7 +2,15 @@
 
 import dbConnect, { serialize } from "../lib/mongoDbConnect";
 import { getEndOfMonth, getStartOfMonth } from "../lib/dates";
-import { parse, month, format, sub, subMonths, addMonths } from "date-fns";
+import {
+   parse,
+   month,
+   format,
+   sub,
+   subMonths,
+   addMonths,
+   subMilliseconds,
+} from "date-fns";
 import { revalidatePath } from "next/cache";
 import { getUserId } from "../lib/userTools";
 import Entry from "@/models/entry.model";
@@ -54,8 +62,8 @@ export async function fetchEntries(entriesType, monthString) {
    if (monthString) {
       month = parse(monthString, "MM-yy", new Date());
    }
-   const fromDate = getStartOfMonth(month);
-   const toDate = getEndOfMonth(month);
+   const fromDate = subMilliseconds(getStartOfMonth(month), 1);
+   const toDate = subMilliseconds(getEndOfMonth(month), 1);
    try {
       await dbConnect();
       const userId = await getUserId();
