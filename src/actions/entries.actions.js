@@ -19,6 +19,7 @@ import { getUserId } from "../lib/userTools";
 import Entry from "@/models/entry.model";
 import { syncProject, updateProject } from "./project.actions";
 import { VAT_PERCENTAGE } from "@/constants";
+import { YupNewEntrySchema } from "@/lib/yupSchemas";
 
 export async function AddNewEntry(entry) {
    entry = await YupNewEntrySchema().validate(entry);
