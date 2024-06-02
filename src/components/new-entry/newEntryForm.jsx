@@ -45,7 +45,6 @@ const NewEntryForm = ({ text }) => {
       },
       onSubmit: async (values) => {
          try {
-            const parsedValues = await YupNewEntrySchema().validate(values);
             let res;
             const entriesType =
                values.entryType === "income" ? "incomes" : "expenses";
@@ -53,13 +52,13 @@ const NewEntryForm = ({ text }) => {
             let redirect = `/${lang}/?entriesType=${entriesType}&month=${month}`;
 
             if (!isEdit) {
-               res = await AddNewEntry(parsedValues);
+               res = await AddNewEntry(values);
                if (!res.ok) return res.data;
                toast.success("Entry Created");
             }
             if (isEdit) {
                const id = getQueryByName("edit");
-               res = await editEntry(id, parsedValues);
+               res = await editEntry(id, values);
 
                if (!res.ok) return toast.error(`Server error`);
                toast.success("Entry Edited");

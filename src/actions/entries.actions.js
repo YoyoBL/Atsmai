@@ -21,6 +21,8 @@ import { syncProject, updateProject } from "./project.actions";
 import { VAT_PERCENTAGE } from "@/constants";
 
 export async function AddNewEntry(entry) {
+   entry = await YupNewEntrySchema().validate(entry);
+
    const userId = await getUserId();
    try {
       await dbConnect();
@@ -76,8 +78,8 @@ export async function fetchEntries(entriesType, monthString) {
          entryType,
          date: { $gte: fromDate, $lt: toDate },
       }).sort({ date: -1 });
-      console.log("from date:", fromDate);
-      console.log("to date:", toDate);
+      console.log("from date: ", fromDate);
+      console.log("to date: ", toDate);
       console.log(entries);
 
       const data = serialize(entries);
@@ -134,6 +136,8 @@ export async function fetchThreeLast(entry) {
 }
 
 export async function editEntry(id, updatedData) {
+   updatedData = await YupNewEntrySchema().validate(updatedData);
+
    if (!id) throw new Error("Id not provided.");
    try {
       await dbConnect();
