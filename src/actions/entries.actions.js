@@ -10,6 +10,9 @@ import {
    subMonths,
    addMonths,
    subMilliseconds,
+   endOfDay,
+   startOfDay,
+   addHours,
 } from "date-fns";
 import { revalidatePath } from "next/cache";
 import { getUserId } from "../lib/userTools";
@@ -62,8 +65,8 @@ export async function fetchEntries(entriesType, monthString) {
    if (monthString) {
       month = parse(monthString, "MM-yy", new Date());
    }
-   const fromDate = subMilliseconds(getStartOfMonth(month), 1);
-   const toDate = subMilliseconds(getEndOfMonth(month), 1);
+   const fromDate = getStartOfMonth(month);
+   const toDate = getEndOfMonth(month);
    try {
       await dbConnect();
       const userId = await getUserId();
@@ -73,6 +76,9 @@ export async function fetchEntries(entriesType, monthString) {
          entryType,
          date: { $gte: fromDate, $lt: toDate },
       }).sort({ date: -1 });
+      console.log("from date:", fromDate);
+      console.log("to date:", toDate);
+      console.log(entries);
 
       const data = serialize(entries);
       return { ok: true, data };

@@ -34,10 +34,10 @@ export default async function EntriesPage({ params: { lang }, searchParams }) {
             "MM-yy"
          )}`
       );
+   const parsedDate = parse(date, "MM-yy", new Date());
 
    const isExpensesPage = entriesType === "expenses";
    let recurringExpenses = [];
-   const parsedDate = parse(date, "MM-yy", new Date());
 
    const isPast = isAfter(startOfMonth(new Date()), parsedDate);
    if (isExpensesPage && !isPast) {
