@@ -8,17 +8,8 @@ import { redirect } from "next/navigation";
 import ExpandedEntry from "@/components/entries/expandedEntry";
 import { getRecurringExpenses } from "@/actions/recurringExpense.actions";
 import FutureExpenses from "@/components/entries/futureExpenses";
-import {
-   addDays,
-   format,
-   isAfter,
-   isBefore,
-   isSameMonth,
-   parse,
-   startOfMonth,
-} from "date-fns";
+import { format, isAfter, isSameMonth, parse, startOfMonth } from "date-fns";
 import ConfirmModal from "@/components/common/confirmModal";
-import toast from "react-hot-toast";
 
 export default async function EntriesPage({ params: { lang }, searchParams }) {
    const { entriesPage, months } = await getDictionary(lang);
@@ -77,7 +68,6 @@ export default async function EntriesPage({ params: { lang }, searchParams }) {
                {/* Top */}
                <TotalAmount
                   entries={entries}
-                  date={date}
                   entriesType={entriesType}
                   lang={lang}
                />

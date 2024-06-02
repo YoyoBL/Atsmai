@@ -1,6 +1,7 @@
 "use server";
 
 import { getUserId } from "@/lib/userTools";
+import { YupProjectSchema } from "@/lib/yupSchemas";
 import Entry from "@/models/entry.model";
 import Project from "@/models/project.model";
 import { revalidatePath } from "next/cache";
@@ -9,6 +10,7 @@ const { default: dbConnect, serialize } = require("@/lib/mongoDbConnect");
 
 export async function createProject(formValues) {
    try {
+      formValues = await YupProjectSchema().validate(formValues);
       const userId = await getUserId();
       await dbConnect();
       const newProject = await Project.create({ userId, ...formValues });

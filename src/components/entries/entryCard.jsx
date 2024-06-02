@@ -1,8 +1,8 @@
 "use client";
 
 import useQueryParams from "@/hooks/useQueryParams";
-import { formatDate } from "@/lib/dates";
 import cn from "@/lib/tailwindMerge";
+import { format } from "date-fns";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
@@ -16,7 +16,7 @@ const EntryCard = ({ entry = {}, className }) => {
    if (category.toLowerCase() === "general") {
       category = lang === "en" ? "general" : "כללי";
    }
-   const date = formatDate(entry.date, "dd/MM");
+   const date = format(entry.date, "dd/MM");
    return (
       <Link
          href={getPathWithNewParam("modal", entry._id)}

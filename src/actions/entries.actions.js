@@ -79,9 +79,6 @@ export async function fetchEntries(entriesType, monthString) {
          entryType,
          date: { $gte: fromDate, $lt: toDate },
       }).sort({ date: -1 });
-      console.log("from date: ", fromDate);
-      console.log("to date: ", toDate);
-      console.log(entries);
 
       const data = serialize(entries);
       return { ok: true, data };

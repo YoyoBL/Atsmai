@@ -16,8 +16,7 @@ const NewProjectForm = ({ onAdd = () => {}, text }) => {
       },
       onSubmit: async (values) => {
          try {
-            const parsedValues = await YupProjectSchema().validate(values);
-            const res = await createProject(parsedValues);
+            const res = await createProject(values);
             if (!res.ok) throw new Error(res.data);
             onAdd();
             toast.success("Project Added");

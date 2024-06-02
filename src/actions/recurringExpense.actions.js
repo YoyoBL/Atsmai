@@ -7,6 +7,7 @@ import RecurringExpense from "@/models/recurringExpense.model";
 import { addDays, addMonths, isAfter, startOfToday } from "date-fns";
 import { revalidatePath } from "next/cache";
 import { AddNewEntry } from "./entries.actions";
+import { YupNewRecurringSchema } from "@/lib/yupSchemas";
 
 export async function getRecurringExpenses() {
    const userId = await getUserId();
@@ -92,8 +93,9 @@ export async function resetLastCheck() {
 }
 
 export async function addNewRecurringExpense(formValues) {
-   const userId = await getUserId();
    try {
+      const userId = await getUserId();
+      formValues = await YupNewRecurringSchema().validate(formValues);
       await dbConnect();
 
       const nextOccurrence = formValues.startDate;
@@ -132,6 +134,7 @@ export async function fetchRecurringExpenseById(id) {
 
 export async function editRecurringExpense(updatedValues, id) {
    try {
+      updatedValues = await YupNewRecurringSchema().validate(updatedValues);
       await dbConnect();
 
       const updated = await RecurringExpense.findByIdAndUpdate(

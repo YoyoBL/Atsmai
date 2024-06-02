@@ -14,7 +14,7 @@ import { YupNewRecurringSchema } from "@/lib/yupSchemas";
 import { useFormik } from "formik";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { isToday } from "date-fns";
+import { isToday, parse } from "date-fns";
 
 const NewRecurringExpense = ({ text }) => {
    const { getQueryByName } = useQueryParams();
@@ -69,16 +69,17 @@ const NewRecurringExpense = ({ text }) => {
       initialValues: generateFormikInitialValues(inputFields),
       onSubmit: async (values) => {
          try {
-            const parsedValues = await YupNewRecurringSchema().validate(values);
-            const isStartToday = isToday(parsedValues.startDate);
+            const isStartToday = isToday(
+               parse(values.startDate, "yyyy-MM-dd", new Date())
+            );
             if (isStartToday) await resetLastCheck();
 
             let res;
             if (!isEdit) {
-               res = await addNewRecurringExpense(parsedValues);
+               res = await addNewRecurringExpense(values);
             } else if (isEdit) {
                const id = getQueryByName("modal");
-               res = await editRecurringExpense(parsedValues, id);
+               res = await editRecurringExpense(values, id);
             }
             if (!res.ok) return toast.error("Server error, Try again later");
 
