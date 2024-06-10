@@ -4,7 +4,7 @@
 
 -  **Name:** Yoel Bar-Lev
 -  **Email:** yoelbl2@gmail.com
--  **Production Deployment:** [atsmai.onrender.com/he/welcome](https://atsmai.onrender.com/he/welcome)
+-  **Production Deployment:** [https://atsmai.vercel.app/he/welcome](https://atsmai.vercel.app/he/welcome)
 
 ## Instructions
 
