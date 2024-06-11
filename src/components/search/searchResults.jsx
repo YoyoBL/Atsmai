@@ -16,6 +16,8 @@ const SearchResults = async ({
    const res = await searchEntries(entryType, searchValue);
    if (!res.ok) serverError = res.data;
    const searchResults = res.data;
+   const nothingFound = searchResults[0] === "Nothing Found";
+
    const totalSum = searchResults
       .reduce((acc, curr) => acc + curr.amount, 0)
       .toLocaleString();
@@ -41,18 +43,22 @@ const SearchResults = async ({
          <div>
             <div className="stats grid grid-cols-2 text-center shadow w-full ">
                <div className="stat p-2">
-                  <div className="stat-value text-2xl">{numOfEntries}</div>
+                  <div className="stat-value text-2xl">
+                     {nothingFound ? 0 : numOfEntries}
+                  </div>
                   <div className="stat-desc">{text.entries}</div>
                </div>
 
                <div className="stat p-2">
-                  <div className="stat-value text-2xl">{totalSum}</div>
+                  <div className="stat-value text-2xl">
+                     {nothingFound ? "-" : totalSum}
+                  </div>
                   <div className="stat-desc">{text.total}</div>
                </div>
             </div>
          </div>
          <div className="overflow-auto space-y-2 bg-base-300 rounded-xl p-3">
-            {searchResults[0] === "Nothing Found" ? (
+            {nothingFound ? (
                <div>{text.noResults}</div>
             ) : (
                searchResults.map((result) => (
