@@ -26,11 +26,11 @@ const NewEntryForm = ({ text }) => {
    const { lang } = useParams();
    const session = useSession();
    const isVAT = session?.data?.user?.vat;
-
    const { getQueryByName } = useQueryParams();
-   const [color, setColor] = useState("primary");
-
    const isEdit = getQueryByName("edit");
+   const [loading, setLoading] = useState(isEdit ? true : false);
+
+   const [color, setColor] = useState("primary");
 
    const formik = useFormik({
       validateOnMount: true,
@@ -85,14 +85,16 @@ const NewEntryForm = ({ text }) => {
    }, [formik.values.entryType]);
 
    // if edit don't load ui until data is fetched
-   if (isEdit && !formik.values.amount) return <LoadingEntry />;
+   if (loading) return <LoadingEntry />;
 
    async function getEntry() {
+      setLoading(true);
       const id = getQueryByName("edit");
       const res = await fetchEntryById(id);
       if (!res.ok) return;
       const entry = res.data;
       formik.setValues(entry);
+      setLoading(false);
    }
 
    const isIncome = formik.values.entryType === "income";
