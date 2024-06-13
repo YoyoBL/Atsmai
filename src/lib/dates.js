@@ -26,3 +26,7 @@ export function getEndOfMonth(month = new Date()) {
 export function getCurrentMonthString() {
    return format(new Date(), "MMMM");
 }
+
+export const today = getToday();
+export const endOfCurrentMonth = getEndOfMonth();
+export const startOfCurrentMonth = getStartOfMonth();

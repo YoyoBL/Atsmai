@@ -1,24 +1,16 @@
 "use server";
 
 import dbConnect, { serialize } from "../lib/mongoDbConnect";
-import { getEndOfMonth, getStartOfMonth } from "../lib/dates";
 import {
-   parse,
-   month,
-   format,
-   sub,
-   subMonths,
-   addMonths,
-   subMilliseconds,
-   endOfDay,
-   startOfDay,
-   addHours,
-} from "date-fns";
+   getEndOfMonth,
+   getStartOfMonth,
+   startOfCurrentMonth,
+} from "../lib/dates";
+import { parse, format, subMonths, addMonths, endOfMonth } from "date-fns";
 import { revalidatePath } from "next/cache";
 import { getUserId } from "../lib/userTools";
 import Entry from "@/models/entry.model";
-import { syncProject, updateProject } from "./project.actions";
-import { VAT_PERCENTAGE } from "@/constants";
+import { updateProject } from "./project.actions";
 import { YupNewEntrySchema } from "@/lib/yupSchemas";
 
 export async function AddNewEntry(entry) {
@@ -83,6 +75,47 @@ export async function fetchEntries(entriesType, monthString) {
       }).sort({ date: -1 });
 
       const data = serialize(entries);
+      return { ok: true, data };
+   } catch (error) {
+      console.log(error);
+      return { ok: false, data: error.message };
+   }
+}
+
+export async function fetchLastMonths() {
+   const from = subMonths(startOfCurrentMonth, 3);
+   const to = startOfCurrentMonth;
+   try {
+      await dbConnect();
+      const userId = await getUserId();
+      const entries = await Entry.find({
+         userId,
+         date: { $gte: from, $lt: to },
+      });
+      let data = [];
+
+      for (let i = 1; i < 4; i++) {
+         const from = subMonths(startOfCurrentMonth, i);
+         const to = endOfMonth(subMonths(startOfCurrentMonth, i));
+         const month = format(from, "MMMM");
+         const filteredEntries = entries.filter(
+            (entry) => entry.date >= from && entry.date < to
+         );
+         const totalMonthIncomes = filteredEntries
+            .filter((entry) => entry.entryType === "income")
+            .reduce((prev, current) => prev + current.amount, 0);
+         const totalMonthExpenses = filteredEntries
+            .filter((entry) => entry.entryType === "expense")
+            .reduce((prev, current) => prev + current.amount, 0);
+         const totalProfitMonth = totalMonthIncomes - totalMonthExpenses;
+         const MonthObj = {
+            month,
+            incomes: totalMonthIncomes,
+            expenses: totalMonthExpenses,
+            profit: totalProfitMonth,
+         };
+         data.push(MonthObj);
+      }
       return { ok: true, data };
    } catch (error) {
       console.log(error);
