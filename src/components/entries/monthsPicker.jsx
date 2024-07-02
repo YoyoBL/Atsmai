@@ -18,10 +18,11 @@ const MonthsPicker = ({ months }) => {
          <div className="p-2 flex flex-row justify-between items-center">
             <Link
                href={routeToPreviousMonth}
-               className="btn btn-ghost btn-circle btn-xs"
+               className="btn btn-ghost btn-circle btn-xs text-3xl font-light content-center"
                prefetch={true}
             >
-               <ChevronLeftIcon />
+               {"‹"}
+               {/* <ChevronLeftIcon /> */}
                {/* <ChevronRightIcon className="ltr:hidden rtl:block" /> */}
             </Link>
             <div className="text-center">
@@ -32,10 +33,12 @@ const MonthsPicker = ({ months }) => {
             </div>
             <Link
                href={routeToNextMonth}
-               className="btn btn-ghost btn-circle btn-xs"
+               className="btn btn-ghost btn-circle btn-xs text-3xl font-light content-center"
                prefetch={true}
             >
-               <ChevronRightIcon />
+               {"›"}
+
+               {/* <ChevronRightIcon />‹› */}
                {/* <ChevronLeftIcon className="ltr:hidden" /> */}
             </Link>
          </div>
