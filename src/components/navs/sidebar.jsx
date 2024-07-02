@@ -10,7 +10,7 @@ export default async function SideBar({ children, lang }) {
    return (
       <div className="drawer md:drawer-open">
          <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-         <div className="h-screen relative drawer-content flex flex-col items-center justify-center">
+         <div className=" drawer-content flex flex-col items-center justify-center">
             {/* Page content here */}
             <Navbar />
 
