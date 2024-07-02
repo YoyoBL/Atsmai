@@ -15,7 +15,6 @@ import RegisterBtn from "./registerBtn";
 import MenuLink from "./menuLink";
 import { format } from "date-fns";
 import { getDictionary } from "@/lib/dictionary";
-import Link from "next/link";
 import { auth } from "@/auth";
 import Avatar from "../profile/avatar";
 import UserName from "./userName";
@@ -107,7 +106,6 @@ const SidebarContent = async ({ lang }) => {
    return (
       <div className="flex flex-col gap-3 p-4 w-80 min-h-full bg-base-200 text-base-content">
          {/* Sidebar content here */}
-         {/* <Header lang={params.lang} /> */}
          <ul>
             {user?.role === "admin" && (
                <MenuLink link={adminCRMLink} text={menuLinks} />

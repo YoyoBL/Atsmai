@@ -35,9 +35,6 @@ const Welcome = async ({ params: { lang } }) => {
                   <SignInBtn />
                   <RegisterBtn />
                </div>
-               {/* <div className="divider w-full md:hidden"></div>
-               <p>{welcome.demoText}</p>
-               <button className="btn btn-primary">Click here</button> */}
             </div>
          </div>
       </section>
