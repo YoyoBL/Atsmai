@@ -21,8 +21,8 @@ const MonthsPicker = ({ months }) => {
                className="btn btn-ghost btn-circle btn-xs"
                prefetch={true}
             >
-               <ChevronLeftIcon className="rtl:hidden ltr:block" />
-               <ChevronRightIcon className="ltr:hidden rtl:block" />
+               <ChevronLeftIcon />
+               {/* <ChevronRightIcon className="ltr:hidden rtl:block" /> */}
             </Link>
             <div className="text-center">
                <div className="text-lg">{months[currentMonthString]}</div>
@@ -35,8 +35,8 @@ const MonthsPicker = ({ months }) => {
                className="btn btn-ghost btn-circle btn-xs"
                prefetch={true}
             >
-               <ChevronRightIcon className="rtl:hidden" />
-               <ChevronLeftIcon className="ltr:hidden" />
+               <ChevronRightIcon />
+               {/* <ChevronLeftIcon className="ltr:hidden" /> */}
             </Link>
          </div>
       </div>
