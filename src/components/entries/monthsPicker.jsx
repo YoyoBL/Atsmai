@@ -22,8 +22,6 @@ const MonthsPicker = ({ months }) => {
                prefetch={true}
             >
                {"‹"}
-               {/* <ChevronLeftIcon /> */}
-               {/* <ChevronRightIcon className="ltr:hidden rtl:block" /> */}
             </Link>
             <div className="text-center">
                <div className="text-lg">{months[currentMonthString]}</div>
@@ -37,9 +35,6 @@ const MonthsPicker = ({ months }) => {
                prefetch={true}
             >
                {"›"}
-
-               {/* <ChevronRightIcon />‹› */}
-               {/* <ChevronLeftIcon className="ltr:hidden" /> */}
             </Link>
          </div>
       </div>
