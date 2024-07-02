@@ -8,8 +8,6 @@ const ThemeSwitcher = ({ sessionTheme }) => {
 
    async function handleThemeChange() {
       const newTheme = theme === "dark" ? "light" : "dark";
-      const htmlTag = document.querySelector("html");
-      htmlTag.dataset.theme.replace(theme, newTheme);
       setTheme(newTheme);
       try {
          await switchThemeOnCookie(newTheme);
@@ -23,10 +21,9 @@ const ThemeSwitcher = ({ sessionTheme }) => {
          {/* this hidden checkbox controls the state */}
          <input
             type="checkbox"
-            value="light"
-            className="theme-controller"
+            value={theme}
             onChange={handleThemeChange}
-            defaultChecked={sessionTheme === "light"}
+            defaultChecked={theme === "light"}
          />
 
          {/* sun icon */}
