@@ -18,7 +18,7 @@ const BottomNavbar = () => {
          <Link
             className={cn(
                "text-3xl text-black rounded-t-box transition-colors duration-150",
-               entryType === "incomes" ? "bg-primary" : "bg-secondary"
+               entryType === "expenses" ? "bg-secondary" : "bg-primary"
             )}
             href={`/${lang}/new-entry?entryType=${entryType}`}
          >
