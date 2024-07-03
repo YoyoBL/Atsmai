@@ -6,17 +6,16 @@ import cn from "@/lib/tailwindMerge";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
-const currentDate = formatDate(new Date(), "MM-yy");
-
 const Tabs = ({ text: entriesPage }) => {
    const { lang } = useParams();
    const { getQueryByName } = useQueryParams();
    const entriesType = getQueryByName("entriesType");
+   const month = getQueryByName("month");
 
    return (
       <div className="grid grid-cols-2 translate-y-[1px] text-center text-lg">
          <Link
-            href={`/${lang}?entriesType=incomes&month=${currentDate}`}
+            href={`/${lang}?entriesType=incomes&month=${month}`}
             className={cn("p-2 ", {
                "bg-primary rounded-t-xl text-white": entriesType === "incomes",
             })}
@@ -26,7 +25,7 @@ const Tabs = ({ text: entriesPage }) => {
          </Link>
 
          <Link
-            href={`/${lang}?entriesType=expenses&month=${currentDate}`}
+            href={`/${lang}?entriesType=expenses&month=${month}`}
             className={cn("p-2", {
                "bg-secondary rounded-t-xl text-white":
                   entriesType === "expenses",
