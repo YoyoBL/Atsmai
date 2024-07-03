@@ -30,13 +30,20 @@ const NewEntryForm = ({ text }) => {
    const isEdit = getQueryByName("edit");
    const [loading, setLoading] = useState(isEdit ? true : false);
 
+   const entryType = getQueryByName("entryType");
+   const initialEntryType = entryType
+      ? entryType === "incomes"
+         ? "income"
+         : "expense"
+      : "income";
+
    const [color, setColor] = useState("primary");
 
    const formik = useFormik({
       validateOnMount: true,
 
       initialValues: {
-         entryType: "income",
+         entryType: initialEntryType,
          amount: "",
          vatExempted: false,
          date: getToday(),
@@ -130,6 +137,7 @@ const NewEntryForm = ({ text }) => {
                <input
                   {...formik.getFieldProps("amount")}
                   type="text"
+                  inputMode="numeric"
                   placeholder={`${text.amount}*`}
                   className={cn(
                      `input input-bordered w-full `,
