@@ -8,9 +8,9 @@ import { auth } from "@/auth";
 export default async function SideBar({ children, lang }) {
    const session = await auth();
    return (
-      <div className="drawer md:drawer-open">
+      <div className="drawer md:drawer-open min-h-screen">
          <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-         <div className=" drawer-content flex flex-col items-center justify-center">
+         <div className="drawer-content flex flex-col items-center justify-center">
             {/* Page content here */}
             <Navbar />
 

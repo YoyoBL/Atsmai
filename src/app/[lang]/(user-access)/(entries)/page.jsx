@@ -10,22 +10,20 @@ import { getRecurringExpenses } from "@/actions/recurringExpense.actions";
 import FutureExpenses from "@/components/entries/futureExpenses";
 import { format, isAfter, isSameMonth, parse, startOfMonth } from "date-fns";
 import ConfirmModal from "@/components/common/confirmModal";
+import { protectedLinks } from "@/lib/routes";
+import { today } from "@/lib/dates";
 
 export default async function EntriesPage({ params: { lang }, searchParams }) {
    const { entriesPage, months } = await getDictionary(lang);
 
-   const entriesType = searchParams.entriesType;
-   if (!entriesType) redirect(`/${lang}/?entriesType=incomes`);
+   const entriesType = searchParams?.entriesType;
+   if (!entriesType) redirect(`/${lang}/${protectedLinks.entries.href}`);
 
    const date = searchParams?.month;
-   if (!date)
-      redirect(
-         `/${lang}/?entriesType=${entriesType}&month=${format(
-            new Date(),
-            "MM-yy"
-         )}`
-      );
-   const parsedDate = parse(date, "MM-yy", new Date());
+   if (!date) redirect(`/${lang}/?entriesType=${entriesType}&month=current`);
+
+   const parsedDate =
+      date === "current" ? today : parse(date, "MM-yy", new Date());
 
    const isExpensesPage = entriesType === "expenses";
    let recurringExpenses = [];
@@ -42,7 +40,7 @@ export default async function EntriesPage({ params: { lang }, searchParams }) {
    }
 
    let entries = [];
-   const res = (await fetchEntries(entriesType, date)) || [];
+   const res = (await fetchEntries(entriesType, parsedDate)) || [];
    if (!res.ok) return;
    entries = res.data;
    function getExpandedEntry() {

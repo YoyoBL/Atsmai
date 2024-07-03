@@ -1,14 +1,3 @@
-import {
-   ArrowPathIcon,
-   ArrowsUpDownIcon,
-   MagnifyingGlassIcon,
-   InformationCircleIcon,
-   EnvelopeIcon,
-   HomeIcon,
-   LockClosedIcon,
-   BriefcaseIcon,
-   LightBulbIcon,
-} from "@heroicons/react/24/outline";
 import SignOutBtn from "./signOutBtn";
 import SignInBtn from "./signInBtn";
 import RegisterBtn from "./registerBtn";
@@ -21,80 +10,14 @@ import UserName from "./userName";
 import ThemeSwitcher from "../themeSwitcher";
 import { getTheme } from "@/actions/theme.actions";
 import LocaleSwitcher from "../localeSwitcher";
+import {
+   adminCRMLink,
+   protectedLinks as protectedLinksObj,
+   publicLinks as publicLinksObj,
+} from "@/lib/routes";
 
-const currentDate = format(new Date(), "MM-yy");
-const protectedLinks = [
-   {
-      title: "Entries",
-      key: "entries",
-      href: `/?entriesType=incomes&month=${currentDate}`,
-      icon: <ArrowsUpDownIcon className="h-5 w-5" />,
-   },
-   {
-      title: "Projects",
-      key: "projects",
-      href: "/projects",
-      icon: <BriefcaseIcon className="h-5 w-5" />,
-   },
-   {
-      title: "Insights",
-      key: "insights",
-      href: "/insights",
-      icon: <LightBulbIcon className="h-5 w-5" />,
-   },
-   {
-      title: "Search Entries",
-      key: "searchEntries",
-      href: "/search?entriesType=incomes",
-      icon: <MagnifyingGlassIcon className="h-5 w-5" />,
-   },
-   {
-      title: "Recurring expenses",
-      key: "recurringExpenses",
-      href: "/recurring-expenses",
-      icon: <ArrowPathIcon className="h-5 w-5" />,
-   },
-   {
-      title: "About",
-      key: "about",
-      href: "/about",
-      icon: <InformationCircleIcon className="h-5 w-5" />,
-   },
-   {
-      title: "Contact",
-      key: "contact",
-      href: "/contact",
-      icon: <EnvelopeIcon className="h-5 w-5" />,
-   },
-];
-
-const publicLinks = [
-   {
-      title: "Welcome",
-      key: "welcome",
-      href: "/welcome",
-      icon: <HomeIcon className="h-5 w-5" />,
-   },
-   {
-      title: "About",
-      key: "about",
-      href: "/about",
-      icon: <InformationCircleIcon className="h-5 w-5" />,
-   },
-   {
-      title: "Contact",
-      key: "contact",
-      href: "/contact",
-      icon: <EnvelopeIcon className="h-5 w-5" />,
-   },
-];
-
-const adminCRMLink = {
-   title: "Admin CRM",
-   key: "adminCrm",
-   href: "/admin-crm",
-   icon: <LockClosedIcon className="h-5 w-5" />,
-};
+const protectedLinks = Object.values(protectedLinksObj);
+const publicLinks = Object.values(publicLinksObj);
 
 const SidebarContent = async ({ lang }) => {
    const { menuLinks, common } = await getDictionary(lang);
@@ -104,7 +27,7 @@ const SidebarContent = async ({ lang }) => {
    const user = session?.user || null;
 
    return (
-      <div className="flex flex-col gap-3 p-4 w-80 min-h-full bg-base-200 text-base-content">
+      <div className="flex flex-col gap-3 p-4 w-80 min-h-screen bg-base-200 text-base-content ">
          {/* Sidebar content here */}
          <ul>
             {user?.role === "admin" && (

@@ -1,29 +1,31 @@
 import "client-only";
 
-import { formatDate } from "@/lib/dates";
+import { formatDate, today } from "@/lib/dates";
 import useQueryParams from "./useQueryParams";
-import { add, format, parse, sub } from "date-fns";
+import { add, format, isSameMonth, parse, sub } from "date-fns";
 
 const useMonthPicker = () => {
    const { searchParams, getPathWithNewParam } = useQueryParams();
 
    let currentMonth = searchParams.get("month");
-   if (!currentMonth) {
-      currentMonth = new Date();
+   if (!currentMonth || currentMonth === "current") {
+      currentMonth = today;
    } else {
       currentMonth = parse(currentMonth, "MM-yy", new Date());
    }
 
-   const previousMonth = sub(currentMonth, { months: 1 });
-   const nextMonth = add(currentMonth, { months: 1 });
+   let previousMonth = sub(currentMonth, { months: 1 });
+   let nextMonth = add(currentMonth, { months: 1 });
 
    const routeToPreviousMonth = getPathWithNewParam(
       "month",
-      formatDate(previousMonth, "MM-yy")
+      isSameMonth(previousMonth, today)
+         ? "current"
+         : formatDate(previousMonth, "MM-yy")
    );
    const routeToNextMonth = getPathWithNewParam(
       "month",
-      formatDate(nextMonth, "MM-yy")
+      isSameMonth(nextMonth, today) ? "current" : formatDate(nextMonth, "MM-yy")
    );
 
    const currentMonthString = format(currentMonth, "MMMM");

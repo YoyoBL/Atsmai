@@ -10,7 +10,7 @@ const BottomNavbar = () => {
    if (currentPath.includes("/new-entry")) return null;
 
    return (
-      <div className="btm-nav fixed bottom-0 md:hidden border-t border-black">
+      <div className="btm-nav sticky bottom-0 md:hidden border-t border-black">
          <Link
             className="bg-primary text-3xl text-black"
             href={`/${lang}/new-entry`}

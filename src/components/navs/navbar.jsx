@@ -4,6 +4,8 @@ import ThemeSwitcher from "../themeSwitcher";
 import { getTheme } from "@/actions/theme.actions";
 import Image from "next/image";
 import LOGO from "@/images/LOGO.png";
+import Link from "next/link";
+import { protectedLinks } from "@/lib/routes";
 
 const Navbar = async () => {
    const theme = (await getTheme()) || "dark";
@@ -19,10 +21,13 @@ const Navbar = async () => {
             </label>
          </div>
          <div className="navbar-center flex-1">
-            <a className="btn btn-ghost text-2xl">
+            <Link
+               href={protectedLinks.entries.href}
+               className="btn btn-ghost text-2xl"
+            >
                <Image height={25} width={25} src={LOGO} alt="Atsmai logo" />
                Atsmai
-            </a>
+            </Link>
          </div>
 
          <div className=" navbar-end ">

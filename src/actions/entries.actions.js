@@ -54,16 +54,15 @@ export async function fetchEntryById(id) {
    }
 }
 
-export async function fetchEntries(entriesType, monthString) {
+export async function fetchEntries(entriesType, month) {
    const entryType = entriesType === "incomes" ? "income" : "expense";
-   let month = undefined;
-   if (monthString) {
+
+   if (typeof monthString === "string")
       month = parse(monthString, "MM-yy", new Date());
-   } else {
-      month = new Date();
-   }
+
    const fromDate = getStartOfMonth(month);
    const toDate = getEndOfMonth(month);
+
    try {
       await dbConnect();
       const userId = await getUserId();
